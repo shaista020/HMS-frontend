@@ -6,112 +6,161 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Modal from 'bootstrap/js/dist/modal'; // Import Modal explicitly 
+import Modal from 'bootstrap/js/dist/modal'; 
+import { address } from 'framer-motion/client';
 
 export default function SignUp({ mode }) {
   const navigate = useNavigate();
   const [signInData, setSignInData] = useState({ email: '', password: '', remember_me: false });
   const [signUpData, setSignUpData] = useState({
+    username: '',
     email: '',
-    password: '',
+    password:'',
     confirm_password: '',
-    first_name: '',
-    last_name: '',
-    phone_number: '',
-    terms_agreed: false,
+    dob: '',
+    address: '',
+    cnic: '',
+    
   });
-  useEffect(() => {
+
+    useEffect(() => {
+ 
     const container = document.querySelector('.container');
-    if (mode === 'signup') container.classList.add('sign-up-mode');
-    else container.classList.remove('sign-up-mode');
+    if (mode === 'signup') container?.classList.add('sign-up-mode');
+    else container?.classList.remove('sign-up-mode');
+
+  
+    axios.defaults.baseURL = 'http://127.0.0.1:8000';
+   
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
   }, [mode]);
+
   const handleSignUp = () => navigate('/signup');
   const handleSignIn = () => navigate('/signin');
 
   const handleInputChange = (e, formType) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === 'checkbox' ? checked : value;
-    formType === 'signin'
-      ? setSignInData({ ...signInData, [name]: fieldValue })
-      : setSignUpData({ ...signUpData, [name]: fieldValue });
+    if (formType === 'signin') {
+      setSignInData((prev) => ({ ...prev, [name]: fieldValue }));
+    } else {
+      setSignUpData((prev) => ({ ...prev, [name]: fieldValue }));
+    }
   };
+
   const showMessage = (message, type = 'danger') => {
     const modalBody = document.getElementById('errorModalBody');
-    modalBody.textContent = message;
-  
+    if (modalBody) modalBody.textContent = message;
+
     const modalTitle = document.getElementById('errorModalLabel');
-    modalTitle.textContent = type === 'success' ? 'Success' : 'Error';
-  
-    // Use Modal directly instead of bootstrap.Modal
-    const errorModal = new Modal(document.getElementById('errorModal'));
-    errorModal.show();
-  };
-  
+    if (modalTitle) modalTitle.textContent = type === 'success' ? 'Success' : 'Error';
 
-  const handleSignInSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {
-      email: signInData.email,
-      password: signInData.password,
-    };
+    const errorModalEl = document.getElementById('errorModal');
+    if (errorModalEl) {
+      const errorModal = new Modal(errorModalEl);
+      errorModal.show();
+    } else {
   
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/auth/login/', payload);
-      const { access, refresh, is_superuser } = response.data;
-  
-      showMessage('Login successful!', 'success');
-  
-      // Store tokens
-      localStorage.setItem('access_token', access);
-      localStorage.setItem('refresh_token', refresh);
-  
-      // Redirect based on role
-      if (is_superuser) {
-        navigate('/admin/dashboard');
+      alert(message);
+    }
+  };
+
+  // ---------------- Sign In ----------------
+const handleSignInSubmit = async (e) => {
+  e.preventDefault();
+  console.log("📩 SignIn Data being sent:", signInData); 
+
+  try {
+    const res = await axios.post('/signin/', signInData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    console.log("✅ SignIn Response:", res.data); 
+
+    const token = res.data?.token || res.data?.access || res.data?.key || null;
+
+    if (!token) {
+      console.warn("⚠️ No token returned in response"); 
+      showMessage('Login succeeded but token not returned by backend', 'success');
+    } else {
+      if (signInData.remember_me) {
+        localStorage.setItem('token', token);
+        console.log("💾 Token saved in localStorage:", token);
       } else {
-        navigate('/user/dashboard');
+        sessionStorage.setItem('token', token);
+        console.log("💾 Token saved in sessionStorage:", token);
       }
-    } catch (error) {
-      const errorMsg = error.response?.data?.error || 'Login failed. Please check your credentials.';
-      showMessage(errorMsg, 'danger');
-      console.error('Login Error:', error.response?.data);
-    }
-  };
-  
-  
 
-  const handleSignUpSubmit = async (e) => {
-    e.preventDefault();
-    if (signUpData.password !== signUpData.confirm_password) {
-      showMessage('Passwords do not match!', 'danger');
-      return;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      showMessage('Login successful!', 'success');
     }
+
+  const isSuperUser = res.data?.user?.is_superuser || res.data?.user?.is_staff || false;
+
+if (isSuperUser) {
+  navigate('/admin_dashboard');
+} else {
+  navigate('/user_dashboard');
+}
+
+
+  } catch (error) {
+    console.error('❌ Login Error (Full):', error); 
+    console.error('❌ Login Error (Response Data):', error.response?.data);
+
+    const errData = error.response?.data;
+    const errMsg =
+      errData?.detail ||
+      errData?.non_field_errors?.[0] ||
+      (typeof errData === 'string' ? errData : null) ||
+      JSON.stringify(errData) ||
+      'Login failed, please check credentials or server.';
+    showMessage(errMsg);
+  }
+};
+
+
+// ---------------- Sign Up ----------------
+const handleSignUpSubmit = async (e) => {
+  e.preventDefault();
+
+  console.log("📩 SignUp Data (Raw):", signUpData);
+
+  if (signUpData.password !== signUpData.confirm_password) {
+    showMessage("Passwords don't match!");
+    return;
+  }
+
+  try {
   
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/auth/signup/', signUpData);
-      showMessage('Account created successfully!', 'success');
-  
-      // Reset the form fields
-      setSignUpData({
-        email: '',
-        password: '',
-        confirm_password: '',
-        first_name: '',
-        last_name: '',
-        phone_number: '',
-        terms_agreed: false,
-      });
-  
-      navigate('/signin');
-    } catch (error) {
-      let errorMsg = 'Signup failed. Please try again.';
-      if (error.response?.data?.error) {
-        errorMsg = error.response.data.error;
+    const res = await axios.post('/signup/', signUpData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    console.log("✅ Signup Response:", res.data);
+    showMessage('Signup successful! Please login.', 'success');
+    navigate('/signin');
+  } catch (error) {
+    console.error('❌ Signup Error (Response Data):', error.response?.data);
+    const errData = error.response?.data;
+    let errMsg = 'Signup failed, please check input.';
+    if (errData) {
+      if (typeof errData === 'object' && !Array.isArray(errData)) {
+        const firstKey = Object.keys(errData)[0];
+        const firstVal = errData[firstKey];
+        if (Array.isArray(firstVal)) errMsg = firstVal[0];
+        else if (typeof firstVal === 'string') errMsg = firstVal;
+      } else if (typeof errData === 'string') {
+        errMsg = errData;
       }
-      showMessage(errorMsg, 'danger');
     }
-  };
-  
+    showMessage(errMsg);
+  }
+};
+
   
 
   return (
@@ -184,9 +233,9 @@ export default function SignUp({ mode }) {
     textDecoration: 'underline',
     cursor: 'pointer',
     fontSize: '14px',
-    display: 'block',        // inline-block ki jagah block
-    textAlign: 'right',       // text ko left align karega
-    width: '100%'            // full width le lega
+    display: 'block',        
+    textAlign: 'right',       
+    width: '100%'            
   }}
   onClick={() => alert('Forgot Password functionality coming soon!')}
 >
@@ -259,6 +308,14 @@ export default function SignUp({ mode }) {
     <label>Password</label>
     <i className="fas fa-lock"></i>
   </div>
+
+              {/* Confirm password (important) */}
+            <div className="input-box">
+              <input type="password" name="confirm_password" value={signUpData.confirm_password} onChange={(e) => handleInputChange(e, 'signup')} required />
+              <label>Confirm Password</label>
+              <i className="fas fa-lock"></i>
+            </div>
+
 
   {/* Date of Birth */}
   <div className="input-box">
@@ -393,3 +450,4 @@ export default function SignUp({ mode }) {
     </div>
   );
 }
+
