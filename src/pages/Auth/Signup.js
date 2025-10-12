@@ -25,9 +25,9 @@ export default function SignUp({ mode }) {
 
     useEffect(() => {
  
-    const container_main = document.querySelector('._macontainer_main');
-    if (mode === 'signup') _macontainer_main?.classList.add('sign-up-mode');
-    else _macontainer_main?.classList.remove('sign-up-mode');
+    const container_main = document.querySelector('.container_main');
+    if (mode === 'signup')  container_main?.classList.add('sign-up-mode');
+    else  container_main?.classList.remove('sign-up-mode');
 
   
     axios.defaults.baseURL = 'http://127.0.0.1:8000';
