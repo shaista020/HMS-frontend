@@ -21,9 +21,9 @@ export default function SignUp({ mode }) {
     terms_agreed: false,
   });
   useEffect(() => {
-    const container = document.querySelector('.container');
-    if (mode === 'signup') container.classList.add('sign-up-mode');
-    else container.classList.remove('sign-up-mode');
+    const container_main = document.querySelector('.container_main');
+    if (mode === 'signup') container_main.classList.add('sign-up-mode');
+    else container_main.classList.remove('sign-up-mode');
   }, [mode]);
   const handleSignUp = () => navigate('/signup');
   const handleSignIn = () => navigate('/signin');
@@ -115,8 +115,9 @@ export default function SignUp({ mode }) {
   
 
   return (
-    <div className="container">
-      <div className="forms-container">
+   <div className="main-body">
+  <div className='container_main '>
+      <div className="forms-containers">
         <div className="signin-signup">
           <form className="sign-in-form" onSubmit={handleSignInSubmit}>
             <h2 className="title">Login</h2>
@@ -157,7 +158,7 @@ export default function SignUp({ mode }) {
            
            <button
   type="submit"
-  className="btn"
+  className="btn form-btn"
   id="btns"
   style={{
     display: 'inline-block',
@@ -301,7 +302,7 @@ export default function SignUp({ mode }) {
 
   <button
     type="submit"
-    className="btn"
+    className="btn form-btn"
     style={{
     display: 'inline-block',
    width: window.innerWidth <= 926 ? '60%' : '60%',
@@ -343,7 +344,7 @@ export default function SignUp({ mode }) {
         </div>
       </div>
 
-      <div className="panels-container">
+      <div className="panels-containers">
         <div className="panel left-panel">
           <div className="content">
           <h1>WELCOME!</h1>
@@ -351,7 +352,7 @@ export default function SignUp({ mode }) {
           Hello, <br />
           Welcome to our website. We're excited to have you here!
         </p>
-            <button className="btn transparent" id="sign-up-btn" onClick={() => navigate("/signup")}>
+            <button className="btn transparent form-btn" id="sign-up-btn" onClick={() => navigate("/signup")}>
   Sign up
 </button>
 
@@ -367,7 +368,7 @@ export default function SignUp({ mode }) {
           Hello, <br />
           Welcome back to our website. We're excited to serve you as a host.
         </p>
-            <button className="btn transparent" id="sign-in-btn" onClick={() => navigate("/signin")}>
+            <button className="btn transparent form-btn" id="sign-in-btn" onClick={() => navigate("/signin")}>
               Sign in
             </button>
           </div>
@@ -384,12 +385,12 @@ export default function SignUp({ mode }) {
          <div class="modal-body" id="errorModalBody">
          </div>
          <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="button" class="btn btn-secondary form-btn" data-bs-dismiss="modal">Close</button>
          </div>
        </div>
      </div>
    </div>
-
+</div>
     </div>
   );
 }
