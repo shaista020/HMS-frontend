@@ -7,7 +7,7 @@ import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
 import Room from './pages/User/Room';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Booking from './pages/User/Booking';
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
           {/* User side */}
           <Route path="/RoomType" element={<RoomType/>}/>
           <Route path="/Room" element={<Room/>}/>
+<Route path='booking' element={<Booking/>}/>
          
       </Routes>
     </Router>
