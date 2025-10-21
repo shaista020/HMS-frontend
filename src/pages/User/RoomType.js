@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../App.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RoomType = () => {
   const [roomTypes, setRoomTypes] = useState([]);
@@ -9,12 +11,13 @@ const RoomType = () => {
     description: "",
     base_capacity: "",
     default_price: "",
+    min_price: "",
   });
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // ✅ Fetch all room types
+  // Fetch room types
   useEffect(() => {
     fetchRoomTypes();
   }, []);
@@ -24,65 +27,115 @@ const RoomType = () => {
       const res = await axios.get("http://127.0.0.1:8000/room-types/");
       setRoomTypes(res.data);
     } catch (error) {
-      console.error("Error fetching room types:", error);
+      toast.error("Failed to fetch room types!", {
+        style: { background: "#1E3A8A", color: "#fff" },
+      });
     }
   };
 
-  // ✅ Handle input change
+ 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ Handle submit (Add or Update)
+  // Validation
+  const validateForm = () => {
+   
+    const nameRegex = /^[A-Za-z\s]+$/;
+
+    if (!form.room_type_name.trim()) {
+      toast.error("Room Type Name is required!", {
+        style: { background: "#1E3A8A", color: "#fff" },
+      });
+      return false;
+    }
+
+    if (form.room_type_name.length < 3) {
+      toast.error("Room Type Name must be at least 3 letters long!", {
+        style: { background: "#1E3A8A", color: "#fff" },
+      });
+      return false;
+    }
+
+    if (!nameRegex.test(form.room_type_name)) {
+      toast.error("Room Type Name should only contain letters (no numbers or symbols)!", {
+        style: { background: "#1E3A8A", color: "#fff" },
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  // Submit form 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
     try {
       if (editing) {
         await axios.put(`http://127.0.0.1:8000/room-types/${editId}/`, form);
+        toast.success("Room Type updated successfully!", {
+          style: { background: "#059669", color: "#fff" },
+        });
       } else {
         await axios.post("http://127.0.0.1:8000/room-types/", form);
+        toast.success("Room Type created successfully!", {
+          style: { background: "#059669", color: "#fff" },
+        });
       }
 
-      // Reset form + modal
+      // Reset state
       setForm({
         room_type_name: "",
         description: "",
         base_capacity: "",
         default_price: "",
+        min_price: "",
       });
       setEditing(false);
       setEditId(null);
       setShowModal(false);
       fetchRoomTypes();
     } catch (error) {
-      console.error("Error saving room type:", error);
+      toast.error("Error saving room type!", {
+        style: { background: "#1E3A8A", color: "#fff" },
+      });
     }
   };
 
-  // ✅ Edit room type
+  //  Edit
   const handleEdit = (rt) => {
     setForm({
       room_type_name: rt.room_type_name,
       description: rt.description,
       base_capacity: rt.base_capacity,
       default_price: rt.default_price,
+      min_price: rt.min_price,
     });
     setEditing(true);
     setEditId(rt.room_type_id);
     setShowModal(true);
   };
 
-  // ✅ Delete room type
+  // Delete
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this room type?")) return;
     try {
       await axios.delete(`http://127.0.0.1:8000/room-types/${id}/`);
       fetchRoomTypes();
+      toast.success("Room Type deleted successfully!", {
+        style: { background: "#059669", color: "#fff" },
+      });
     } catch (error) {
-      console.error("Error deleting room type:", error);
+      toast.error("Error deleting room type!", {
+        style: { background: "#1E3A8A", color: "#fff" },
+      });
     }
   };
 
+  //  Cancel
   const handleCancel = () => {
     setEditing(false);
     setShowModal(false);
@@ -91,15 +144,20 @@ const RoomType = () => {
       description: "",
       base_capacity: "",
       default_price: "",
+      min_price: "",
     });
   };
+  
 
   return (
     <div className="roomtype-container">
+      <ToastContainer position="top-center" autoClose={2500} hideProgressBar={false} />
+      
+
       <div className="table-header">
         <h2 className="page-title">Room Type List</h2>
         <button className="btn-primary" onClick={() => setShowModal(true)}>
-           Add Room Type
+          Add Room Type
         </button>
       </div>
 
@@ -113,6 +171,7 @@ const RoomType = () => {
               <th>Description</th>
               <th>Capacity</th>
               <th>Price</th>
+              <th>Min Price</th>
               <th style={{ width: "150px" }}>Actions</th>
             </tr>
           </thead>
@@ -125,6 +184,7 @@ const RoomType = () => {
                   <td>{rt.description}</td>
                   <td>{rt.base_capacity}</td>
                   <td>{rt.default_price}</td>
+                  <td>{rt.min_price}</td>
                   <td>
                     <button onClick={() => handleEdit(rt)} className="btn-warning">
                       Edit
@@ -137,7 +197,7 @@ const RoomType = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="empty-row">
+                <td colSpan="7" className="empty-row">
                   No Room Types Found
                 </td>
               </tr>
@@ -192,11 +252,21 @@ const RoomType = () => {
                   <label>Default Price</label>
                   <input
                     type="number"
-                    step="0.01"
                     name="default_price"
                     value={form.default_price}
                     onChange={handleChange}
                     placeholder="Enter price"
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Min Price</label>
+                  <input
+                    type="number"
+                    name="min_price"
+                    value={form.min_price}
+                    onChange={handleChange}
+                    placeholder="Enter min price"
                     required
                   />
                 </div>
