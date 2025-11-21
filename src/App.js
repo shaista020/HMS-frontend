@@ -2,29 +2,39 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignUp from './pages/Auth/Signup';
 import LandingPage from './pages/LandingPage/LandingPage';
-import Dashboard  from './pages/Dashboard/admin_dashboard';
+import Dashboard from './pages/Dashboard/admin_dashboard';
 import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
 import Room from './pages/User/Room';
+import Sidebar from './pages/extras/Sidebar'; // Sidebar
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/signup" element={<SignUp mode="signup" />} />
-        <Route path="/signin" element={<SignUp mode="signin" />} />
-          <Route path="/" element={<LandingPage/>} />
-          <Route path="/admin_dashboard" element={<Dashboard/>}/>
-          <Route path="/user_dashboard" element={<UserDashboard/>}/>
+      {/* Wrap everything in flex to show Sidebar on every page */}
+      <div className="d-flex">
+        {/* Sidebar (always visible) */}
+        {/* <Sidebar />*/}
 
-          {/* User side */}
-          <Route path="/RoomType" element={<RoomType/>}/>
-          <Route path="/Room" element={<Room/>}/>
-         
-      </Routes>
+        {/* Main Content Area */}
+        <div className="flex-grow-1 p-4" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+          <Routes>
+            {/* Auth Pages */}
+            <Route path="/signup" element={<SignUp mode="signup" />} />
+            <Route path="/signin" element={<SignUp mode="signin" />} />
+
+            {/* Pages */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/admin_dashboard" element={<Dashboard />} />
+            <Route path="/user_dashboard" element={<UserDashboard />} />
+
+            {/* User side */}
+            <Route path="/RoomType" element={<RoomType />} />
+            <Route path="/Room" element={<Room />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }
