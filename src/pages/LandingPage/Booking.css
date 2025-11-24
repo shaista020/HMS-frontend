@@ -54,3 +54,33 @@
   background-color: #2e3d2c;
   transform: translateY(-2px);
 }
+.booking-bar {
+  background: white;
+  color: black;
+  margin-top: -2rem;
+  margin-bottom: 4rem;
+  /* width: 80%; */
+}
+
+.booking-item {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 15px;
+}
+
+.booking-item label {
+  font-size: 0.8rem;
+  color: gray;
+  font-weight: 600;
+}
+
+.booking-item div {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.booking-bar button {
+  background-color: #2f3b2f;
+  color: white;
+  border: none;
+}

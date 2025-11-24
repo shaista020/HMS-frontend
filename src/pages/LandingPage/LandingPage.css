@@ -1,18 +1,22 @@
-/* General page setup */
-body, html, #root {
-  margin: 0;
-  padding: 0;
-  background-color: #4a5546;
+ 
+body,
+html,
+#root {
+  margin: 20;
+  padding: 20;
   overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
 }
-
-/* Section background */
+  
 .landing-section {
   background-color: #4a5546;
   color: white;
-  min-height: 100vh;
-  margin: -24px;
   position: relative;
+  width: 100%;
+}
+
+.landing {
+  margin: 20%;
 }
 
 /* Navbar */
@@ -22,8 +26,8 @@ body, html, #root {
 }
 
 .logo-circle {
-  width: 28px;
-  height: 28px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: white;
 }
@@ -33,15 +37,26 @@ body, html, #root {
   font-weight: 500;
 }
 
-.navbar-nav .nav-link.active {
+.navbar-nav .nav-link:hover {
   border: 1px solid #fff;
   border-radius: 20px;
   padding: 5px 12px;
 }
 
+.navbar-nav .nav-link.active {
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 5px 12px;
+  color: #fff !important;
+}
+
 /* Hero section */
 .hero {
   padding: 4rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hero-text h1 {
@@ -58,11 +73,13 @@ body, html, #root {
 /* Image frame */
 .image-frame {
   position: relative;
-  width: 350px;
-  height: 350px;
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   border: 3px solid white;
   overflow: hidden;
+  margin: auto;
 }
 
 .image-frame img {
@@ -82,7 +99,6 @@ body, html, #root {
   border-radius: 50%;
 }
 
-/* Sparkle effect */
 .sparkle {
   position: absolute;
   top: -30px;
@@ -90,70 +106,51 @@ body, html, #root {
   width: 40px;
   height: 40px;
   background: radial-gradient(circle, #fff 40%, transparent 41%);
-  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+  clip-path: polygon(50% 0%,
+      60% 40%,
+      100% 50%,
+      60% 60%,
+      50% 100%,
+      40% 60%,
+      0% 50%,
+      40% 40%);
   animation: spin 4s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+  from {
+    transform: rotate(0deg);
+  }
 
-/* Booking bar */
-.booking-bar {
-  background: white;
-  color: black;
-  margin-top: -2rem;
-  margin-bottom: 2rem;
+  to {
+    transform: rotate(360deg);
+  }
 }
-
-.booking-item {
-  display: flex;
-  flex-direction: column;
-  margin: 10px 15px;
-}
-
-.booking-item label {
-  font-size: 0.8rem;
-  color: gray;
-  font-weight: 600;
-}
-
-.booking-item div {
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.booking-bar button {
-  background-color: #2f3b2f;
-  color: white;
-  border: none;
-}
-
-/* Partner logos */
+ 
 .partner-logos {
-  background-color: #4a5546;
+  background-color: #394236;
   color: #cfd2ce;
   font-weight: 600;
   font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+
 }
 
-/* Responsive */
+ 
 @media (max-width: 992px) {
   .hero {
     flex-direction: column;
     text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero-text {
+    margin-bottom: 2rem;
   }
 
   .image-frame {
-    width: 250px;
-    height: 250px;
-    margin-top: 2rem;
-  }
-
-  .booking-bar {
-    flex-direction: column;
-    border-radius: 25px;
-    padding: 1.5rem;
+    max-width: 250px;
   }
 }
+ 

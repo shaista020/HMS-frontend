@@ -1,7 +1,7 @@
  
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
 :root {
-  --black: #000000;
+  --black: #4A5E46;
   --white: #ffffff;
   --blue: #5995fd;
   --gray: #888888;
@@ -53,7 +53,7 @@
   border-bottom: 2px solid black;
   outline: none;
   font-size: 16px;
-  color: #000;
+  color: #4A5E46;
   background: transparent;
 }
 
@@ -82,7 +82,7 @@ h2.title {
 .input-box input:valid ~ label {
   top: -5px;
   font-size: 12px;
-  color: #000;
+  color: #4A5E46;
 }
 
 .input-box i {
@@ -90,7 +90,7 @@ h2.title {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  color: #000000;
+  color: #4A5E46;
 }
 .forms-containers {
 position: relative;
@@ -209,7 +209,7 @@ font-weight: 500;
 
 .form-btn.transparent:hover {
   background-color: #e8eaed;
-  color: #000;
+  color: #4A5E46;
 }
 
 .panels-containers {
@@ -230,7 +230,7 @@ width: 2000px;
 top: -10%;
 right: 48%;
 transform: translateY(-50%);
-background-image: linear-gradient(-45deg, black 0%,  black 100%);
+background-image: linear-gradient(-45deg, #4A5E46 0%,  #4A5E46 100%);
 transition: 1.8s ease-in-out;
 border-radius: 50%;
 z-index: 6;
@@ -238,7 +238,7 @@ z-index: 6;
 
 .container_main::after {
  
-  background-image: linear-gradient(-45deg, black  0%, black 100%);
+  background-image: linear-gradient(-45deg, #4A5E46  0%, #4A5E46 100%);
   
   }
   
@@ -799,7 +799,7 @@ transform: translate(-50%, 0);
   display: block;
   margin: 20px auto; /* Centers the button horizontally */
   padding: 10px 20px;
-  background: linear-gradient(-45deg, #0d0d0e 0%, black 100%);
+  background: linear-gradient(-45deg, #4A5E46 0%, #4A5E46 100%);
   color: var(--white);
   border: none;
   border-radius: 50px;
