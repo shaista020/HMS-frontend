@@ -8,20 +8,18 @@ import RoomType from './pages/User/RoomType';
 import Room from './pages/User/Room';
 import Sidebar from './pages/extras/Sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+ 
 
-// Wrapper to handle sidebar rendering
 function Layout({ children }) {
   const location = useLocation();
-  const adminPaths = ['/admin_dashboard']; // add more admin paths if needed
-
+  const adminPaths = ['/admin_dashboard'];  
   const isAdminRoute = adminPaths.includes(location.pathname);
 
   return (
     <div className="d-flex">
-      {/* Sidebar only for admin */}
+       
       {isAdminRoute && <Sidebar />}
-
-      {/* Main Content */}
+ 
       <div
         className="flex-grow-1 p-4"
         style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}
@@ -36,11 +34,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth Pages */}
+         
         <Route path="/signup" element={<SignUp mode="signup" />} />
         <Route path="/signin" element={<SignUp mode="signin" />} />
-
-        {/* Admin & User Pages wrapped in Layout */}
+ 
         <Route
           path="/admin_dashboard"
           element={
@@ -73,8 +70,7 @@ function App() {
             </Layout>
           }
         />
-
-        {/* Landing Page (no sidebar) */}
+ 
         <Route path="/" element={<LandingPage />} />
       </Routes>
     </Router>

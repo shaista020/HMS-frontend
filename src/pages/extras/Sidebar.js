@@ -1,297 +1,200 @@
-import React, { useState } from "react";
-
-// --- ICON COMPONENTS REMOVED ---
-// All const Icon... components have been deleted.
-
-const customStyles = `
-.sidebar-container {
-    height: 100vh;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-    background-color: #fff;
-    font-family: 'Inter', sans-serif;
-}
-.sidebar-icon-bar {
-    width: 80px;
-    background-color: #f7f7f9;
-    border-right: 1px solid #eee;
-}
-.sidebar-icon-item {
-    font-size: 1.25rem;
-    color: #555;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.sidebar-icon-item:hover {
-    background-color: #e0e0e2;
-}
-.active-icon-item {
-    background-color: #fff;
-    color: #000;
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-.sidebar-menu-panel {
-    width: 250px;
-    min-width: 250px; /* Ensure it stays fixed */
-}
-.menu-item {
-    font-size: 0.95rem;
-    color: #333;
-    cursor: pointer;
-    padding-left: 0;
-    transition: background-color 0.2s;
-}
-.menu-item:hover {
-    color: #000;
-}
-.bookings-submenu {
-    position: relative;
-    padding-left: 1rem;
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.3s ease-in-out;
-}
-.bookings-submenu.open {
-    max-height: 500px;
-}
-.submenu-item {
-    font-size: 0.9rem;
-    color: #555;
-    cursor: pointer;
-    position: relative;
-    border-radius: 6px; 
-}
-.submenu-item:hover {
-    color: #000;
-    background-color: #f0f0f2;
-}
-.submenu-item.active {
-    background-color: #f0f0f2;
-    color: #000;
-    font-weight: 600;
-    padding-left: 1.5rem !important;
-}
-.active-dot {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background-color: #000;
-    border-radius: 50%;
-}
-.vertical-line {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 1.4rem;
-    width: 1px;
-    background-color: #ddd;
-    z-index: 0;
-}
-`;
+import React, { useState, useEffect } from "react";
+import {
+  FaBars,
+  FaUserShield,
+  FaHotel,
+  FaBed,
+  FaUsers,
+  FaList,
+  FaChartBar,
+  FaCog,
+  FaChevronDown,
+  FaChevronRight,
+  FaTimes
+} from "react-icons/fa";
+import { Collapse } from "react-bootstrap";
+import "./Sidebar.css";
 
 const Sidebar = () => {
-  // State to handle the expansion/collapse of the "Bookings" submenu
-  const [isBookingsOpen, setIsBookingsOpen] = useState(true);
-  const [activeItem, setActiveItem] = useState("All Bookings"); // State to manage which item is currently active
+  const [open, setOpen] = useState(true);
 
-  // Function to toggle the 'Bookings' submenu
-  const toggleBookings = () => setIsBookingsOpen(!isBookingsOpen);
+  const [userMenu, setUserMenu] = useState(false);
+  const [hotelMenu, setHotelMenu] = useState(false);
+  const [roomMenu, setRoomMenu] = useState(false);
+  const [deptMenu, setDeptMenu] = useState(false);
+  const [auditMenu, setAuditMenu] = useState(false);
+  const [reportMenu, setReportMenu] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // --- MODIFIED: Icons are now string paths ---
-  const primaryMenuItems = [
-    { icon: "/icons/home.png", label: "Dashboard", link: "/dashboard" },
-    { icon: "/icons/chart-bar.png", label: "Overview", link: "/overview" },
-    {
-      icon: "/icons/list-alt.png",
-      label: "Bookings",
-      hasSubmenu: true,
-      onClick: toggleBookings,
-      isOpen: isBookingsOpen,
-    },
-    { icon: "/icons/plus.png", label: "New Booking", link: "/bookings/new" },
-    { icon: "/icons/store.png", label: "Rooms", link: "/rooms" },
-    { icon: "/icons/users.png", label: "Guests", link: "/guests" },
-    { icon: "/icons/comment-dots.png", label: "Messages", link: "/messages" },
-  ];
-
-  const bookingsSubmenuItems = [
-    { label: "All Bookings", link: "/bookings/all" },
-    { label: "Calendar", link: "/bookings/calendar" },
-    { label: "Check-ins", link: "/bookings/check-ins" },
-    { label: "Check-outs", link: "/bookings/check-outs" },
-    { label: "Payments", link: "/bookings/payments" },
-    { label: "Tasks", link: "/bookings/tasks" },
-  ];
-
-  // --- MODIFIED: Icons are now string paths ---
-  const bottomMenuItems = [
-    { icon: "/icons/envelope.png", label: "Inbox", link: "/inbox" },
-    { icon: "/icons/file-alt.png", label: "Reports", link: "/reports" },
-    { icon: "/icons/magic.png", label: "Housekeeping", link: "/housekeeping" },
-    { icon: "/icons/cog.png", label: "Settings", link: "/settings-bottom" },
-  ];
-
-  // Dummy navigation handler
-  const handleNavigate = (link, label) => {
-    if (label) {
-      setActiveItem(label);
-    }
-  };
-
-  // --- MODIFIED: Renders <img> tag ---
-  const renderIconMenu = (items) => (
-    <div className="d-flex flex-column align-items-center mb-4">
-      {items.map((item, index) => (
-        <div
-          key={index}
-          className={`sidebar-icon-item p-3 mb-2 rounded ${
-            item.label === "Bookings" ? "active-icon-item" : ""
-          }`}
-          onClick={
-            item.onClick || (() => handleNavigate(item.link, item.label))
-          }
-        >
-          {/* Use <img> tag */}
-          <img src={item.icon} alt={item.label} width="20" height="20" />
-        </div>
-      ))}
-    </div>
-  );
-
-  // --- MODIFIED: Renders <img> tag ---
-  const renderTextMenu = (items) => (
-    <ul className="list-unstyled mb-4">
-      {items.map((item, index) => (
-        <li
-          key={index}
-          className="d-flex justify-content-between align-items-center py-2 menu-item"
-          onClick={() => handleNavigate(item.link, item.label)}
-        >
-          <span className="d-flex align-items-center">
-            {/* Use <img> tag */}
-            {item.icon && (
-              <img
-                src={item.icon}
-                alt={item.label}
-                width="20"
-                height="20"
-                className="me-2"
-              />
-            )}
-            {item.label}
-          </span>
-          {item.label !== "Overview" && item.label !== "Store" && (
-            <span className="text-muted">+</span>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
-
-  const renderBookingsSubmenu = () => (
-    <div className={`bookings-submenu ${isBookingsOpen ? "open" : "closed"}`}>
-      {bookingsSubmenuItems.map((item, index) => (
-        <div
-          key={index}
-          className={`submenu-item py-2 ps-4 pe-3 ${
-            item.label === activeItem ? "active" : ""
-          }`}
-          onClick={() => handleNavigate(item.link, item.label)}
-        >
-          {item.label === activeItem && <span className="active-dot"></span>}
-          {item.label}
-        </div>
-      ))}
-      <div className="vertical-line"></div>
-    </div>
-  );
-
+  // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 992) {
+        setSidebarOpen(false); // closed on mobile
+        setIsMobile(true);
+      } else {
+        setSidebarOpen(true); // open on desktop
+        setIsMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
-    <div className="d-flex sidebar-container">
-      {/* Inject the custom styles */}
-      <style>{customStyles}</style>
+    <>
+   {isMobile && !sidebarOpen && (
+        <button className="hamburger-btn" onClick={() => setSidebarOpen(true)}>
+          <FaBars size={20} />
+        </button>
+      )}
 
-      {/* Left Icon Bar */}
-      <div className="sidebar-icon-bar p-3 d-flex flex-column justify-content-between">
-        {/* Top Icons */}
-        <div>
-          {renderIconMenu(primaryMenuItems.slice(0, 3))}
-          <div className="my-3"></div>
-          {renderIconMenu(primaryMenuItems.slice(3, 7))}
+       
+
+      {/* 🚀 HAMBURGER BUTTON */}
+      {/* <button className="hamburger-btn" onClick={() => setOpen(!open)}>
+        <FaBars size={20} />
+      </button> */}
+
+      {/* 🚀 SIDEBAR */}
+       <div className={`sidebar ${sidebarOpen ? "" : "closed"}`}>
+
+        {/* Close button inside sidebar */}
+        {isMobile && (
+          <button className="close-btn" onClick={() => setSidebarOpen(false)}>
+            <FaTimes />
+          </button>
+        )}
+        <div className="p-3 border-bottom">
+          <h5 className="text-center fw-bold">HMS Admin Panel</h5>
         </div>
-        {/* Bottom Icon --- MODIFIED: Uses <img> tag --- */}
-        <div>
-          <div className="sidebar-icon-item p-3 mb-2 rounded">
-            {/* Hardcoded icon replaced */}
-            <img src="/icons/cog.png" alt="Settings" width="20" height="20" />
-          </div>
-        </div>
-      </div>
+<div className="sidebar-scroll">
+        <ul className="list-unstyled px-3">
 
-      {/* Main Menu Panel */}
-      <div className="sidebar-menu-panel p-4">
-        <h4 className="mb-4">Hotel Eaze</h4>
+          {/* 1. USER & ROLE MODULE */}
+          <li>
+            <button
+              className="btn w-100 text-start d-flex justify-content-between text-white"
+              onClick={() => setUserMenu(!userMenu)}
+            >
+              <span><FaUserShield className="me-2" /> User & Roles</span>
+              {userMenu ? <FaChevronDown /> : <FaChevronRight />}
+            </button>
 
-        {/* Overview & Bookings */}
-        <ul className="list-unstyled mb-0">
-          {/* --- MODIFIED: Uses <img> tag --- */}
-          <li
-            className="d-flex justify-content-between align-items-center py-2 menu-item"
-            onClick={() => handleNavigate("/overview", "Overview")}
-          >
-            <span className="d-flex align-items-center">
-              {/* Hardcoded icon replaced */}
-              <img
-                src="/icons/chart-bar.png"
-                alt="Overview"
-                width="20"
-                height="20"
-                className="me-2"
-              />
-              Overview
-            </span>
+            <Collapse in={userMenu}>
+              <ul className="list-unstyled ps-4 tree-branch">
+                <li className="tree-item"><a className="nav-link">Users</a></li>
+                <li className="tree-item"><a className="nav-link">Roles</a></li>
+                <li className="tree-item"><a className="nav-link">Permissions</a></li>
+                <li className="tree-item"><a className="nav-link">Login History</a></li>
+                <li className="tree-item"><a className="nav-link">Deactivated Users</a></li>
+              </ul>
+            </Collapse>
           </li>
-          {/* --- MODIFIED: Uses <img> tag --- */}
-          <li
-            className={`d-flex justify-content-between align-items-center py-2 menu-item fw-bold ${
-              isBookingsOpen ? "active" : ""
-            }`}
-            onClick={toggleBookings}
-            style={{ userSelect: "none" }}
-          >
-            <span className="d-flex align-items-center">
-              {/* Hardcoded icon replaced */}
-              <img
-                src="/icons/list-alt.png"
-                alt="Bookings"
-                width="20"
-                height="20"
-                className="me-2"
-              />
-              Bookings
-            </span>
-            <span className="fs-5" style={{ cursor: "pointer" }}>
-              {isBookingsOpen ? "–" : "+"}
-            </span>
+
+          {/* 2. HOTEL CONFIGURATION */}
+          <li>
+            <button
+              className="btn w-100 text-start d-flex justify-content-between text-white"
+              onClick={() => setHotelMenu(!hotelMenu)}
+            >
+              <span><FaHotel className="me-2" /> Hotel Configuration</span>
+              {hotelMenu ? <FaChevronDown /> : <FaChevronRight />}
+            </button>
+
+            <Collapse in={hotelMenu}>
+              <ul className="list-unstyled ps-4 tree-branch">
+                <li className="tree-item"><a className="nav-link">General Settings</a></li>
+                <li className="tree-item"><a className="nav-link">Taxes & Charges</a></li>
+                <li className="tree-item"><a className="nav-link">Check-in/Check-out</a></li>
+                <li className="tree-item"><a className="nav-link">Security Policy</a></li>
+              </ul>
+            </Collapse>
           </li>
+
+          {/* 3. ROOM MANAGEMENT */}
+          <li>
+            <button
+              className="btn w-100 text-start d-flex justify-content-between text-white"
+              onClick={() => setRoomMenu(!roomMenu)}
+            >
+              <span><FaBed className="me-2" /> Rooms Management</span>
+              {roomMenu ? <FaChevronDown /> : <FaChevronRight />}
+            </button>
+
+            <Collapse in={roomMenu}>
+              <ul className="list-unstyled ps-4 tree-branch">
+                <li className="tree-item"><a className="nav-link">Room Types</a></li>
+                <li className="tree-item"><a className="nav-link">Rooms</a></li>
+                <li className="tree-item"><a className="nav-link">Amenities</a></li>
+                <li className="tree-item"><a className="nav-link">Status</a></li>
+              </ul>
+            </Collapse>
+          </li>
+
+          {/* 4. DEPARTMENT */}
+          <li>
+            <button
+              className="btn w-100 text-start d-flex justify-content-between text-white"
+              onClick={() => setDeptMenu(!deptMenu)}
+            >
+              <span><FaUsers className="me-2" /> Departments</span>
+              {deptMenu ? <FaChevronDown /> : <FaChevronRight />}
+            </button>
+
+            <Collapse in={deptMenu}>
+              <ul className="list-unstyled ps-4 tree-branch">
+                <li className="tree-item"><a className="nav-link">Departments</a></li>
+                <li className="tree-item"><a className="nav-link">Assign Staff</a></li>
+                <li className="tree-item"><a className="nav-link">Shifts</a></li>
+              </ul>
+            </Collapse>
+          </li>
+
+          {/* 5. AUDIT LOGS */}
+          <li>
+            <button
+              className="btn w-100 text-start d-flex justify-content-between text-white"
+              onClick={() => setAuditMenu(!auditMenu)}
+            >
+              <span><FaList className="me-2" /> Audit Logs</span>
+              {auditMenu ? <FaChevronDown /> : <FaChevronRight />}
+            </button>
+
+            <Collapse in={auditMenu}>
+              <ul className="list-unstyled ps-4 tree-branch">
+                <li className="tree-item"><a className="nav-link">All Logs</a></li>
+                <li className="tree-item"><a className="nav-link">Login Logs</a></li>
+                <li className="tree-item"><a className="nav-link">Export</a></li>
+              </ul>
+            </Collapse>
+          </li>
+
+          {/* 6. REPORTS MODULE */}
+          <li>
+            <button
+              className="btn w-100 text-start d-flex justify-content-between text-white"
+              onClick={() => setReportMenu(!reportMenu)}
+            >
+              <span><FaChartBar className="me-2" /> Reports & Analytics</span>
+              {reportMenu ? <FaChevronDown /> : <FaChevronRight />}
+            </button>
+
+            <Collapse in={reportMenu}>
+              <ul className="list-unstyled ps-4 tree-branch">
+                <li className="tree-item"><a className="nav-link">Revenue Report</a></li>
+                <li className="tree-item"><a className="nav-link">Occupancy Report</a></li>
+                <li className="tree-item"><a className="nav-link">Staff Report</a></li>
+                <li className="tree-item"><a className="nav-link">Custom Reports</a></li>
+              </ul>
+            </Collapse>
+          </li>
+
         </ul>
-
-        {/* Submenu and the custom line */}
-        {renderBookingsSubmenu()}
-
-        {/* Separator */}
-        <hr className="my-3" />
-
-        {/* Bottom Menu Items */}
-        <div className="mt-4">{renderTextMenu(bottomMenuItems)}</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
