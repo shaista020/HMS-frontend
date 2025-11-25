@@ -1,11 +1,7 @@
 import React from "react";
 import { Button, Card } from 'react-bootstrap';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import "./PopularHotelsSection.css";
-// Note: We are ignoring the 'react-bootstrap' components (Container, Row, Col, Form, InputGroup) 
-// and the MUI components (TextField, MenuItem, Select) that were unused in the original 
-// function definition, as we are focused on the logic within PopularHotelsSection and using
-// standard HTML elements with Bootstrap classes for the new design.
+import "./HighlightSection.css";
 
 function PopularHotelsSection() {
   const hotels = [

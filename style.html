@@ -1,64 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfect CSS & SVG Sparkle Icon</title>
-    <!-- Load Tailwind CSS for layout and utility classes -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        
-        /* Custom CSS to style the SVG container and apply the glow */
-        .sparkle-icon {
-            /* Set size for the overall container */
-            width: 100px;
-            height: 100px;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Shape</title>
+<style>
+  body {
+    background-color: #ff69b4; /* pink background like your image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 
-        .sparkle-icon:hover {
-            transform: scale(1.1);
-        }
+  .star-svg {
+    width: 150px;
+    height: 150px;
+  }
 
-        /* SVG styles for the perfect, thin line and glow */
-        .sparkle-svg {
-            /* Sharper Glow: Blur radii reduced to make the white light cling tightly to the line, 
-               achieving the sharpest possible outline. */
-            filter: drop-shadow(0 0 1px rgba(255, 255, 255, 1)) /* Very sharp white core */
-                    drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) /* Tight inner glow */
-                    drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)); /* Subtle wider halo */
-            animation: twinkle 3s infinite alternate;
-        }
-
-        /* Animation for a subtle, endless twinkle effect */
-        @keyframes twinkle {
-            0%, 100% { 
-                opacity: 1; 
-                transform: scale(1);
-            }
-            50% { 
-                opacity: 0.9; 
-                transform: scale(1.05); /* Subtle pulse */
-            }
-        }
-    </style>
+  /* Optional: Add a subtle glow */
+  .star-svg polygon {
+    filter: drop-shadow(0 0 6px white);
+  }
+</style>
 </head>
-<body class="bg-vibrant-pink min-h-screen flex items-center justify-center font-['Inter']">
+<body>
 
-    <!-- The centered sparkle element -->
-    <div class="sparkle-icon">
-        <!-- 
-            The SVG defines the precise curved four-pointed star.
-            - stroke-width is set to 1 for the thinnest, sharpest line.
-            - The path coordinates have been adjusted (e.g., 68->65, 32->35) to create a deeper curve (tora thora or curve).
-        -->
-        <svg class="sparkle-svg w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 0C50 35 100 50 100 50C50 65 50 100 50 100C50 65 0 50 0 50C50 35 50 0 50 0Z" stroke="white" stroke-width="1" />
-        </svg>
-    </div>
+<svg class="star-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <polygon 
+    points="50,0 57,35 95,35 62,57 72,95 50,73 28,95 38,57 5,35 43,35"
+    fill="white"/>
+</svg>
 
 </body>
 </html>

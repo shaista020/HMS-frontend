@@ -11,10 +11,10 @@ import { address } from 'framer-motion/client';
 
 export default function SignUp({ mode }) {
   const navigate = useNavigate();
-  const [signInData, setSignInData] = useState({ email: '', password: '', remember_me: false });
+  const [signInData, setSignInData] = useState({ identifier: '', password: '', remember_me: false });
   const [signUpData, setSignUpData] = useState({
     username: '',
-    email: '',
+    identifier: '',
     password:'',
     confirm_password: '',
     dob: '',
@@ -173,8 +173,8 @@ const handleSignUpSubmit = async (e) => {
             <div className="input-box">
               <input
                 type="email"
-                name="email"
-                value={signInData.email}
+                name="identifier"
+                value={signInData.identifier}
                 onChange={(e) => handleInputChange(e, 'signin')}
                 required
               />

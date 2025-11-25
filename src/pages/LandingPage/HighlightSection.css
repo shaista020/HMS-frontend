@@ -29,10 +29,20 @@
 
 .highlight-img-card {
   width: 250px;
-  height: 450px;
+  height: 450px; 
   overflow: hidden;
   border-radius: 50% / 20%;
+  transition: height 0.3s ease;  
 }
+ 
+.center-card {
+  height: 400px;  
+}
+ 
+.gap-5 {
+  gap: 2.5rem !important;  
+}
+
 
 .highlight-img-card img {
   width: 100%;
