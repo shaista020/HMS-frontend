@@ -177,7 +177,7 @@ html,
   text-decoration: none !important;
   color: #4a5546 !important;
   font-weight: 600;
-  cursor: pointer !important;   /* HAND CURSOR FIX */
+  cursor: pointer !important;    
   transition: color 0.3s ease;
   font-size: 1rem;
 }
