@@ -1,0 +1,152 @@
+/* Sidebar
+.sidebar {
+  background-color: #4a5546;
+  color: white !important;
+  height: 100vh; 
+  width: 260px;  
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+ 
+.sidebar-scroll {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 20px;  
+}
+
+ 
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cdd3cd #4a5546;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: #4a5546;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #cdd3cd;
+  border-radius: 10px;
+  border: 2px solid #4a5546;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #ffffff;
+}
+ 
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+ 
+.hamburger-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  background: #4a5546;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 6px;
+  display: none;
+  cursor: pointer;
+}
+ 
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #4a5546;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1001;
+  display: none;
+}
+ 
+@media (max-width: 992px) {
+  .hamburger-btn {
+    display: block;
+  }
+  .close-btn {
+    display: block;
+  }
+}
+ 
+.main-content {
+  margin-left: 140px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.main-content.expanded {
+  margin-left: 0px;
+}
+  
+.tree-branch {
+  margin-left: 22px;
+  padding-left: 8px;
+  border-left: 2px solid #fff;
+  
+  margin-right: 10px;
+}
+ 
+.tree-item {
+  position: relative;
+  padding: 8px 0 8px 8px;
+  transition: all 0.2s ease;
+  color: #fff !important;
+}
+ 
+.tree-item::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+
+.tree-item:hover::before {
+  background-color: #ffffff;
+}
+ 
+.tree-item:hover {
+  background-color: #7e837d;
+  border-radius: 6px;
+}
+ 
+.tree-item .nav-link {
+  color: white !important;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.tree-item .nav-link:hover {
+  color: #e3e8e3 !important;
+}
+ 
+.sub-btn {
+  color: white !important;
+  background: none !important;
+  padding-left: 0px;
+  font-size: 0.9rem;
+} */

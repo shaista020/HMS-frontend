@@ -20,7 +20,7 @@ const NavBar = () => {
  
         <div className="dropdown">
           <img
-            src="https://i.pravatar.cc/150?img=12"    
+            src="https://i.pravatar.cc/150?img=26"    
             alt="profile"
             width="40"
             height="40"

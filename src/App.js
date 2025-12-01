@@ -5,27 +5,26 @@ import SignUp from './pages/Auth/Signup';
 import LandingPage from './pages/LandingPage/LandingPage';
 import About from './pages/LandingPage/About';
 
-import Dashboard from './pages/Dashboard/admin_dashboard';
+import Dashboard from './pages/Admin/admin_dashboard';
+import Book from './pages/Admin/Booking/BookingList';
+
 import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
 import Room from './pages/User/Room';
 
-import Sidebar from './pages/extras/Sidebar';
-import NavBar from './pages/extras/NavBar';  
+import Sidebar from './components/Sidebar';
+import NavBar from './components/NavBar';  
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function Layout({ children }) {
   const location = useLocation();
-  const adminPaths = ['/admin_dashboard'];
+  const adminPaths = ['/admin_dashboard','/booking'];
   const isAdminRoute = adminPaths.includes(location.pathname);
 
   return (
     <div
-      // style={{
-      //   minHeight: "100vh",
-      //   backgroundColor: "#f8f9fa",
-      // }}
+      
     >
       {/* Top Navbar */}
       {isAdminRoute && <NavBar />}
@@ -68,6 +67,15 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/booking"
+          element={
+            <Layout>
+              <Book />
+            </Layout>
+          }
+        />
+        
 
         {/* User Dashboard */}
         <Route

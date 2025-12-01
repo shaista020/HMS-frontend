@@ -7,10 +7,11 @@ import {
   FaUsers,
   FaList,
   FaChartBar,
-  FaCog,
+  FaPlus, FaMinus,
   FaChevronDown,
   FaChevronRight,
-  FaTimes
+  FaTimes,
+  FaTachometerAlt 
 } from "react-icons/fa";
 import { Collapse } from "react-bootstrap";
 import "./Sidebar.css";
@@ -76,16 +77,27 @@ const Sidebar = () => {
         </div>
 <div className="sidebar-scroll">
         <ul className="list-unstyled flex-grow-1 px-2">
-
+<li className="mb-2">
+  <a href="/admin_dashboard" className="btn w-100 text-start d-flex justify-content-between text-white">
+    <span><FaTachometerAlt className="me-2" /> Dashboard</span>
+  </a>
+</li>
+<li className="mb-2">
+  <a href="/booking" className="btn w-100 text-start d-flex justify-content-between text-white">
+    <span><FaTachometerAlt className="me-2" /> Booking</span>
+  </a>
+</li>
           {/* 1. USER & ROLE MODULE */}
           <li className="mb-2">
             <button
-              className="btn w-100 text-start d-flex justify-content-between text-white"
-              onClick={() => setUserMenu(!userMenu)}
-            >
-              <span><FaUserShield className="me-2" /> User & Roles</span>
-              {userMenu ? <FaChevronDown /> : <FaChevronRight />}
-            </button>
+  className="btn w-100 text-start d-flex justify-content-between text-white"
+  onClick={() => setUserMenu(!userMenu)}
+>
+  <span><FaUserShield className="me-2" /> User & Roles</span>
+  {userMenu ? <FaMinus /> : <FaPlus />}
+</button>
+
+
 
             <Collapse in={userMenu}>
               <ul className="list-unstyled ps-4 tree-branch">
@@ -105,7 +117,7 @@ const Sidebar = () => {
               onClick={() => setHotelMenu(!hotelMenu)}
             >
               <span><FaHotel className="me-2" /> Hotel Configuration</span>
-              {hotelMenu ? <FaChevronDown /> : <FaChevronRight />}
+              {hotelMenu ? <FaMinus /> : <FaPlus />}
             </button>
 
             <Collapse in={hotelMenu}>
@@ -125,7 +137,7 @@ const Sidebar = () => {
               onClick={() => setRoomMenu(!roomMenu)}
             >
               <span><FaBed className="me-2" /> Rooms Management</span>
-              {roomMenu ? <FaChevronDown /> : <FaChevronRight />}
+              {roomMenu ? <FaMinus /> : <FaPlus />}
             </button>
 
             <Collapse in={roomMenu}>
@@ -145,7 +157,7 @@ const Sidebar = () => {
               onClick={() => setDeptMenu(!deptMenu)}
             >
               <span><FaUsers className="me-2" /> Departments</span>
-              {deptMenu ? <FaChevronDown /> : <FaChevronRight />}
+              {deptMenu ? <FaMinus /> : <FaPlus />}
             </button>
 
             <Collapse in={deptMenu}>
@@ -164,7 +176,7 @@ const Sidebar = () => {
               onClick={() => setAuditMenu(!auditMenu)}
             >
               <span><FaList className="me-2" /> Audit Logs</span>
-              {auditMenu ? <FaChevronDown /> : <FaChevronRight />}
+              {auditMenu ? <FaMinus /> : <FaPlus />}
             </button>
 
             <Collapse in={auditMenu}>
@@ -183,7 +195,7 @@ const Sidebar = () => {
               onClick={() => setReportMenu(!reportMenu)}
             >
               <span><FaChartBar className="me-2" /> Reports & Analytics</span>
-              {reportMenu ? <FaChevronDown /> : <FaChevronRight />}
+              {reportMenu ? <FaMinus /> : <FaPlus />}
             </button>
 
             <Collapse in={reportMenu}>
