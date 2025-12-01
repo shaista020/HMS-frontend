@@ -38,6 +38,10 @@
   background-color: #cdd3cd;
   border-radius: 10px;
   border: 2px solid #4a5546;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
