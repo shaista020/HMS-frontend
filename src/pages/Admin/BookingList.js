@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import '../extras/Sidebar.css';
+
 
 const BookingList = ({ bookings }) => {
+   const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [isMobile, setIsMobile] = useState(false);
+  
+    // Detect screen size
+    useEffect(() => {
+       const handleResize = () => {
+         if (window.innerWidth <= 992) {
+           setSidebarOpen(false); // closed on mobile
+           setIsMobile(true);
+         } else {
+           setSidebarOpen(true); // open on desktop
+           setIsMobile(false);
+         }
+       };
+       handleResize();
+       window.addEventListener("resize", handleResize);
+       return () => window.removeEventListener("resize", handleResize);
+     }, []);
   return (
-    <div className="container my-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
+    
+    <div className={`main-content ${sidebarOpen ? "" : "expanded"}`}>
+      <div className=" d-flex justify-content-between align-items-center mb-3">
         <h3 className="fw-bold">Bookings List</h3>
 
         <button

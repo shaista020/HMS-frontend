@@ -22,30 +22,21 @@ function Layout({ children }) {
 
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f8f9fa",
-      }}
+      // style={{
+      //   minHeight: "100vh",
+      //   backgroundColor: "#f8f9fa",
+      // }}
     >
       {/* Top Navbar */}
       {isAdminRoute && <NavBar />}
 
       <div
         className="d-flex"
-        style={{
-          marginLeft: isAdminRoute ? "250px" : "0",   // ✅ Push content to the right
-          transition: "margin-left 0.3s ease",
-        }}
+         
       >
         {isAdminRoute && (
           <Sidebar
-            style={{
-              width: "250px",
-              position: "fixed",        // Sidebar stays fixed
-              left: 0,
-              top: "70px",             // Under navbar if navbar is fixed
-              height: "100%",
-            }}
+            
           />
         )}
 

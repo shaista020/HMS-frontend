@@ -46,7 +46,7 @@ const Sidebar = () => {
     <>
    {isMobile && !sidebarOpen && (
         <button className="hamburger-btn" onClick={() => setSidebarOpen(true)}>
-          <FaBars size={20} />
+          <FaBars size={25} />
         </button>
       )}
 
@@ -58,7 +58,12 @@ const Sidebar = () => {
       </button> */}
 
       {/* 🚀 SIDEBAR */}
-       <div className={`sidebar ${sidebarOpen ? "" : "closed"}`}>
+      <div
+  className={`d-flex flex-column vh-100 border-end sidebar ${
+    sidebarOpen ? "" : "closed"
+  }`}
+  
+>
 
         {/* Close button inside sidebar */}
         {isMobile && (
@@ -70,10 +75,10 @@ const Sidebar = () => {
           <h5 className="text-center fw-bold">HMS Admin Panel</h5>
         </div>
 <div className="sidebar-scroll">
-        <ul className="list-unstyled px-3">
+        <ul className="list-unstyled flex-grow-1 px-2">
 
           {/* 1. USER & ROLE MODULE */}
-          <li>
+          <li className="mb-2">
             <button
               className="btn w-100 text-start d-flex justify-content-between text-white"
               onClick={() => setUserMenu(!userMenu)}
@@ -94,7 +99,7 @@ const Sidebar = () => {
           </li>
 
           {/* 2. HOTEL CONFIGURATION */}
-          <li>
+          <li className="mb-2">
             <button
               className="btn w-100 text-start d-flex justify-content-between text-white"
               onClick={() => setHotelMenu(!hotelMenu)}
@@ -114,7 +119,7 @@ const Sidebar = () => {
           </li>
 
           {/* 3. ROOM MANAGEMENT */}
-          <li>
+          <li className="mb-2">
             <button
               className="btn w-100 text-start d-flex justify-content-between text-white"
               onClick={() => setRoomMenu(!roomMenu)}
@@ -134,7 +139,7 @@ const Sidebar = () => {
           </li>
 
           {/* 4. DEPARTMENT */}
-          <li>
+          <li className="mb-2">
             <button
               className="btn w-100 text-start d-flex justify-content-between text-white"
               onClick={() => setDeptMenu(!deptMenu)}
@@ -153,7 +158,7 @@ const Sidebar = () => {
           </li>
 
           {/* 5. AUDIT LOGS */}
-          <li>
+          <li className="mb-2">
             <button
               className="btn w-100 text-start d-flex justify-content-between text-white"
               onClick={() => setAuditMenu(!auditMenu)}
@@ -172,9 +177,9 @@ const Sidebar = () => {
           </li>
 
           {/* 6. REPORTS MODULE */}
-          <li>
+          <li className="mb-2">
             <button
-              className="btn w-100 text-start d-flex justify-content-between text-white"
+              className="btn w-100 text-end d-flex justify-content-between text-white"
               onClick={() => setReportMenu(!reportMenu)}
             >
               <span><FaChartBar className="me-2" /> Reports & Analytics</span>
