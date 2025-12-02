@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import AddBooking from "./AddBooking";
+import axios from "axios"
 
 const BookingList = () => {
-  
   const bookings = [
     { guest: "Ali Khan", room: "101", checkIn: "2025-01-10", checkOut: "2025-01-12", status: "Confirmed" },
     { guest: "Sara Ahmed", room: "102", checkIn: "2025-01-11", checkOut: "2025-01-13", status: "Pending" },
@@ -20,7 +21,7 @@ const BookingList = () => {
  
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-
+const [users, setUsers] = useState([]);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 992) {
@@ -35,7 +36,16 @@ const BookingList = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+ const addBooking = (userData) => {
+    axios
+      .post("http://localhost:8000/hms_admin/add_user", userData)
+      .then((res) => {
+        if (res.data.status === "success") {
+          setUsers([...users, res.data.user]); // update user list
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   return (
    <div className="d-flex">
   <div className="flex-grow-1">
@@ -45,6 +55,8 @@ const BookingList = () => {
           <h3 className="fw-bold">Bookings List</h3>
           <button
             className="btn"
+            data-bs-toggle="modal"
+                data-bs-target="#addBookingModal"
             style={{
               color: "#4a5546",
               borderColor: "#4a5546",
@@ -101,6 +113,7 @@ const BookingList = () => {
     </tbody>
   </table>
 </div>
+ <AddBooking addBooking={addBooking} />
 
       </div>
     </div>

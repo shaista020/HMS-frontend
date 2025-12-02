@@ -7,7 +7,7 @@ import About from './pages/LandingPage/About';
 
 import Dashboard from './pages/Admin/admin_dashboard';
 import Book from './pages/Admin/Booking/BookingList';
-
+import UserList from './pages/Admin/User/ListIUser'
 import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
 import Room from './pages/User/Room';
@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Layout({ children }) {
   const location = useLocation();
-  const adminPaths = ['/admin_dashboard','/booking'];
+  const adminPaths = ['/admin_dashboard','/booking','/user'];
   const isAdminRoute = adminPaths.includes(location.pathname);
 
   return (
@@ -72,6 +72,14 @@ function App() {
           element={
             <Layout>
               <Book />
+            </Layout>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <Layout>
+              <UserList />
             </Layout>
           }
         />
