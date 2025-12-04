@@ -100,6 +100,17 @@
   margin-left: 0px;
 }
 
+.main-content-config {
+  margin-left: 210px;
+  transition: margin-left 0.3s ease-in-out;
+  overflow-y: auto;
+  margin-right: 10px
+}
+
+.main-content-config.expanded {
+  margin-left: 0px;
+}
+
   
 .tree-branch {
   margin-left: 22px;
@@ -154,4 +165,28 @@
   background: none !important;
   padding-left: 0px;
   font-size: 0.9rem;
+}
+ 
+.active-link {
+  background-color: #7e837d !important;   
+  border-radius: 6px;                       
+  color: #fff !important;
+  position: relative;
+}
+ 
+.active-link::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: #ffffff;               
+  border-radius: 50%;
+}
+ 
+.search-box::placeholder {
+  color: white !important;
+  opacity: 1;  
 }

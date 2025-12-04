@@ -1,42 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import AddUser from "./add_user";
+import { useNavigate } from "react-router-dom";
 
-const UserList = () => {
-  const [users, setUsers] = useState([]);
+const HotelSetupList = () => {
+  const [hotels, setHotels] = useState([]);
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/hms_admin/user/")
+      .get("http://127.0.0.1:8000/hms_admin/hotel_setup/")
       .then((response) => {
-        console.log("API response: " ,response.data)
-        setUsers(response.data)
+        console.log("API response:", response.data);
+        setHotels(response.data);
       })
       .catch((err) => {
         console.error(err);
-        setError("Something went wrong while fetching users.");
+        setError("Something went wrong while fetching Hotel Setup.");
       });
   }, []);
-const addUser = (userData) => {
-  const finalData = {
-    ...userData,
-    username: userData.email,   // <-- Required
-    role: userData.role || "Customer", // <-- Required
-  };
-
-  console.log("Final Data Sent to Backend:", finalData);
-
-  axios
-    .post("http://localhost:8000/hms_admin/user/", finalData)
-    .then((res) => {
-      if (res.data.status === "success") {
-        setUsers([...users, res.data.user]);
-      }
-    })
-    .catch((err) => console.error(err));
-};
-
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -60,22 +41,21 @@ const addUser = (userData) => {
     <div className="d-flex">
       <div className="flex-grow-1">
         <div className="container my-4">
-          <div className={`main-content ${sidebarOpen ? "" : "expanded"}`}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h3 className="fw-bold">Users List</h3>
+          <div className={`main-content-config ${sidebarOpen ? "" : "expanded"}`}>
 
-              {/* ✅ Add User Button with Modal Trigger */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h3 className="fw-bold">Hotel Setup List</h3>
+
               <button
                 className="btn"
-                data-bs-toggle="modal"
-                data-bs-target="#addUserModal"
+                onClick={() => navigate("/add-setup")}
                 style={{
                   color: "#4a5546",
                   borderColor: "#4a5546",
                   fontWeight: "bold",
                 }}
               >
-                + Add User
+                + Add Setup
               </button>
             </div>
 
@@ -85,29 +65,44 @@ const addUser = (userData) => {
                 <thead style={{ backgroundColor: "#4a5546", color: "white" }}>
                   <tr>
                     <th>ID</th>
+                    <th>Logo</th>
+                    <th>Hotel Name</th>
                     <th>Email</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Role</th>
+                    <th>Contact</th>
+                    <th>Website</th>
+                    <th>Currency</th>
+                    <th>Created By</th>
                     <th>Active</th>
-                    
                     <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {users.length > 0 ? (
-                    users.map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.id}</td>
-                        <td>{user.email}</td>
+                  {hotels.length > 0 ? (
+                    hotels.map((hotel) => (
+                      <tr key={hotel.hotel_id}>
+                        <td>{hotel.hotel_id}</td>
+
                         <td>
-                          {user.first_name} {user.last_name}
+                          {hotel.logo ? (
+                            <img
+                              src={hotel.logo}
+                              alt="logo"
+                              style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                            />
+                          ) : (
+                            "No Logo"
+                          )}
                         </td>
-                        <td>{user.phone_number}</td>
-                        <td>{user.role}</td>
-                        <td>{user.is_active ? "Yes" : "No"}</td>
-                        
+
+                        <td>{hotel.hotel_name}</td>
+                        <td>{hotel.email}</td>
+                        <td>{hotel.contact_no}</td>
+                        <td>{hotel.website}</td>
+                        <td>{hotel.currency}</td>
+                        <td>{hotel.created_by}</td>
+                        <td>{hotel.is_active ? "Yes" : "No"}</td>
+
                         <td>
                           <button className="btn btn-warning btn-sm">Edit</button>
                         </td>
@@ -115,17 +110,14 @@ const addUser = (userData) => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="8" className="text-center">
-                        No users found
+                      <td colSpan="9" className="text-center">
+                        No hotel setup found
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
-
-            {/* ✅ Add User Modal Included */}
-            <AddUser addUser={addUser} />
 
           </div>
         </div>
@@ -134,4 +126,4 @@ const addUser = (userData) => {
   );
 };
 
-export default UserList;
+export default HotelSetupList;

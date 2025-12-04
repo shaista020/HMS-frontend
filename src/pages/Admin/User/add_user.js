@@ -56,7 +56,29 @@ const AddUser = ({ addUser }) => {
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
               <div className="row g-3">
+  <div className="col-md-6">
+                  <label className="form-label fw-bold">First Name</label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    placeholder="First Name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    className="form-control mb-2"
+                  />
+                </div>
 
+                <div className="col-md-6">
+                  <label className="form-label fw-bold">Last Name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    placeholder="Last Name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    className="form-control mb-2"
+                  />
+                </div>
                 <div className="col-md-6">
                   <label className="form-label fw-bold">Email</label>
                   <input
@@ -82,29 +104,7 @@ const AddUser = ({ addUser }) => {
                   />
                 </div>
 
-                <div className="col-md-6">
-                  <label className="form-label fw-bold">First Name</label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    placeholder="First Name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    className="form-control mb-2"
-                  />
-                </div>
-
-                <div className="col-md-6">
-                  <label className="form-label fw-bold">Last Name</label>
-                  <input
-                    type="text"
-                    name="last_name"
-                    placeholder="Last Name"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                    className="form-control mb-2"
-                  />
-                </div>
+              
                 <div className="col-12">
                   <label className="form-label fw-bold">Phone Number</label>
                   <input
