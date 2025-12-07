@@ -21,6 +21,10 @@ const AddHotelSetup = () => {
     security_settings: "",
     is_active: true,
   });
+ const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+
+  // 👉 Console token here
+  console.log("Logged-in Token:", token);
 
   // Sidebar Responsive Logic
   useEffect(() => {
@@ -67,13 +71,16 @@ const AddHotelSetup = () => {
     }
 
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/hms_admin/hotel_setup/",
-        submitData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+  const res = await axios.post(
+    "http://127.0.0.1:8000/hms_admin/hotel_setup/",
+    submitData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
       console.log("Hotel Setup Saved:", res.data);
       alert("Hotel Setup Added Successfully!");

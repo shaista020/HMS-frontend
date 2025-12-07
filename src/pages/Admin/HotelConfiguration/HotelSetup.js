@@ -5,10 +5,21 @@ import { useNavigate } from "react-router-dom";
 const HotelSetupList = () => {
   const [hotels, setHotels] = useState([]);
   const [error, setError] = useState("");
+
+  const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+
+  // 👉 Console token here
+  console.log("Logged-in Token:", token);
+
   const navigate = useNavigate();
+
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/hms_admin/hotel_setup/")
+      .get("http://127.0.0.1:8000/hms_admin/hotel_setup/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }, 
+      })
       .then((response) => {
         console.log("API response:", response.data);
         setHotels(response.data);
@@ -42,7 +53,6 @@ const HotelSetupList = () => {
       <div className="flex-grow-1">
         <div className="container my-4">
           <div className={`main-content-config ${sidebarOpen ? "" : "expanded"}`}>
-
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3 className="fw-bold">Hotel Setup List</h3>
 
@@ -110,7 +120,7 @@ const HotelSetupList = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="9" className="text-center">
+                      <td colSpan="10" className="text-center">
                         No hotel setup found
                       </td>
                     </tr>

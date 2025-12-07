@@ -71,44 +71,52 @@ export default function SignUp({ mode }) {
   // ---------------- Sign In ----------------
 const handleSignInSubmit = async (e) => {
   e.preventDefault();
-  console.log("📩 SignIn Data being sent:", signInData); 
+  console.log("📩 SignIn Data being sent:", signInData);
 
   try {
     const res = await axios.post('/signin/', signInData, {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log("✅ SignIn Response:", res.data); 
+    console.log("✅ SignIn Response:", res.data);
 
-    const token = res.data?.token || res.data?.access || res.data?.key || null;
+    // 👉 Correct way to get tokens from backend
+    const accessToken = res.data?.tokens?.access;
+    const refreshToken = res.data?.tokens?.refresh;
 
-    if (!token) {
-      console.warn("⚠️ No token returned in response"); 
+    if (!accessToken) {
+      console.warn("⚠️ No access token returned in response");
       showMessage('Login succeeded but token not returned by backend', 'success');
-    } else {
-      if (signInData.remember_me) {
-        localStorage.setItem('token', token);
-        console.log("💾 Token saved in localStorage:", token);
-      } else {
-        sessionStorage.setItem('token', token);
-        console.log("💾 Token saved in sessionStorage:", token);
-      }
-
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      showMessage('Login successful!', 'success');
+      return;
     }
 
-  const isSuperUser = res.data?.user?.is_superuser || res.data?.user?.is_staff || false;
+    // 👉 Save token in storage
+    if (signInData.remember_me) {
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refresh_token', refreshToken);
+      console.log("💾 Access Token saved in localStorage:", accessToken);
+    } else {
+      sessionStorage.setItem('token', accessToken);
+      sessionStorage.setItem('refresh_token', refreshToken);
+      console.log("💾 Access Token saved in sessionStorage:", accessToken);
+    }
 
-if (isSuperUser) {
-  navigate('/admin_dashboard');
-} else {
-  navigate('/user_dashboard');
-}
+    // 👉 Set axios authorization header
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
+    showMessage('Login successful!', 'success');
+
+    // 👉 Check Dashboard
+   const isSuperUser = res.data?.user?.is_superuser || res.data?.user?.is_staff || false;
+
+    if (isSuperUser) {
+      navigate('/admin_dashboard');
+    } else {
+      navigate('/user_dashboard');
+    }
 
   } catch (error) {
-    console.error('❌ Login Error (Full):', error); 
+    console.error('❌ Login Error (Full):', error);
     console.error('❌ Login Error (Response Data):', error.response?.data);
 
     const errData = error.response?.data;
@@ -118,9 +126,11 @@ if (isSuperUser) {
       (typeof errData === 'string' ? errData : null) ||
       JSON.stringify(errData) ||
       'Login failed, please check credentials or server.';
+
     showMessage(errMsg);
   }
 };
+
 
 
 // ---------------- Sign Up ----------------
@@ -172,7 +182,7 @@ const handleSignUpSubmit = async (e) => {
             <h2 className="title">Login</h2>
             <div className="input-box">
               <input
-                type="email"
+                type="text"
                 name="identifier"
                 value={signInData.identifier}
                 onChange={(e) => handleInputChange(e, 'signin')}
