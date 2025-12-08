@@ -97,9 +97,9 @@ const addUser = (userData) => {
 
                 <tbody>
                   {users.length > 0 ? (
-                    users.map((user) => (
+                    users.map((user,index) => (
                       <tr key={user.id}>
-                        <td>{user.id}</td>
+                        <td>{index + 1}</td>
                         <td>{user.email}</td>
                         <td>
                           {user.first_name} {user.last_name}

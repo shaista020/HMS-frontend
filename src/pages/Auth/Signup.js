@@ -4,13 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Modal from 'bootstrap/js/dist/modal'; 
-import { address } from 'framer-motion/client';
+// import { address } from 'framer-motion/client';
 
 export default function SignUp({ mode }) {
   const navigate = useNavigate();
+  // top of component (already present in my last code but agar nahi hai to add karein)
+const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
+const [showPasswordSignUp, setShowPasswordSignUp] = useState(false);
+const toggleSignInPassword = () => setShowPasswordSignIn(prev => !prev);
+const toggleSignUpPassword = () => setShowPasswordSignUp(prev => !prev);
+const toggleConfirmPassword = () => setShowConfirmPassword(prev => !prev);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+
   const [signInData, setSignInData] = useState({ identifier: '', password: '', remember_me: false });
   const [signUpData, setSignUpData] = useState({
     username: '',
@@ -70,68 +79,93 @@ export default function SignUp({ mode }) {
 
   // ---------------- Sign In ----------------
 const handleSignInSubmit = async (e) => {
-  e.preventDefault();
-  console.log("📩 SignIn Data being sent:", signInData);
+    e.preventDefault();
+    console.log('📩 SignIn Data being sent:', signInData);
 
-  try {
-    const res = await axios.post('/signin/', signInData, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    try {
+      
+      const res = await axios.post('/signin/', signInData, {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    console.log("✅ SignIn Response:", res.data);
+      console.log('✅ SignIn Response:', res.data);
 
-    // 👉 Correct way to get tokens from backend
-    const accessToken = res.data?.tokens?.access;
-    const refreshToken = res.data?.tokens?.refresh;
+     
+      const accessToken = res.data?.tokens?.access || res.data?.access;
+      const refreshToken = res.data?.tokens?.refresh || res.data?.refresh;
 
-    if (!accessToken) {
-      console.warn("⚠️ No access token returned in response");
-      showMessage('Login succeeded but token not returned by backend', 'success');
-      return;
+      if (!accessToken) {
+        console.warn('⚠️ No access token returned in response');
+        
+      } else {
+      
+        if (signInData.remember_me) {
+          localStorage.setItem('token', accessToken);
+          if (refreshToken) localStorage.setItem('refresh_token', refreshToken);
+        } else {
+          sessionStorage.setItem('token', accessToken);
+          if (refreshToken) sessionStorage.setItem('refresh_token', refreshToken);
+        }
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      }
+
+      let user = res.data?.user || null;
+
+      if (!user) {
+       
+        try {
+          const profileEndpoints = ['/profile/', '/users/me/', '/auth/users/me/', '/me/'];
+          for (const ep of profileEndpoints) {
+            try {
+              const profileRes = await axios.get(ep);
+              if (profileRes?.data) {
+                user = profileRes.data;
+                console.log('Fetched profile from', ep, profileRes.data);
+                break;
+              }
+            } catch (err) {
+              
+            }
+          }
+        } catch (err) {
+          console.warn('Profile fetch attempts failed', err);
+        }
+      }
+
+      
+      if (!user && res.data) {
+        
+        if (res.data.email || res.data.role) user = res.data;
+      }
+
+     
+      const isSuperUser = !!(user?.is_superuser || user?.is_staff || user?.role === 'Admin');
+
+      if (!user) {
+        showMessage('Login succeeded but user profile not returned. Redirecting to user dashboard.', 'success');
+        navigate('/user_dashboard');
+        return;
+      }
+
+      showMessage('Login successful!', 'success');
+
+      if (isSuperUser) navigate('/admin_dashboard');
+      else navigate('/user_dashboard');
+    } catch (error) {
+      console.error('❌ Login Error (Full):', error);
+      console.error('❌ Login Error (Response Data):', error.response?.data);
+
+      const errData = error.response?.data;
+      const errMsg =
+        errData?.detail ||
+        errData?.non_field_errors?.[0] ||
+        (typeof errData === 'string' ? errData : null) ||
+        JSON.stringify(errData) ||
+        'Login failed, please check credentials or server.';
+
+      showMessage(errMsg);
     }
-
-    // 👉 Save token in storage
-    if (signInData.remember_me) {
-      localStorage.setItem('token', accessToken);
-      localStorage.setItem('refresh_token', refreshToken);
-      console.log("💾 Access Token saved in localStorage:", accessToken);
-    } else {
-      sessionStorage.setItem('token', accessToken);
-      sessionStorage.setItem('refresh_token', refreshToken);
-      console.log("💾 Access Token saved in sessionStorage:", accessToken);
-    }
-
-    // 👉 Set axios authorization header
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-    showMessage('Login successful!', 'success');
-
-    // 👉 Check Dashboard
-   const isSuperUser = res.data?.user?.is_superuser || res.data?.user?.is_staff || false;
-
-    if (isSuperUser) {
-      navigate('/admin_dashboard');
-    } else {
-      navigate('/user_dashboard');
-    }
-
-  } catch (error) {
-    console.error('❌ Login Error (Full):', error);
-    console.error('❌ Login Error (Response Data):', error.response?.data);
-
-    const errData = error.response?.data;
-    const errMsg =
-      errData?.detail ||
-      errData?.non_field_errors?.[0] ||
-      (typeof errData === 'string' ? errData : null) ||
-      JSON.stringify(errData) ||
-      'Login failed, please check credentials or server.';
-
-    showMessage(errMsg);
-  }
-};
-
-
+  };
 
 // ---------------- Sign Up ----------------
 const handleSignUpSubmit = async (e) => {
@@ -191,17 +225,34 @@ const handleSignUpSubmit = async (e) => {
               <label>Email</label>
               <i className="fas fa-envelope"></i>
             </div>
-            <div className="input-box">
-              <input
-                type="password"
-                name="password"
-                value={signInData.password}
-                onChange={(e) => handleInputChange(e, 'signin')}
-                required
-              />
-              <label>Password</label>
-              <i className="fas fa-lock"></i>
-            </div>
+            <div className="input-box" style={{ position: 'relative' }}>
+  <input
+    type={showPasswordSignIn ? 'text' : 'password'}
+    name="password"
+    value={signInData.password}
+    onChange={(e) => handleInputChange(e, 'signin')}
+    required
+  />
+  <label>Password</label>
+
+  {/* Clickable lock/eye icon — click toggles show/hide */}
+  <span
+    onClick={toggleSignInPassword}
+    style={{
+      position: 'absolute',
+      right: '2px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      userSelect: 'none',
+    }}
+    aria-label={showPasswordSignIn ? 'Hide password' : 'Show password'}
+  >
+    {/* switch icon visually: lock when hidden, eye when visible */}
+    <i className={showPasswordSignIn ? 'fa fa-eye' : 'fas fa-lock'} />
+  </span>
+</div>
+
             <div className="remember-me">
               <input
                 type="checkbox"
@@ -308,24 +359,61 @@ const handleSignUpSubmit = async (e) => {
   </div>
 
   {/* Password */}
-  <div className="input-box">
-    <input
-      type="password"
-      name="password"
-      value={signUpData.password}
-      onChange={(e) => handleInputChange(e, 'signup')}
-      required
-    />
-    <label>Password</label>
-    <i className="fas fa-lock"></i>
-  </div>
+
+  <div className="input-box" style={{ position: 'relative' }}>
+  <input
+    type={showPasswordSignUp ? 'text' : 'password'}
+    name="password"
+    value={signUpData.password}
+    onChange={(e) => handleInputChange(e, 'signup')}
+    required
+  />
+  <label>Password</label>
+
+  <span
+    onClick={toggleSignUpPassword}
+    style={{
+      position: 'absolute',
+      right: '2px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      userSelect: 'none',
+    }}
+    aria-label={showPasswordSignUp ? 'Hide password' : 'Show password'}
+  >
+    <i className={showPasswordSignUp ? 'fa fa-eye' : 'fas fa-lock'} />
+  </span>
+</div>
+
 
               {/* Confirm password (important) */}
-            <div className="input-box">
-              <input type="password" name="confirm_password" value={signUpData.confirm_password} onChange={(e) => handleInputChange(e, 'signup')} required />
-              <label>Confirm Password</label>
-              <i className="fas fa-lock"></i>
-            </div>
+            <div className="input-box" style={{ position: "relative" }}>
+  <input
+    type={showConfirmPassword ? "text" : "password"}
+    name="confirm_password"
+    value={signUpData.confirm_password}
+    onChange={(e) => handleInputChange(e, "signup")}
+    required
+  />
+  <label>Confirm Password</label>
+
+  {/* Clickable icon */}
+  <span
+    onClick={toggleConfirmPassword}
+    style={{
+      position: "absolute",
+      right: "2px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      cursor: "pointer",
+      userSelect: "none",
+    }}
+  >
+    <i className={showConfirmPassword ? "fa fa-eye" : "fas fa-lock"}></i>
+  </span>
+</div>
+
 
 
   {/* Date of Birth */}
