@@ -10,6 +10,8 @@ import Book from './pages/Admin/Booking/BookingList';
 import UserList from './pages/Admin/User/ListIUser';
 import AddSetup from './pages/Admin/HotelConfiguration/AddSetup';
 import HotelSetup from './pages/Admin/HotelConfiguration/HotelSetup';
+import UpdateSetup from './pages/Admin/HotelConfiguration/UpdateSetup';
+
 import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
 import Room from './pages/User/Room';
@@ -21,8 +23,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Layout({ children }) {
   const location = useLocation();
-  const adminPaths = ['/admin_dashboard','/booking','/user','/add-setup','/hotel-setup'];
-  const isAdminRoute = adminPaths.includes(location.pathname);
+  const adminPaths = ['/admin_dashboard','/booking','/user','/add-setup','/hotel-setup','/edit-setup'];
+  const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
 
   return (
     <div
@@ -72,6 +74,7 @@ function App() {
         <Route path="/booking"  element={ <Layout> <Book /> </Layout> } /> 
         <Route path="/add-setup"  element={ <Layout> <AddSetup /> </Layout> } /> 
         <Route path="/hotel-setup"  element={ <Layout> <HotelSetup /> </Layout> } /> 
+        <Route path="/edit-setup/:hotel_id"  element={ <Layout> <UpdateSetup /> </Layout> } /> 
         
         <Route
           path="/user"

@@ -1,35 +1,51 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+ 
 const HotelSetupList = () => {
   const [hotels, setHotels] = useState([]);
   const [error, setError] = useState("");
-
-  const token = sessionStorage.getItem("token") || localStorage.getItem("token");
-
-  // 👉 Console token here
-  console.log("Logged-in Token:", token);
-
   const navigate = useNavigate();
+  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+
+  const token =
+    localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
+ 
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      navigate("/signin");  
+    }
+  }, [token, navigate]);
+ 
+  const fetchHotels = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/hms_admin/hotel_setup/");
+      console.log("API response:", response.data);
+      setHotels(response.data);
+    } catch (err) {
+      console.error(err);
+      if (err.response?.status === 401) {
+        // // Token invalid or expired
+        // localStorage.removeItem("access_token");
+        // localStorage.removeItem("refresh_token");
+        // sessionStorage.removeItem("access_token");
+        // sessionStorage.removeItem("refresh_token");
+        navigate("/signin"); // redirect to login
+      } else {
+        setError("Something went wrong while fetching Hotel Setup.");
+      }
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/hms_admin/hotel_setup/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }, 
-      })
-      .then((response) => {
-        console.log("API response:", response.data);
-        setHotels(response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Something went wrong while fetching Hotel Setup.");
-      });
+    fetchHotels();
   }, []);
 
+  // Responsive sidebar
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -59,15 +75,13 @@ const HotelSetupList = () => {
               <button
                 className="btn"
                 onClick={() => navigate("/add-setup")}
-                style={{
-                  color: "#4a5546",
-                  borderColor: "#4a5546",
-                  fontWeight: "bold",
-                }}
+                style={{ color: "#4a5546", borderColor: "#4a5546", fontWeight: "bold" }}
               >
                 + Add Setup
               </button>
             </div>
+
+            {error && <div className="alert alert-danger">{error}</div>}
 
             {/* TABLE */}
             <div className="table-wrapper">
@@ -81,8 +95,7 @@ const HotelSetupList = () => {
                     <th>Contact</th>
                     <th>Website</th>
                     <th>Currency</th>
-                    <th>Created By</th>
-                    <th>Active</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -91,8 +104,7 @@ const HotelSetupList = () => {
                   {hotels.length > 0 ? (
                     hotels.map((hotel) => (
                       <tr key={hotel.hotel_id}>
-                        <td>{hotel.hotel_id}</td>
-
+                        <td><b>{hotel.hotel_id}</b></td>
                         <td>
                           {hotel.logo ? (
                             <img
@@ -104,31 +116,190 @@ const HotelSetupList = () => {
                             "No Logo"
                           )}
                         </td>
-
                         <td>{hotel.hotel_name}</td>
                         <td>{hotel.email}</td>
                         <td>{hotel.contact_no}</td>
                         <td>{hotel.website}</td>
                         <td>{hotel.currency}</td>
-                        <td>{hotel.created_by}</td>
-                        <td>{hotel.is_active ? "Yes" : "No"}</td>
-
+                        <td>{hotel.is_active ? "Active" : "In Active"}</td>
                         <td>
-                          <button className="btn btn-warning btn-sm">Edit</button>
+                          {/* Edit Button */}
+                          <button
+                            className="btn btn-warning btn-sm me-2"
+                            onClick={() => navigate(`/edit-setup/${hotel.hotel_id}`)}
+                            title="Edit Hotel"
+                          >
+                            <i className="fas fa-edit"></i>  
+                          </button>
+ 
+                          <button
+                            className="btn btn-info btn-sm"
+                            onClick={() => {
+                              setSelectedHotel(hotel);
+                              setShowModal(true);
+                            }}
+                            title="View Details"
+                          >
+                            <i className="fas fa-eye"></i>  
+                          </button>
                         </td>
+
                       </tr>
                     ))
                   ) : (
                     <tr>
                       <td colSpan="10" className="text-center">
-                        No hotel setup found
+                        {error ? error : "No hotel setup found"}
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
-            </div>
+              {showModal && selectedHotel && (
+                <div
+                  className="modal fade show"
+                  style={{
+                    display: "block",
+                    background: "rgba(0,0,0,0.6)",
+                  }}
+                >
+                  <div className="modal-dialog modal-lg modal-dialog-centered">
+                    <div className="modal-content shadow-lg border-0 rounded-3">
 
+                      {/* HEADER */}
+                      <div
+                        className="modal-header d-flex justify-content-between align-items-center"
+                        style={{ backgroundColor: "#4a5546", color: "white" }}
+                      >
+                        {selectedHotel.logo && (
+                          <img
+                            src={selectedHotel.logo}
+                            alt="logo"
+                            style={{
+                              width: "65px",
+                              height: "65px",
+                              objectFit: "cover",
+                              borderRadius: "50%",
+                              border: "2px solid white",
+
+                            }}
+                          />
+                        )}
+                        <h4 className="fw-bold m-0 text-center" style={{ flexGrow: 1}}>
+                          Hotel Details — {selectedHotel.hotel_name}
+                        </h4>
+
+
+
+                        <button
+                          type="button"
+                          className="btn-close btn-close-white"
+                          onClick={() => setShowModal(false)}
+                        ></button>
+                      </div>
+
+                      {/* BODY */}
+                      <div className="modal-body">
+
+                        <table className="table table-striped table-hover">
+                          <tbody>
+
+                            <tr>
+                              <th>Hotel ID</th>
+                              <td>{selectedHotel.hotel_id}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Email</th>
+                              <td>{selectedHotel.email}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Contact</th>
+                              <td>{selectedHotel.contact_no}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Address</th>
+                              <td>{selectedHotel.address}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Website</th>
+                              <td>{selectedHotel.website}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Currency</th>
+                              <td>{selectedHotel.currency}</td>
+                            </tr>
+
+
+
+                            <tr>
+                              <th>Status</th>
+                              <td>{selectedHotel.is_active ? "Active" : "In Active"}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Service Tax</th>
+                              <td>{selectedHotel.service_tax}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Room Tax</th>
+                              <td>{selectedHotel.room_tax}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Check In</th>
+                              <td>{selectedHotel.check_in_time}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Check Out</th>
+                              <td>{selectedHotel.check_out_time}</td>
+                            </tr>
+
+                            <tr>
+                              <th>Cancellation Policy</th>
+                              <td>{selectedHotel.cancellation_policy}</td>
+                            </tr>
+                            <tr>
+                              <th>Created By</th>
+                              <td>{selectedHotel.created_by}</td>
+                            </tr>
+                            <tr>
+                              <th>Updated By</th>
+                              <td>{selectedHotel.updated_by}</td>
+                            </tr>
+                            <tr>
+                              <th>Security Settings</th>
+                              <td>
+                                <pre style={{ background: "#f5f5f5", padding: "10px", borderRadius: "8px" }}>
+                                  {JSON.stringify(selectedHotel.security_settings, null, 2)}
+                                </pre>
+                              </td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                      </div>
+
+                      {/* FOOTER */}
+                      <div className="modal-footer">
+                        <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                          Close
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
           </div>
         </div>
       </div>

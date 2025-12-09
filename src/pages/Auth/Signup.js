@@ -4,59 +4,49 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Modal from 'bootstrap/js/dist/modal'; 
-// import { address } from 'framer-motion/client';
+import Modal from 'bootstrap/js/dist/modal';
 
 export default function SignUp({ mode }) {
   const navigate = useNavigate();
-  // top of component (already present in my last code but agar nahi hai to add karein)
-const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
-const [showPasswordSignUp, setShowPasswordSignUp] = useState(false);
-const toggleSignInPassword = () => setShowPasswordSignIn(prev => !prev);
-const toggleSignUpPassword = () => setShowPasswordSignUp(prev => !prev);
-const toggleConfirmPassword = () => setShowConfirmPassword(prev => !prev);
-const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // ------------------ Password visibility ------------------
+  const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
+  const [showPasswordSignUp, setShowPasswordSignUp] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const toggleSignInPassword = () => setShowPasswordSignIn(prev => !prev);
+  const toggleSignUpPassword = () => setShowPasswordSignUp(prev => !prev);
+  const toggleConfirmPassword = () => setShowConfirmPassword(prev => !prev);
+
+  // ------------------ Form states ------------------
   const [signInData, setSignInData] = useState({ identifier: '', password: '', remember_me: false });
   const [signUpData, setSignUpData] = useState({
     username: '',
     identifier: '',
-    password:'',
+    password: '',
     confirm_password: '',
     dob: '',
     address: '',
     cnic: '',
-    
   });
 
-    useEffect(() => {
- 
+  // ------------------ Setup ------------------
+  useEffect(() => {
     const container_main = document.querySelector('.container_main');
-    if (mode === 'signup')  container_main?.classList.add('sign-up-mode');
-    else  container_main?.classList.remove('sign-up-mode');
+    if (mode === 'signup') container_main?.classList.add('sign-up-mode');
+    else container_main?.classList.remove('sign-up-mode');
 
-  
     axios.defaults.baseURL = 'http://127.0.0.1:8000';
-   
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
   }, [mode]);
-
-  const handleSignUp = () => navigate('/signup');
-  const handleSignIn = () => navigate('/signin');
 
   const handleInputChange = (e, formType) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === 'checkbox' ? checked : value;
     if (formType === 'signin') {
-      setSignInData((prev) => ({ ...prev, [name]: fieldValue }));
+      setSignInData(prev => ({ ...prev, [name]: fieldValue }));
     } else {
-      setSignUpData((prev) => ({ ...prev, [name]: fieldValue }));
+      setSignUpData(prev => ({ ...prev, [name]: fieldValue }));
     }
   };
 
@@ -72,138 +62,112 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
       const errorModal = new Modal(errorModalEl);
       errorModal.show();
     } else {
-  
       alert(message);
     }
   };
 
-  // ---------------- Sign In ----------------
+  // ------------------ Sign In ------------------
 const handleSignInSubmit = async (e) => {
+  e.preventDefault();
+  console.log("📩 SignIn Data being sent:", signInData);
+
+  try {
+    const res = await axios.post("/signin/", signInData, {
+      headers: { "Content-Type": "application/json" }
+    });
+
+    console.log("✅ SignIn Response:", res.data);
+
+    const accessToken = res.data?.tokens?.access;
+    const refreshToken = res.data?.tokens?.refresh;
+
+    if (!accessToken) {
+      showMessage("Login succeeded but no access token found.");
+      return;
+    }
+
+    // Save tokens
+    if (signInData.remember_me) {
+      localStorage.setItem("access_token", accessToken);
+      localStorage.setItem("refresh_token", refreshToken);
+    } else {
+      sessionStorage.setItem("access_token", accessToken);
+      sessionStorage.setItem("refresh_token", refreshToken);
+    }
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+    // Get user object
+    const user = res.data?.user;
+
+    if (!user) {
+      showMessage("User data not returned from server!");
+      return;
+    }
+
+    // ✅ Redirect based on superuser
+    if (user.is_superuser) {
+      navigate("/admin_dashboard"); // superuser goes to admin
+    } else {
+      navigate("/user_dashboard"); // normal user goes to user dashboard
+    }
+
+    showMessage("Login Successful!", "success");
+
+  } catch (error) {
+    console.error("❌ Login Error (Full):", error);
+    console.error("❌ Login Error (Response Data):", error.response?.data);
+
+    const errData = error.response?.data;
+
+    const errorMsg =
+      errData?.detail ||
+      errData?.non_field_errors?.[0] ||
+      JSON.stringify(errData) ||
+      "Invalid credentials!";
+
+    showMessage(errorMsg);
+  }
+};
+
+
+
+  // ------------------ Sign Up ------------------
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-    console.log('📩 SignIn Data being sent:', signInData);
+
+    if (signUpData.password !== signUpData.confirm_password) {
+      showMessage("Passwords don't match!");
+      return;
+    }
 
     try {
-      
-      const res = await axios.post('/signin/', signInData, {
-        headers: { 'Content-Type': 'application/json' },
+      const res = await axios.post("/signup/", signUpData, {
+        headers: { "Content-Type": "application/json" }
       });
 
-      console.log('✅ SignIn Response:', res.data);
+      console.log("Signup Response:", res.data);
+      showMessage("Signup successful! Please login.", "success");
+      navigate("/signin");
 
-     
-      const accessToken = res.data?.tokens?.access || res.data?.access;
-      const refreshToken = res.data?.tokens?.refresh || res.data?.refresh;
-
-      if (!accessToken) {
-        console.warn('⚠️ No access token returned in response');
-        
-      } else {
-      
-        if (signInData.remember_me) {
-          localStorage.setItem('token', accessToken);
-          if (refreshToken) localStorage.setItem('refresh_token', refreshToken);
-        } else {
-          sessionStorage.setItem('token', accessToken);
-          if (refreshToken) sessionStorage.setItem('refresh_token', refreshToken);
-        }
-        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      }
-
-      let user = res.data?.user || null;
-
-      if (!user) {
-       
-        try {
-          const profileEndpoints = ['/profile/', '/users/me/', '/auth/users/me/', '/me/'];
-          for (const ep of profileEndpoints) {
-            try {
-              const profileRes = await axios.get(ep);
-              if (profileRes?.data) {
-                user = profileRes.data;
-                console.log('Fetched profile from', ep, profileRes.data);
-                break;
-              }
-            } catch (err) {
-              
-            }
-          }
-        } catch (err) {
-          console.warn('Profile fetch attempts failed', err);
-        }
-      }
-
-      
-      if (!user && res.data) {
-        
-        if (res.data.email || res.data.role) user = res.data;
-      }
-
-     
-      const isSuperUser = !!(user?.is_superuser || user?.is_staff || user?.role === 'Admin');
-
-      if (!user) {
-        showMessage('Login succeeded but user profile not returned. Redirecting to user dashboard.', 'success');
-        navigate('/user_dashboard');
-        return;
-      }
-
-      showMessage('Login successful!', 'success');
-
-      if (isSuperUser) navigate('/admin_dashboard');
-      else navigate('/user_dashboard');
     } catch (error) {
-      console.error('❌ Login Error (Full):', error);
-      console.error('❌ Login Error (Response Data):', error.response?.data);
+      const err = error.response?.data;
+      console.error("Signup Error:", err);
 
-      const errData = error.response?.data;
-      const errMsg =
-        errData?.detail ||
-        errData?.non_field_errors?.[0] ||
-        (typeof errData === 'string' ? errData : null) ||
-        JSON.stringify(errData) ||
-        'Login failed, please check credentials or server.';
+      let msg = "Signup failed!";
+      if (err && typeof err === "object") {
+        const key = Object.keys(err)[0];
+        msg = Array.isArray(err[key]) ? err[key][0] : err[key];
+      }
 
-      showMessage(errMsg);
+      showMessage(msg);
     }
   };
 
-// ---------------- Sign Up ----------------
-const handleSignUpSubmit = async (e) => {
-  e.preventDefault();
+  const handleSignUp = () => navigate('/signup');
+  const handleSignIn = () => navigate('/signin');
 
-  console.log("📩 SignUp Data (Raw):", signUpData);
-
-  if (signUpData.password !== signUpData.confirm_password) {
-    showMessage("Passwords don't match!");
-    return;
-  }
-
-  try {
   
-    const res = await axios.post('/signup/', signUpData, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    console.log("✅ Signup Response:", res.data);
-    showMessage('Signup successful! Please login.', 'success');
-    navigate('/signin');
-  } catch (error) {
-    console.error('❌ Signup Error (Response Data):', error.response?.data);
-    const errData = error.response?.data;
-    let errMsg = 'Signup failed, please check input.';
-    if (errData) {
-      if (typeof errData === 'object' && !Array.isArray(errData)) {
-        const firstKey = Object.keys(errData)[0];
-        const firstVal = errData[firstKey];
-        if (Array.isArray(firstVal)) errMsg = firstVal[0];
-        else if (typeof firstVal === 'string') errMsg = firstVal;
-      } else if (typeof errData === 'string') {
-        errMsg = errData;
-      }
-    }
-    showMessage(errMsg);
-  }
-};
 
   
 

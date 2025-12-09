@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddHotelSetup = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     hotel_name: "",
     logo: "",
     address: "",
-    contact_number: "",
+    contact_no: "",
     email: "",
     website: "",
     service_tax: "",
@@ -21,12 +25,21 @@ const AddHotelSetup = () => {
     security_settings: "",
     is_active: true,
   });
- const token = sessionStorage.getItem("token") || localStorage.getItem("token");
 
-  // 👉 Console token here
-  console.log("Logged-in Token:", token);
+  const [token, setToken] = useState(null);
 
-  // Sidebar Responsive Logic
+  // Get token from localStorage/sessionStorage
+  useEffect(() => {
+    const storedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
+    if (storedToken) {
+      setToken(storedToken);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+      console.log("Logged-in Token:", storedToken);
+    } else {
+      console.log("No token found");
+    }
+  }, []);
+ 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 992) {
@@ -41,93 +54,95 @@ const AddHotelSetup = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+ 
+  useEffect(() => {
+    if (!token) return;
 
-  // Input Handler
+    axios
+      .get("http://127.0.0.1:8000/user/me/")
+      .then((res) => {
+        console.log("User:", res.data);
+      })
+      .catch((err) => {
+        console.log("Axios Error:", err.response?.data || err.message);
+      });
+  }, [token]);
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // file upload
     if (name === "logo") {
-      setFormData({
-        ...formData,
-        logo: e.target.files[0],
-      });
+      setFormData({ ...formData, logo: e.target.files[0] });
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
   // Submit Form
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  if (!token) {
+    toast.warn("You are not authenticated!");
+    return;
+  }
 
-    const submitData = new FormData();
+  const submitData = new FormData();
+  for (let key in formData) {
+    submitData.append(key, formData[key]);
+  }
 
-    for (let key in formData) {
-      submitData.append(key, formData[key]);
-    }
+  try {
+    const res = await axios.post(
+      "http://127.0.0.1:8000/hms_admin/hotel_setup/",
+      submitData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
-    try {
-  const res = await axios.post(
-    "http://127.0.0.1:8000/hms_admin/hotel_setup/",
-    submitData,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+    console.log("Hotel Setup Saved:", res.data);
 
-      console.log("Hotel Setup Saved:", res.data);
-      alert("Hotel Setup Added Successfully!");
-
-      // Reset
-      setFormData({
-        hotel_name: "",
-        logo: "",
-        address: "",
-        contact_number: "",
-        email: "",
-        website: "",
-        service_tax: "",
-        room_tax: "",
-        check_in_time: "",
-        check_out_time: "",
-        currency: "PKR",
-        cancellation_policy: "",
-        security_settings: "",
-        is_active: true,
-      });
-    } catch (err) {
-      console.error(err);
-      alert("Error saving data!");
-    }
-  };
+    toast.success("Hotel Setup Added Successfully!", {
+      autoClose: 3000,
+      onClose: () => navigate("/hotel-setup")  
+    });
+ 
+    setFormData({
+      hotel_name: "",
+      logo: null,
+      address: "",
+      contact_no: "",
+      email: "",
+      website: "",
+      service_tax: "",
+      room_tax: "",
+      check_in_time: "",
+      check_out_time: "",
+      currency: "PKR",
+      cancellation_policy: "",
+      security_settings: "",
+      is_active: true,
+    });
+  } catch (err) {
+    console.error(err);
+    toast.error("Error saving data!");
+  }
+};
 
   return (
     <div className="d-flex">
-      {/* Main Content */}
+      
       <div className="flex-grow-1">
-        <div className="container my-4">
+        <ToastContainer position="top-right" autoClose={3000} />
+        <div className="container my-4">        
           <div className={`main-content ${sidebarOpen ? "" : "expanded"}`}>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3>Add Hotel Setup</h3>
 
-              {isMobile && (
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  Close Sidebar
-                </button>
-              )}
+               
             </div>
-
-            {/* Form Starts */}
+ 
             <form
               className="card shadow-sm p-4"
               onSubmit={handleSubmit}
@@ -136,7 +151,7 @@ const AddHotelSetup = () => {
               <div className="row g-3">
 
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Hotel Name *</label>
+                  <label className="form-label fw-bold">Hotel Name <span style={{ color: 'red', fontWeight: 'bold' }}>*</span></label>
                   <input
                     type="text"
                     className="form-control"
@@ -158,7 +173,7 @@ const AddHotelSetup = () => {
                 </div>
 
                 <div className="col-12">
-                  <label className="form-label fw-bold">Address *</label>
+                  <label className="form-label fw-bold">Address <span style={{ color: 'red', fontWeight: 'bold' }}>*</span></label>
                   <textarea
                     className="form-control"
                     name="address"
@@ -169,19 +184,19 @@ const AddHotelSetup = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Contact Number *</label>
+                  <label className="form-label fw-bold">Contact Number <span style={{ color: 'red', fontWeight: 'bold' }}>*</span></label>
                   <input
                     type="text"
                     className="form-control"
-                    name="contact_number"
-                    value={formData.contact_number}
+                    name="contact_no"
+                    value={formData.contact_no}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Email *</label>
+                  <label className="form-label fw-bold">Email <span style={{ color: 'red', fontWeight: 'bold' }}>*</span></label>
                   <input
                     type="email"
                     className="form-control"
@@ -226,7 +241,7 @@ const AddHotelSetup = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Check-In Time *</label>
+                  <label className="form-label fw-bold">Check-In Time <span style={{ color: 'red', fontWeight: 'bold' }}>*</span></label>
                   <input
                     type="time"
                     className="form-control"
@@ -238,7 +253,7 @@ const AddHotelSetup = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Check-Out Time *</label>
+                  <label className="form-label fw-bold">Check-Out Time <span style={{ color: 'red', fontWeight: 'bold' }}>*</span></label>
                   <input
                     type="time"
                     className="form-control"

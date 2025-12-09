@@ -34,24 +34,6 @@ const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // Detect active menu from path
-  useEffect(() => {
-    const pathMap = {
-      "/user": "user",
-      "/roles": "user",
-      "/admin_dashboard": null,
-      "/hotel-setup":"hotel",
-      "/booking": "booking",
-      "/rooms": "room",
-      "/room-types": "room",
-      "/guests": "guest",
-      "/payments": "payment",
-    };
-
-    const detectedMenu = pathMap[currentPath] || null;
-    setOpenMenu(detectedMenu);
-  }, [currentPath]);
-
   // Sidebar responsive
   useEffect(() => {
     const handleResize = () => {
@@ -73,8 +55,40 @@ const Sidebar = () => {
     setOpenMenu(openMenu === menu ? null : menu);
   };
 
-  // ADD ACTIVE CLASS
+  // Check if child link is active
   const isActive = (path) => (currentPath === path ? "active-link" : "");
+
+  // Check if parent menu should be active
+  const isParentActive = (menu) => {
+    const menuPaths = {
+      hotel: ["/hotel-setup", "/add-setup"],
+      user: ["/user", "/roles"],
+      room: ["/room-types", "/rooms"],
+      guest: ["/guests"],
+      booking: ["/booking"],
+      payment: ["/payments"],
+      report: ["/report"],
+    };
+    return menuPaths[menu]?.includes(currentPath);
+  };
+
+  // Set initial open menu based on current path
+  useEffect(() => {
+    const pathMap = {
+      "/user": "user",
+      "/roles": "user",
+      "/admin_dashboard": null,
+      "/hotel-setup": "hotel",
+      "/add-setup": "hotel",
+      "/booking": "booking",
+      "/rooms": "room",
+      "/room-types": "room",
+      "/guests": "guest",
+      "/payments": "payment",
+    };
+    const detectedMenu = pathMap[currentPath] || null;
+    setOpenMenu(detectedMenu);
+  }, [currentPath]);
 
   return (
     <>
@@ -107,9 +121,9 @@ const Sidebar = () => {
             <li className="mb-2">
               <Link
                 to="/admin_dashboard"
-                className={`btn w-100 text-start d-flex justify-content-between text-white ${isActive(
-                  "/admin_dashboard"
-                )}`}
+                className={`btn w-100 text-start d-flex justify-content-between text-white ${
+                  isActive("/admin_dashboard")
+                }`}
               >
                 <span>
                   <FaTachometerAlt className="me-2" /> Dashboard
@@ -121,7 +135,9 @@ const Sidebar = () => {
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "user" ? "active-parent" : ""
+                  openMenu === "user" || isParentActive("user")
+                    ? "active-parent"
+                    : ""
                 }`}
                 onClick={() => toggleMenu("user")}
               >
@@ -148,37 +164,45 @@ const Sidebar = () => {
             </li>
 
             {/* HOTEL CONFIGURATION */}
-           {/* HOTEL CONFIGURATION */}
-<li className="mb-2">
-  <button
-    className={`btn w-100 text-start d-flex justify-content-between text-white ${
-      openMenu === "hotel" ? "active-parent" : ""
-    }`}
-    onClick={() => toggleMenu("hotel")}
-  >
-    <span>
-      <FaHotel className="me-2" /> Hotel Configuration
-    </span>
-    {openMenu === "hotel" ? <FaMinus /> : <FaPlus />}
-  </button>
+            <li className="mb-2">
+              <button
+                className={`btn w-100 text-start d-flex justify-content-between text-white ${
+                  openMenu === "hotel" || isParentActive("hotel")
+                    ? "active-parent"
+                    : ""
+                }`}
+                onClick={() => toggleMenu("hotel")}
+              >
+                <span>
+                  <FaHotel className="me-2" /> Hotel Configuration
+                </span>
+                {openMenu === "hotel" ? <FaMinus /> : <FaPlus />}
+              </button>
 
-  <Collapse in={openMenu === "hotel"}>
-    <ul className="list-unstyled ps-4 tree-branch">
-      <li className="tree-item">
-        <Link to="/hotel-setup" className="nav-link">
-          General Settings
-        </Link>
-      </li>
-    </ul>
-  </Collapse>
-</li>
-
+              <Collapse in={openMenu === "hotel"}>
+                <ul className="list-unstyled ps-4 tree-branch">
+                   <li className={`tree-item ${isActive("/add-setup")}`}>
+                    <Link to="/add-setup" className="nav-link">
+                      Add Setup
+                    </Link>
+                  </li>
+                  <li className={`tree-item ${isActive("/hotel-setup")}`}>
+                    <Link to="/hotel-setup" className="nav-link">
+                      List Setup
+                    </Link>
+                  </li>
+                 
+                </ul>
+              </Collapse>
+            </li>
 
             {/* ROOM MANAGEMENT */}
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "room" ? "active-parent" : ""
+                  openMenu === "room" || isParentActive("room")
+                    ? "active-parent"
+                    : ""
                 }`}
                 onClick={() => toggleMenu("room")}
               >
@@ -208,7 +232,9 @@ const Sidebar = () => {
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "guest" ? "active-parent" : ""
+                  openMenu === "guest" || isParentActive("guest")
+                    ? "active-parent"
+                    : ""
                 }`}
                 onClick={() => toggleMenu("guest")}
               >
@@ -233,7 +259,9 @@ const Sidebar = () => {
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "booking" ? "active-parent" : ""
+                  openMenu === "booking" || isParentActive("booking")
+                    ? "active-parent"
+                    : ""
                 }`}
                 onClick={() => toggleMenu("booking")}
               >
@@ -258,7 +286,9 @@ const Sidebar = () => {
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "payment" ? "active-parent" : ""
+                  openMenu === "payment" || isParentActive("payment")
+                    ? "active-parent"
+                    : ""
                 }`}
                 onClick={() => toggleMenu("payment")}
               >
@@ -283,7 +313,9 @@ const Sidebar = () => {
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "report" ? "active-parent" : ""
+                  openMenu === "report" || isParentActive("report")
+                    ? "active-parent"
+                    : ""
                 }`}
                 onClick={() => toggleMenu("report")}
               >
@@ -295,7 +327,9 @@ const Sidebar = () => {
 
               <Collapse in={openMenu === "report"}>
                 <ul className="list-unstyled ps-4 tree-branch">
-                  <li className="tree-item">Revenue Report</li>
+                  <li className={`tree-item ${isActive("/report")}`}>
+                    Revenue Report
+                  </li>
                 </ul>
               </Collapse>
             </li>
