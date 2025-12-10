@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Modal from 'bootstrap/js/dist/modal';
+import { Link } from "react-router-dom";
 
 export default function SignUp({ mode }) {
   const navigate = useNavigate();
@@ -252,8 +253,8 @@ const handleSignInSubmit = async (e) => {
   Login
 </button>
 
- <a
-  href="#"
+ <Link
+  to="#"
   style={{
     color: 'var(--black)',
     textDecoration: 'underline',
@@ -266,7 +267,7 @@ const handleSignInSubmit = async (e) => {
   onClick={() => alert('Forgot Password functionality coming soon!')}
 >
   Forgot Password?
-</a>
+</Link>
 
       <div className="lineTxt">
         <p
@@ -277,7 +278,7 @@ const handleSignInSubmit = async (e) => {
           }}
         >
           Don't have an account?
-          <a
+          <Link
             id="sign-up-btn"
             style={{
               color: 'var(--black)',
@@ -288,7 +289,7 @@ const handleSignInSubmit = async (e) => {
             onClick={handleSignUp}
           >
             Sign Up
-          </a>
+          </Link>
         </p>
       </div>
           </form>
@@ -443,7 +444,7 @@ const handleSignInSubmit = async (e) => {
   <div className="lineTxt">
     <p style={{ fontSize: '16px', color: 'var(--black)', textAlign: 'center' }}>
       Already have an account?
-      <a
+      <Link
         id="sign-in-btn"
         style={{
           color: 'var(--black)',
@@ -454,7 +455,7 @@ const handleSignInSubmit = async (e) => {
         onClick={handleSignIn}
       >
         Login
-      </a>
+      </Link>
     </p>
   </div>
 </form>

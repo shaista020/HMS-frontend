@@ -105,7 +105,7 @@ const AddHotelSetup = () => {
 
     toast.success("Hotel Setup Added Successfully!", {
       autoClose: 3000,
-      onClose: () => navigate("/hotel-setup")  
+      onClose: () => navigate("/hotel-setup/list")  
     });
  
     setFormData({

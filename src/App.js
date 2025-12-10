@@ -11,6 +11,13 @@ import UserList from './pages/Admin/User/ListIUser';
 import AddSetup from './pages/Admin/HotelConfiguration/AddSetup';
 import HotelSetup from './pages/Admin/HotelConfiguration/HotelSetup';
 import UpdateSetup from './pages/Admin/HotelConfiguration/UpdateSetup';
+import AddRoomType from './pages/Admin/RoomType/Add_type';
+import ListRoomType from './pages/Admin/RoomType/list_type';
+import UpdateRoomType from './pages/Admin/RoomType/Update_type';
+import AddRoom  from './pages/Admin/Room/Add_room';
+import ListRoom  from './pages/Admin/Room/List_room';
+import UpdateRoom  from './pages/Admin/Room/Update_room';
+
 
 import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
@@ -23,7 +30,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Layout({ children }) {
   const location = useLocation();
-  const adminPaths = ['/admin_dashboard','/booking','/user','/add-setup','/hotel-setup','/edit-setup'];
+  const adminPaths = ['/admin_dashboard','/booking','/user','/hotel-setup','/room-types','/rooms'];
   const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
 
   return (
@@ -72,10 +79,16 @@ function App() {
           }
         />
         <Route path="/booking"  element={ <Layout> <Book /> </Layout> } /> 
-        <Route path="/add-setup"  element={ <Layout> <AddSetup /> </Layout> } /> 
-        <Route path="/hotel-setup"  element={ <Layout> <HotelSetup /> </Layout> } /> 
-        <Route path="/edit-setup/:hotel_id"  element={ <Layout> <UpdateSetup /> </Layout> } /> 
-        
+        <Route path="/hotel-setup/add"  element={ <Layout> <AddSetup /> </Layout> } /> 
+        <Route path="/hotel-setup/list"  element={ <Layout> <HotelSetup /> </Layout> } /> 
+        <Route path="/hotel-setup/edit/:hotel_id"  element={ <Layout> <UpdateSetup /> </Layout> } /> 
+        <Route path="/room-types/add"  element={ <Layout> <AddRoomType /> </Layout> } /> 
+        <Route path="/room-types/list"  element={ <Layout> <ListRoomType /> </Layout> } /> 
+        <Route path="/room-types/edit/:room_type_id"  element={ <Layout> <UpdateRoomType /> </Layout> } />
+       <Route path="/rooms/add"  element={ <Layout> <AddRoom  /> </Layout> } /> 
+        <Route path="/rooms/list"  element={ <Layout> <ListRoom  /> </Layout> } /> 
+        <Route path="/rooms/edit/:room_id"  element={ <Layout> <UpdateRoom  /> </Layout> } />
+       
         <Route
           path="/user"
           element={

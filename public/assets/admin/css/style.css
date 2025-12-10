@@ -53,7 +53,7 @@
 }
  
 .hamburger-btn {
-  position: fixed;
+  position: absolute;
   top: 15px;
   left: 15px;
   z-index: 1000;
@@ -146,7 +146,7 @@
 }
  
 .tree-item:hover {
-  background-color: #7e837d;
+  background-color: rgba(255,255,255,0.15);
   border-radius: 6px;
 }
  
@@ -159,7 +159,51 @@
 .tree-item .nav-link:hover {
   color: #e3e8e3 !important;
 }
- 
+ /* NESTED SUBTREE branch (2nd level) */
+.tree-branch .sub-branch {
+  margin-left: 20px;
+  padding-left: 15px;
+  border-left: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+/* NESTED submenu item */
+.sub-branch .tree-item {
+  padding: 8px 0 8px 10px;
+  position: relative;
+}
+
+/* Dot for nested items */
+.sub-branch .tree-item::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+
+/* Hover effect same as main */
+.sub-branch .tree-item:hover {
+  background-color: rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+.sub-branch .tree-item:hover::before {
+  background-color: #fff;
+}
+
+/* Active link same style */
+.sub-branch .active-link {
+  background-color: rgba(255,255,255,0.25) !important;
+  border-radius: 6px;
+}
+.sub-branch .active-link::before {
+  background-color: #fff !important;
+}
+
 .sub-btn {
   color: white !important;
   background: none !important;

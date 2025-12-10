@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
  
-const HotelSetupList = () => {
-  const [hotels, setHotels] = useState([]);
+const RoomList = () => {
+  const [rooms, setrooms] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [selectedRoom, setselectedRoom] = useState(null);
   const [showModal, setShowModal] = useState(false);
+ const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
 
 
   const token =
@@ -20,32 +21,48 @@ const HotelSetupList = () => {
       navigate("/signin");  
     }
   }, [token, navigate]);
- 
-  const fetchHotels = async () => {
+ useEffect(() => {
+  if (selectedRoom && selectedRoom.room_type) {
+    axios
+      .get(`http://127.0.0.1:8000/hms_admin/room_type/${selectedRoom.room_type}/`)
+      .then((res) => setSelectedRoomInfo(res.data))
+      .catch((err) => console.log("Room type fetch error", err));
+  }
+}, [selectedRoom]);
+
+  const fetchrooms = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/hms_admin/hotel_setup/");
+      const response = await axios.get("http://127.0.0.1:8000/hms_admin/rooms/");
       console.log("API response:", response.data);
-      setHotels(response.data);
+      setrooms(response.data);
     } catch (err) {
       console.error(err);
       if (err.response?.status === 401) {
-        // // Token invalid or expired
-        // localStorage.removeItem("access_token");
-        // localStorage.removeItem("refresh_token");
-        // sessionStorage.removeItem("access_token");
-        // sessionStorage.removeItem("refresh_token");
-        navigate("/signin"); // redirect to login
+       
+        navigate("/signin");  
       } else {
-        setError("Something went wrong while fetching Hotel Setup.");
+        setError("Something went wrong while fetching room Setup.");
       }
     }
   };
+ useEffect(() => {
+    if (!token) return;
 
+    axios
+      .get("http://127.0.0.1:8000/user/me/")
+      .then((res) => {
+        console.log("User:", res.data);
+      })
+      .catch((err) => {
+        console.log("Axios Error:", err.response?.data || err.message);
+      });
+  }, [token]);
+ 
   useEffect(() => {
-    fetchHotels();
+    fetchrooms();
   }, []);
 
-  // Responsive sidebar
+  
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -70,64 +87,63 @@ const HotelSetupList = () => {
         <div className="container my-4">
           <div className={`main-content-config ${sidebarOpen ? "" : "expanded"}`}>
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h3 className="fw-bold">Hotel Setup List</h3>
+              <h3 className="fw-bold">Rooms List</h3>
 
               <button
                 className="btn"
-                onClick={() => navigate("/add-setup")}
+                onClick={() => navigate("/rooms/add")}
                 style={{ color: "#4a5546", borderColor: "#4a5546", fontWeight: "bold" }}
               >
-                + Add Setup
+                + Add New Room
               </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}
-
-            {/* TABLE */}
+ 
             <div className="table-wrapper">
               <table className="table table-hover table-bordered shadow-sm">
                 <thead style={{ backgroundColor: "#4a5546", color: "white" }}>
                   <tr>
-                    <th>ID</th>
-                    <th>Logo</th>
-                    <th>Hotel Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Website</th>
-                    <th>Currency</th>
-                    <th>Status</th>
+                    <th>Room Number</th>
+                    <th>Image</th>
+                    <th>Floor Number</th>
+                    <th>Room Type</th>
+                    <th>Capacity</th>              
+                    <th>Price</th>
+                     <th>Allocated By</th>
+                    <th>Status</th>                 
                     <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {hotels.length > 0 ? (
-                    hotels.map((hotel) => (
-                      <tr key={hotel.hotel_id}>
-                        <td><b>{hotel.hotel_id}</b></td>
+                  {rooms.length > 0 ? (
+                    rooms.map((room) => (
+                      <tr key={room.room_id}>
+                        <td><b>{room.room_number}</b></td>
                         <td>
-                          {hotel.logo ? (
+                          {room.image ? (
                             <img
-                              src={hotel.logo}
-                              alt="logo"
+                              src={room.image}
+                              alt="image"
                               style={{ width: "50px", height: "50px", objectFit: "cover" }}
                             />
                           ) : (
-                            "No Logo"
+                            "No image"
                           )}
                         </td>
-                        <td>{hotel.hotel_name}</td>
-                        <td>{hotel.email}</td>
-                        <td>{hotel.contact_no}</td>
-                        <td>{hotel.website}</td>
-                        <td>{hotel.currency}</td>
-                        <td>{hotel.is_active ? "Active" : "In Active"}</td>
+                        <td>{room.floor_number}</td>
+                        <td>{room.room_type}</td>
+                        <td>{room.capacity}</td>
+                        <td>{room.price}</td>
+                        <td>{room.allocated_by}</td>
+                        <td>{room.is_active ? "Active" : "In Active"}</td>
                         <td>
-                          {/* Edit Button */}
+                          
                           <button
                             className="btn btn-warning btn-sm me-2"
-                            onClick={() => navigate(`/hotel-setup/edit/${hotel.hotel_id}`)}
-                            title="Edit Hotel"
+                            onClick={() => navigate(`/rooms/edit/${room.room_id}`)}
+                            title="Edit room"
                           >
                             <i className="fas fa-edit"></i>  
                           </button>
@@ -135,7 +151,7 @@ const HotelSetupList = () => {
                           <button
                             className="btn btn-info btn-sm"
                             onClick={() => {
-                              setSelectedHotel(hotel);
+                              setselectedRoom(room);
                               setShowModal(true);
                             }}
                             title="View Details"
@@ -149,13 +165,13 @@ const HotelSetupList = () => {
                   ) : (
                     <tr>
                       <td colSpan="10" className="text-center">
-                        {error ? error : "No hotel setup found"}
+                        {error ? error : "No room setup found"}
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
-              {showModal && selectedHotel && (
+              {showModal && selectedRoom && (
                 <div
                   className="modal fade show"
                   style={{
@@ -165,16 +181,15 @@ const HotelSetupList = () => {
                 >
                   <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content shadow-lg border-0 rounded-3">
-
-                      {/* HEADER */}
+ 
                       <div
                         className="modal-header d-flex justify-content-between align-items-center"
                         style={{ backgroundColor: "#4a5546", color: "white" }}
                       >
-                        {selectedHotel.logo && (
+                        {selectedRoom.image && (
                           <img
-                            src={selectedHotel.logo}
-                            alt="logo"
+                            src={selectedRoom.image}
+                            alt="image"
                             style={{
                               width: "65px",
                               height: "65px",
@@ -186,7 +201,7 @@ const HotelSetupList = () => {
                           />
                         )}
                         <h4 className="fw-bold m-0 text-center" style={{ flexGrow: 1}}>
-                          Hotel Details — {selectedHotel.hotel_name}
+                          Room Details — {selectedRoom.room_number}
                         </h4>
 
 
@@ -205,82 +220,73 @@ const HotelSetupList = () => {
                           <tbody>
 
                             <tr>
-                              <th>Hotel ID</th>
-                              <td>{selectedHotel.hotel_id}</td>
+                              <th>Room Number</th>
+                              <td>{selectedRoom.room_id}</td>
                             </tr>
 
                             <tr>
-                              <th>Email</th>
-                              <td>{selectedHotel.email}</td>
+                              <th>Room Type</th>
+                              <td>{selectedRoom.room_type_name}</td>
                             </tr>
+{selectedRoomInfo && (
+  <>
+    <tr>
+      <th>Base Price</th>
+      <td>{selectedRoomInfo.base_price}</td>
+    </tr>
+
+    <tr>
+      <th>Amenities</th>
+      <td>{selectedRoomInfo.amenities}</td>
+    </tr>
+  </>
+)}
 
                             <tr>
-                              <th>Contact</th>
-                              <td>{selectedHotel.contact_no}</td>
+                              <th>Capacity</th>
+                              <td>{selectedRoom.capacity}</td>
                             </tr>
+
+                             
 
                             <tr>
-                              <th>Address</th>
-                              <td>{selectedHotel.address}</td>
+                              <th>Price</th>
+                              <td>{selectedRoom.price}</td>
                             </tr>
 
-                            <tr>
-                              <th>Website</th>
-                              <td>{selectedHotel.website}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Currency</th>
-                              <td>{selectedHotel.currency}</td>
-                            </tr>
-
+                            
 
 
                             <tr>
                               <th>Status</th>
-                              <td>{selectedHotel.is_active ? "Active" : "In Active"}</td>
+                              <td>{selectedRoom.is_active ? "Active" : "In Active"}</td>
+                            </tr>
+
+                            
+
+                        
+
+                           
+                            <tr>
+                              <th>Allocated By</th>
+                              <td>{selectedRoom.allocated_by}</td>
                             </tr>
 
                             <tr>
-                              <th>Service Tax</th>
-                              <td>{selectedHotel.service_tax}</td>
+                              <th>Allocated At</th>
+                              <td>{selectedRoom.allocated_at}</td>
                             </tr>
 
-                            <tr>
-                              <th>Room Tax</th>
-                              <td>{selectedHotel.room_tax}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Check In</th>
-                              <td>{selectedHotel.check_in_time}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Check Out</th>
-                              <td>{selectedHotel.check_out_time}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Cancellation Policy</th>
-                              <td>{selectedHotel.cancellation_policy}</td>
-                            </tr>
-                            <tr>
-                              <th>Created By</th>
-                              <td>{selectedHotel.created_by}</td>
-                            </tr>
                             <tr>
                               <th>Updated By</th>
-                              <td>{selectedHotel.updated_by}</td>
+                              <td>{selectedRoom.updated_by}</td>
                             </tr>
-                            <tr>
-                              <th>Security Settings</th>
-                              <td>
-                                <pre style={{ background: "#f5f5f5", padding: "10px", borderRadius: "8px" }}>
-                                  {JSON.stringify(selectedHotel.security_settings, null, 2)}
-                                </pre>
-                              </td>
+                            
+                             <tr>
+                              <th>Updated At</th>
+                              <td>{selectedRoom.updated_at}</td>
                             </tr>
+                             
 
                           </tbody>
                         </table>
@@ -307,4 +313,4 @@ const HotelSetupList = () => {
   );
 };
 
-export default HotelSetupList;
+export default RoomList;

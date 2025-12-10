@@ -13,10 +13,6 @@ import {
   FaTachometerAlt,
   FaClipboardList,
   FaMoneyBill,
-  FaBroom,
-  FaTools,
-  FaBell,
-  FaCrown,
   FaUserFriends,
 } from "react-icons/fa";
 import { Collapse } from "react-bootstrap";
@@ -27,9 +23,8 @@ const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Track open menu
   const [openMenu, setOpenMenu] = useState(null);
-
+const [openSubMenu, setOpenSubMenu] = useState(null);
   // Get current route
   const location = useLocation();
   const currentPath = location.pathname;
@@ -50,49 +45,75 @@ const Sidebar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Toggle menu
-  const toggleMenu = (menu) => {
-    setOpenMenu(openMenu === menu ? null : menu);
+
+
+const toggleMenu = (menu) => {
+  setOpenMenu(openMenu === menu ? null : menu);
+  setOpenSubMenu(null); 
+};
+
+const toggleSubMenu = (submenu) => {
+  setOpenSubMenu(openSubMenu === submenu ? null : submenu);
+};
+
+  // Active child link
+  const isActive = (path) =>
+    currentPath === path ? "active-link" : "";
+
+  // Parent Active logic
+  const menuPaths = {
+    user: ["/user", "/roles"],
+    hotel: ["/hotel-setup/add", "/hotel-setup/list"],
+
+    // FULL subtree tracking
+    room: [
+      "/room-types",
+      "/room-types/add",
+      "/room-types/list",
+      "/rooms",
+      "/rooms/add",
+      "/rooms/list",
+    ],
+
+    guest: ["/guests"],
+    booking: ["/booking"],
+    payment: ["/payments"],
+    report: ["/report"],
   };
 
-  // Check if child link is active
-  const isActive = (path) => (currentPath === path ? "active-link" : "");
+  const isParentActive = (menu) =>
+    menuPaths[menu]?.includes(currentPath);
 
-  // Check if parent menu should be active
-  const isParentActive = (menu) => {
-    const menuPaths = {
-      hotel: ["/hotel-setup", "/add-setup"],
-      user: ["/user", "/roles"],
-      room: ["/room-types", "/rooms"],
-      guest: ["/guests"],
-      booking: ["/booking"],
-      payment: ["/payments"],
-      report: ["/report"],
-    };
-    return menuPaths[menu]?.includes(currentPath);
-  };
-
-  // Set initial open menu based on current path
+  // Auto-open parent menu on refresh
   useEffect(() => {
     const pathMap = {
       "/user": "user",
       "/roles": "user",
-      "/admin_dashboard": null,
-      "/hotel-setup": "hotel",
-      "/add-setup": "hotel",
-      "/booking": "booking",
-      "/rooms": "room",
+
+      "/hotel-setup/list": "hotel",
+      "/hotel-setup/add": "hotel",
+
       "/room-types": "room",
+      "/room-types/add": "room",
+      "/room-types/list": "room",
+
+      "/rooms": "room",
+      "/rooms/add": "room",
+      "/rooms/list": "room",
+
       "/guests": "guest",
+      "/booking": "booking",
       "/payments": "payment",
+      "/report": "report",
     };
-    const detectedMenu = pathMap[currentPath] || null;
-    setOpenMenu(detectedMenu);
+
+    setOpenMenu(pathMap[currentPath] || null);
   }, [currentPath]);
+
+
 
   return (
     <>
-      {/* Mobile Hamburger */}
       {isMobile && !sidebarOpen && (
         <button className="hamburger-btn" onClick={() => setSidebarOpen(true)}>
           <FaBars size={25} />
@@ -104,7 +125,6 @@ const Sidebar = () => {
           sidebarOpen ? "" : "closed"
         }`}
       >
-        {/* Mobile close button */}
         {isMobile && (
           <button className="close-btn" onClick={() => setSidebarOpen(false)}>
             <FaTimes />
@@ -117,19 +137,20 @@ const Sidebar = () => {
 
         <div className="sidebar-scroll">
           <ul className="list-unstyled px-2">
-            {/* Dashboard */}
+
+
+            {/* DASHBOARD */}
             <li className="mb-2">
               <Link
                 to="/admin_dashboard"
-                className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  isActive("/admin_dashboard")
-                }`}
+                className={`btn w-100 text-start text-white ${isActive(
+                  "/admin_dashboard"
+                )}`}
               >
-                <span>
-                  <FaTachometerAlt className="me-2" /> Dashboard
-                </span>
+                <FaTachometerAlt className="me-2" /> Dashboard
               </Link>
             </li>
+
 
             {/* USER & ROLES */}
             <li className="mb-2">
@@ -163,6 +184,8 @@ const Sidebar = () => {
               </Collapse>
             </li>
 
+
+
             {/* HOTEL CONFIGURATION */}
             <li className="mb-2">
               <button
@@ -181,52 +204,93 @@ const Sidebar = () => {
 
               <Collapse in={openMenu === "hotel"}>
                 <ul className="list-unstyled ps-4 tree-branch">
-                   <li className={`tree-item ${isActive("/add-setup")}`}>
-                    <Link to="/add-setup" className="nav-link">
+                  <li className={`tree-item ${isActive("/hotel-setup/add")}`}>
+                    <Link to="/hotel-setup/add" className="nav-link">
                       Add Setup
                     </Link>
                   </li>
-                  <li className={`tree-item ${isActive("/hotel-setup")}`}>
-                    <Link to="/hotel-setup" className="nav-link">
+                  <li className={`tree-item ${isActive("/hotel-setup/list")}`}>
+                    <Link to="/hotel-setup/list" className="nav-link">
                       List Setup
                     </Link>
                   </li>
-                 
                 </ul>
               </Collapse>
             </li>
+
+
 
             {/* ROOM MANAGEMENT */}
-            <li className="mb-2">
-              <button
-                className={`btn w-100 text-start d-flex justify-content-between text-white ${
-                  openMenu === "room" || isParentActive("room")
-                    ? "active-parent"
-                    : ""
-                }`}
-                onClick={() => toggleMenu("room")}
-              >
-                <span>
-                  <FaBed className="me-2" /> Room Management
-                </span>
-                {openMenu === "room" ? <FaMinus /> : <FaPlus />}
-              </button>
+           <li className="mb-2">
+  <button
+    className={`btn w-100 text-start d-flex justify-content-between text-white ${
+      openMenu === "room" ? "active-parent" : ""
+    }`}
+    onClick={() => toggleMenu("room")}
+  >
+    <span>
+      <FaBed className="me-2" /> Room Management
+    </span>
+    {openMenu === "room" ? <FaMinus /> : <FaPlus />}
+  </button>
 
-              <Collapse in={openMenu === "room"}>
-                <ul className="list-unstyled ps-4 tree-branch">
-                  <li className={`tree-item ${isActive("/room-types")}`}>
-                    <Link to="/room-types" className="nav-link">
-                      Room Types
-                    </Link>
-                  </li>
-                  <li className={`tree-item ${isActive("/rooms")}`}>
-                    <Link to="/rooms" className="nav-link">
-                      Rooms
-                    </Link>
-                  </li>
-                </ul>
-              </Collapse>
+  {/* MAIN TREE */}
+  <Collapse in={openMenu === "room"}>
+    <ul className="list-unstyled ps-4 tree-branch">
+
+      {/* Room Types Submenu */}
+      <li>
+        <button
+          className="btn w-100 text-start d-flex justify-content-between text-white"
+          onClick={() => toggleSubMenu("roomType")}
+        >
+          <span>Room Types</span>
+          {openSubMenu === "roomType" ? <FaMinus /> : <FaPlus />}
+        </button>
+
+        {/* SUB TREE */}
+        <Collapse in={openSubMenu === "roomType"}>
+  <ul className="list-unstyled ps-4 sub-branch">
+            <li className={`tree-item ${isActive("/room-types/add")}`}>
+              <Link to="/room-types/add" className="nav-link">Add Room Type</Link>
             </li>
+            <li className={`tree-item ${isActive("/room-types/list")}`}>
+              <Link to="/room-types/list" className="nav-link">Room Type List</Link>
+            </li>
+          </ul>
+        </Collapse>
+      </li>
+
+      {/* Rooms Submenu */}
+      <li className="mt-2">
+        <button
+          className="btn w-100 text-start d-flex justify-content-between text-white"
+          onClick={() => toggleSubMenu("rooms")}
+        >
+          <span>Rooms</span>
+          {openSubMenu === "rooms" ? <FaMinus /> : <FaPlus />}
+        </button>
+
+        {/* SUB TREE */}
+       <Collapse in={openSubMenu === "rooms"}>
+  <ul className="list-unstyled ps-4 sub-branch">
+
+            <li className={`tree-item ${isActive("/rooms/add")}`}>
+              <Link to="/rooms/add" className="nav-link">Add Room</Link>
+            </li>
+            <li className={`tree-item ${isActive("/rooms/list")}`}>
+              <Link to="/rooms/list" className="nav-link">Room List</Link>
+            </li>
+          </ul>
+        </Collapse>
+      </li>
+
+    </ul>
+  </Collapse>
+</li>
+
+
+
 
             {/* GUEST MANAGEMENT */}
             <li className="mb-2">
@@ -255,6 +319,8 @@ const Sidebar = () => {
               </Collapse>
             </li>
 
+
+
             {/* BOOKING */}
             <li className="mb-2">
               <button
@@ -281,6 +347,8 @@ const Sidebar = () => {
                 </ul>
               </Collapse>
             </li>
+
+
 
             {/* PAYMENTS */}
             <li className="mb-2">
@@ -309,6 +377,8 @@ const Sidebar = () => {
               </Collapse>
             </li>
 
+
+
             {/* REPORTS */}
             <li className="mb-2">
               <button
@@ -333,6 +403,9 @@ const Sidebar = () => {
                 </ul>
               </Collapse>
             </li>
+
+
+
           </ul>
         </div>
       </div>

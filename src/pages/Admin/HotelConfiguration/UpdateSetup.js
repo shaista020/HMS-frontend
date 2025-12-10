@@ -137,7 +137,7 @@ const HotelSetupForm = () => {
  
       toast.success("Hotel Setup Updated Successfully!", {
         autoClose: 3000,
-        onClose: () => navigate("/hotel-setup"),  
+        onClose: () => navigate("/hotel-setup/list"),  
       });
     }
 
@@ -396,7 +396,7 @@ const HotelSetupForm = () => {
   <button
     type="button"
     className="btn btn-secondary me-2"
-    onClick={() => navigate("/hotel-setup")}
+    onClick={() => navigate("/hotel-setup/list")}
     style={{ fontWeight: "bold" }}
   >
     Back to List

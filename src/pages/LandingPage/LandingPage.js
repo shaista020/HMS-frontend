@@ -208,9 +208,9 @@ function LandingPage() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="section-title">Our Hot News</h2>
-          <a href="#" className="show-more-link">
+          <Link to="#" className="show-more-link">
             SHOW MORE <span className="arrow">→</span>
-          </a>
+          </Link>
         </div>
 
         <Row className="align-items-stretch">
@@ -241,12 +241,12 @@ function LandingPage() {
                   experiences...
                 </Card.Text>
 
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="read-more-link mt-auto d-flex justify-content-end"
                 >
                   Read More <span className="arrow">→</span>
-                </a>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -261,12 +261,12 @@ function LandingPage() {
                   <h5 className="mini-title">{item.title}</h5>
                   <p className="mini-summary">{item.summary}</p>
 
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="read-more-link mt-auto d-flex justify-content-end"
                   >
                     Read More <span className="arrow">→</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}

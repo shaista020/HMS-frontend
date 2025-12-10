@@ -49,28 +49,28 @@ const LandNavbar = ({ activeSection }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="#service"
+              <Link
+                to="#service"
                 className={`nav-link ${activeSection === "#service" ? "active" : ""}`}
               >
                 Service
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="#event"
+              <Link
+                to="#event"
                 className={`nav-link ${activeSection === "#event" ? "active" : ""}`}
               >
                 Event
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="#blog"
+              <Link
+                to="#blog"
                 className={`nav-link ${activeSection === "#blog" ? "active" : ""}`}
               >
                 Blog
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <Link

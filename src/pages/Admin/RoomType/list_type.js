@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
  
-const HotelSetupList = () => {
+const ListRoomType = () => {
   const [hotels, setHotels] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [selectedRType, setselectedRType] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
 
@@ -23,7 +23,7 @@ const HotelSetupList = () => {
  
   const fetchHotels = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/hms_admin/hotel_setup/");
+      const response = await axios.get("http://127.0.0.1:8000/hms_admin/room_type/");
       console.log("API response:", response.data);
       setHotels(response.data);
     } catch (err) {
@@ -70,14 +70,14 @@ const HotelSetupList = () => {
         <div className="container my-4">
           <div className={`main-content-config ${sidebarOpen ? "" : "expanded"}`}>
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h3 className="fw-bold">Hotel Setup List</h3>
+              <h3 className="fw-bold">Room Type List</h3>
 
               <button
                 className="btn"
-                onClick={() => navigate("/add-setup")}
+                onClick={() => navigate("/room-types/add")}
                 style={{ color: "#4a5546", borderColor: "#4a5546", fontWeight: "bold" }}
               >
-                + Add Setup
+                + Add Room Type
               </button>
             </div>
 
@@ -88,13 +88,11 @@ const HotelSetupList = () => {
               <table className="table table-hover table-bordered shadow-sm">
                 <thead style={{ backgroundColor: "#4a5546", color: "white" }}>
                   <tr>
-                    <th>ID</th>
-                    <th>Logo</th>
-                    <th>Hotel Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Website</th>
-                    <th>Currency</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Base Price</th>
+                    <th>Amenities</th>
+                    <th>Description</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -102,31 +100,19 @@ const HotelSetupList = () => {
 
                 <tbody>
                   {hotels.length > 0 ? (
-                    hotels.map((hotel) => (
-                      <tr key={hotel.hotel_id}>
-                        <td><b>{hotel.hotel_id}</b></td>
-                        <td>
-                          {hotel.logo ? (
-                            <img
-                              src={hotel.logo}
-                              alt="logo"
-                              style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                            />
-                          ) : (
-                            "No Logo"
-                          )}
-                        </td>
-                        <td>{hotel.hotel_name}</td>
-                        <td>{hotel.email}</td>
-                        <td>{hotel.contact_no}</td>
-                        <td>{hotel.website}</td>
-                        <td>{hotel.currency}</td>
-                        <td>{hotel.is_active ? "Active" : "In Active"}</td>
+                    hotels.map((hotel, index) => (
+                      <tr key={hotel.room_type_id}>
+                       <td>{index + 1}</td>
+                        <td>{hotel.room_type_name}</td>
+                        <td>{hotel.base_price}</td>
+                        <td>{hotel.amenities}</td>
+                        <td>{hotel.description}</td>
+                        <td>{hotel.is_active ? "Active" : "Inactive"}</td>
                         <td>
                           {/* Edit Button */}
                           <button
                             className="btn btn-warning btn-sm me-2"
-                            onClick={() => navigate(`/hotel-setup/edit/${hotel.hotel_id}`)}
+                            onClick={() => navigate(`/room-types/edit/${hotel.room_type_id}`)}
                             title="Edit Hotel"
                           >
                             <i className="fas fa-edit"></i>  
@@ -135,7 +121,7 @@ const HotelSetupList = () => {
                           <button
                             className="btn btn-info btn-sm"
                             onClick={() => {
-                              setSelectedHotel(hotel);
+                              setselectedRType(hotel);
                               setShowModal(true);
                             }}
                             title="View Details"
@@ -155,7 +141,7 @@ const HotelSetupList = () => {
                   )}
                 </tbody>
               </table>
-              {showModal && selectedHotel && (
+              {showModal && selectedRType && (
                 <div
                   className="modal fade show"
                   style={{
@@ -171,22 +157,9 @@ const HotelSetupList = () => {
                         className="modal-header d-flex justify-content-between align-items-center"
                         style={{ backgroundColor: "#4a5546", color: "white" }}
                       >
-                        {selectedHotel.logo && (
-                          <img
-                            src={selectedHotel.logo}
-                            alt="logo"
-                            style={{
-                              width: "65px",
-                              height: "65px",
-                              objectFit: "cover",
-                              borderRadius: "50%",
-                              border: "2px solid white",
-
-                            }}
-                          />
-                        )}
+                        
                         <h4 className="fw-bold m-0 text-center" style={{ flexGrow: 1}}>
-                          Hotel Details — {selectedHotel.hotel_name}
+                          Room Type Details — {selectedRType.room_type_name}
                         </h4>
 
 
@@ -203,84 +176,33 @@ const HotelSetupList = () => {
 
                         <table className="table table-striped table-hover">
                           <tbody>
+ 
 
                             <tr>
-                              <th>Hotel ID</th>
-                              <td>{selectedHotel.hotel_id}</td>
+                              <th>base_price</th>
+                              <td>{selectedRType.base_price}</td>
                             </tr>
 
                             <tr>
-                              <th>Email</th>
-                              <td>{selectedHotel.email}</td>
+                              <th>amenities</th>
+                              <td>{selectedRType.amenities}</td>
                             </tr>
 
                             <tr>
-                              <th>Contact</th>
-                              <td>{selectedHotel.contact_no}</td>
+                              <th>description</th>
+                              <td>{selectedRType.description}</td>
                             </tr>
 
-                            <tr>
-                              <th>Address</th>
-                              <td>{selectedHotel.address}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Website</th>
-                              <td>{selectedHotel.website}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Currency</th>
-                              <td>{selectedHotel.currency}</td>
-                            </tr>
-
-
-
-                            <tr>
-                              <th>Status</th>
-                              <td>{selectedHotel.is_active ? "Active" : "In Active"}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Service Tax</th>
-                              <td>{selectedHotel.service_tax}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Room Tax</th>
-                              <td>{selectedHotel.room_tax}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Check In</th>
-                              <td>{selectedHotel.check_in_time}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Check Out</th>
-                              <td>{selectedHotel.check_out_time}</td>
-                            </tr>
-
-                            <tr>
-                              <th>Cancellation Policy</th>
-                              <td>{selectedHotel.cancellation_policy}</td>
-                            </tr>
+                               
                             <tr>
                               <th>Created By</th>
-                              <td>{selectedHotel.created_by}</td>
+                              <td>{selectedRType.created_by}</td>
                             </tr>
                             <tr>
                               <th>Updated By</th>
-                              <td>{selectedHotel.updated_by}</td>
+                              <td>{selectedRType.updated_by}</td>
                             </tr>
-                            <tr>
-                              <th>Security Settings</th>
-                              <td>
-                                <pre style={{ background: "#f5f5f5", padding: "10px", borderRadius: "8px" }}>
-                                  {JSON.stringify(selectedHotel.security_settings, null, 2)}
-                                </pre>
-                              </td>
-                            </tr>
+                            
 
                           </tbody>
                         </table>
@@ -307,4 +229,4 @@ const HotelSetupList = () => {
   );
 };
 
-export default HotelSetupList;
+export default ListRoomType;
