@@ -1,13 +1,11 @@
 import './auth.css';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate,Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Modal from 'bootstrap/js/dist/modal';
-import { Link } from "react-router-dom";
-
+import API from '../../api';  
 export default function SignUp({ mode }) {
   const navigate = useNavigate();
 
@@ -37,10 +35,9 @@ export default function SignUp({ mode }) {
     const container_main = document.querySelector('.container_main');
     if (mode === 'signup') container_main?.classList.add('sign-up-mode');
     else container_main?.classList.remove('sign-up-mode');
-
-    axios.defaults.baseURL = 'http://127.0.0.1:8000';
   }, [mode]);
 
+  // ------------------ Input Change ------------------
   const handleInputChange = (e, formType) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === 'checkbox' ? checked : value;
@@ -51,6 +48,7 @@ export default function SignUp({ mode }) {
     }
   };
 
+  // ------------------ Show message ------------------
   const showMessage = (message, type = 'danger') => {
     const modalBody = document.getElementById('errorModalBody');
     if (modalBody) modalBody.textContent = message;
@@ -68,57 +66,43 @@ export default function SignUp({ mode }) {
   };
 
   // ------------------ Sign In ------------------
-const handleSignInSubmit = async (e) => {
+ const handleSignInSubmit = async (e) => {
   e.preventDefault();
   console.log("📩 SignIn Data being sent:", signInData);
 
   try {
-    const res = await axios.post("/signin/", signInData, {
+    const res = await API.post("/signin/", signInData, {
       headers: { "Content-Type": "application/json" }
     });
 
     console.log("✅ SignIn Response:", res.data);
 
-    const accessToken = res.data?.tokens?.access;
-    const refreshToken = res.data?.tokens?.refresh;
-
-    if (!accessToken) {
-      showMessage("Login succeeded but no access token found.");
-      return;
-    }
-
-    // Save tokens
-    if (signInData.remember_me) {
-      localStorage.setItem("access_token", accessToken);
-      localStorage.setItem("refresh_token", refreshToken);
-    } else {
-      sessionStorage.setItem("access_token", accessToken);
-      sessionStorage.setItem("refresh_token", refreshToken);
-    }
-
-    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-
-    // Get user object
     const user = res.data?.user;
+    const tokens = res.data?.tokens;
 
-    if (!user) {
-      showMessage("User data not returned from server!");
+    if (!user || !tokens) {
+      showMessage("User or token data missing from server!");
       return;
     }
 
-    // ✅ Redirect based on superuser
+    // Save Tokens
+    localStorage.setItem("access_token", tokens.access);
+    localStorage.setItem("refresh_token", tokens.refresh);
+
+    // Save User
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Redirect Logic
     if (user.is_superuser) {
-      navigate("/admin_dashboard"); // superuser goes to admin
+      navigate("/admin_dashboard");
     } else {
-      navigate("/user_dashboard"); // normal user goes to user dashboard
+      navigate("/user_dashboard");
     }
 
     showMessage("Login Successful!", "success");
 
   } catch (error) {
-    console.error("❌ Login Error (Full):", error);
-    console.error("❌ Login Error (Response Data):", error.response?.data);
-
+    console.error("Login Error (Full):", error);
     const errData = error.response?.data;
 
     const errorMsg =
@@ -132,7 +116,6 @@ const handleSignInSubmit = async (e) => {
 };
 
 
-
   // ------------------ Sign Up ------------------
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
@@ -143,7 +126,7 @@ const handleSignInSubmit = async (e) => {
     }
 
     try {
-      const res = await axios.post("/signup/", signUpData, {
+      const res = await API.post("/signup/", signUpData, {
         headers: { "Content-Type": "application/json" }
       });
 
@@ -169,9 +152,6 @@ const handleSignInSubmit = async (e) => {
   const handleSignIn = () => navigate('/signin');
 
   
-
-  
-
   return (
    <div className="main-body">
   <div className='container_main '>
@@ -237,9 +217,8 @@ const handleSignInSubmit = async (e) => {
   id="btns"
   style={{
     display: 'inline-block',
-   width: window.innerWidth <= 926 ? '60%' : '60%',
+    width: window.innerWidth <= 926 ? '60%' : '310px',
     padding: window.innerWidth <= 926 ? '8px 12px' : '10px',
-     width:'310px',
     marginTop: '20px',
     background: 'linear-gradient(-45deg, #4A5E46 0%, #4A5E46 100%)',
     color: 'var(--white)',
@@ -425,7 +404,7 @@ const handleSignInSubmit = async (e) => {
     className="btn form-btn"
     style={{
     display: 'inline-block',
-   width: window.innerWidth <= 926 ? '60%' : '60%',
+    width: window.innerWidth <= 926 ? '60%' : '310px',
     padding: window.innerWidth <= 926 ? '8px 12px' : '10px',
     marginTop: '20px',
     background: 'linear-gradient(-45deg, #4A5E46 0%, #4A5E46 100%)',
@@ -434,7 +413,6 @@ const handleSignInSubmit = async (e) => {
     borderRadius: '10px',
     cursor: 'pointer',
     transition: '0.3s',
-     width:'310px',
     fontSize: window.innerWidth <= 926 ? '14px' : '16px',
   }}
   >

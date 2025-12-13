@@ -24,12 +24,12 @@ const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const [openMenu, setOpenMenu] = useState(null);
-const [openSubMenu, setOpenSubMenu] = useState(null);
-  // Get current route
+  const [openSubMenu, setOpenSubMenu] = useState(null);
+
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // Sidebar responsive
+  // RESPONSIVE SIDEBAR
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 992) {
@@ -45,27 +45,21 @@ const [openSubMenu, setOpenSubMenu] = useState(null);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // FIX: DO NOT RESET SUBMENU (Was causing Guest auto-close)
+  const toggleMenu = (menu) => {
+    setOpenMenu(openMenu === menu ? null : menu);
+  };
 
+  const toggleSubMenu = (submenu) => {
+    setOpenSubMenu(openSubMenu === submenu ? null : submenu);
+  };
 
-const toggleMenu = (menu) => {
-  setOpenMenu(openMenu === menu ? null : menu);
-  setOpenSubMenu(null); 
-};
+  const isActive = (path) => (currentPath === path ? "active-link" : "");
 
-const toggleSubMenu = (submenu) => {
-  setOpenSubMenu(openSubMenu === submenu ? null : submenu);
-};
-
-  // Active child link
-  const isActive = (path) =>
-    currentPath === path ? "active-link" : "";
-
-  // Parent Active logic
   const menuPaths = {
     user: ["/user", "/roles"],
     hotel: ["/hotel-setup/add", "/hotel-setup/list"],
 
-    // FULL subtree tracking
     room: [
       "/room-types",
       "/room-types/add",
@@ -75,14 +69,13 @@ const toggleSubMenu = (submenu) => {
       "/rooms/list",
     ],
 
-    guest: ["/guests"],
+    guest: ["/guest/list", "/guest/add"],
     booking: ["/booking"],
     payment: ["/payments"],
     report: ["/report"],
   };
 
-  const isParentActive = (menu) =>
-    menuPaths[menu]?.includes(currentPath);
+  const isParentActive = (menu) => menuPaths[menu]?.includes(currentPath);
 
   // Auto-open parent menu on refresh
   useEffect(() => {
@@ -101,7 +94,9 @@ const toggleSubMenu = (submenu) => {
       "/rooms/add": "room",
       "/rooms/list": "room",
 
-      "/guests": "guest",
+      "/guest/add": "guest",
+      "/guest/list": "guest",
+
       "/booking": "booking",
       "/payments": "payment",
       "/report": "report",
@@ -109,8 +104,6 @@ const toggleSubMenu = (submenu) => {
 
     setOpenMenu(pathMap[currentPath] || null);
   }, [currentPath]);
-
-
 
   return (
     <>
@@ -137,8 +130,6 @@ const toggleSubMenu = (submenu) => {
 
         <div className="sidebar-scroll">
           <ul className="list-unstyled px-2">
-
-
             {/* DASHBOARD */}
             <li className="mb-2">
               <Link
@@ -150,7 +141,6 @@ const toggleSubMenu = (submenu) => {
                 <FaTachometerAlt className="me-2" /> Dashboard
               </Link>
             </li>
-
 
             {/* USER & ROLES */}
             <li className="mb-2">
@@ -184,8 +174,6 @@ const toggleSubMenu = (submenu) => {
               </Collapse>
             </li>
 
-
-
             {/* HOTEL CONFIGURATION */}
             <li className="mb-2">
               <button
@@ -218,79 +206,81 @@ const toggleSubMenu = (submenu) => {
               </Collapse>
             </li>
 
-
-
             {/* ROOM MANAGEMENT */}
-           <li className="mb-2">
-  <button
-    className={`btn w-100 text-start d-flex justify-content-between text-white ${
-      openMenu === "room" ? "active-parent" : ""
-    }`}
-    onClick={() => toggleMenu("room")}
-  >
-    <span>
-      <FaBed className="me-2" /> Room Management
-    </span>
-    {openMenu === "room" ? <FaMinus /> : <FaPlus />}
-  </button>
+            <li className="mb-2">
+              <button
+                className={`btn w-100 text-start d-flex justify-content-between text-white ${
+                  openMenu === "room" ? "active-parent" : ""
+                }`}
+                onClick={() => toggleMenu("room")}
+              >
+                <span>
+                  <FaBed className="me-2" /> Room Management
+                </span>
+                {openMenu === "room" ? <FaMinus /> : <FaPlus />}
+              </button>
 
-  {/* MAIN TREE */}
-  <Collapse in={openMenu === "room"}>
-    <ul className="list-unstyled ps-4 tree-branch">
+              {/* Main Room Menu */}
+              <Collapse in={openMenu === "room"}>
+                <ul className="list-unstyled ps-4 tree-branch">
+                  {/* Room Types */}
+                  <li>
+                    <button
+                      className="btn w-100 text-start d-flex justify-content-between text-white"
+                      onClick={() => toggleSubMenu("roomType")}
+                    >
+                      <span>Room Types</span>
+                      {openSubMenu === "roomType" ? <FaMinus /> : <FaPlus />}
+                    </button>
 
-      {/* Room Types Submenu */}
-      <li>
-        <button
-          className="btn w-100 text-start d-flex justify-content-between text-white"
-          onClick={() => toggleSubMenu("roomType")}
-        >
-          <span>Room Types</span>
-          {openSubMenu === "roomType" ? <FaMinus /> : <FaPlus />}
-        </button>
+                    <Collapse in={openSubMenu === "roomType"}>
+                      <ul className="list-unstyled ps-4 sub-branch">
+                        <li
+                          className={`tree-item ${isActive("/room-types/add")}`}
+                        >
+                          <Link to="/room-types/add" className="nav-link">
+                            Add Room Type
+                          </Link>
+                        </li>
+                        <li
+                          className={`tree-item ${isActive("/room-types/list")}`}
+                        >
+                          <Link to="/room-types/list" className="nav-link">
+                            Room Type List
+                          </Link>
+                        </li>
+                      </ul>
+                    </Collapse>
+                  </li>
 
-        {/* SUB TREE */}
-        <Collapse in={openSubMenu === "roomType"}>
-  <ul className="list-unstyled ps-4 sub-branch">
-            <li className={`tree-item ${isActive("/room-types/add")}`}>
-              <Link to="/room-types/add" className="nav-link">Add Room Type</Link>
+                  {/* Rooms */}
+                  <li className="mt-2">
+                    <button
+                      className="btn w-100 text-start d-flex justify-content-between text-white"
+                      onClick={() => toggleSubMenu("rooms")}
+                    >
+                      <span>Rooms</span>
+                      {openSubMenu === "rooms" ? <FaMinus /> : <FaPlus />}
+                    </button>
+
+                    <Collapse in={openSubMenu === "rooms"}>
+                      <ul className="list-unstyled ps-4 sub-branch">
+                        <li className={`tree-item ${isActive("/rooms/add")}`}>
+                          <Link to="/rooms/add" className="nav-link">
+                            Add Room
+                          </Link>
+                        </li>
+                        <li className={`tree-item ${isActive("/rooms/list")}`}>
+                          <Link to="/rooms/list" className="nav-link">
+                            Room List
+                          </Link>
+                        </li>
+                      </ul>
+                    </Collapse>
+                  </li>
+                </ul>
+              </Collapse>
             </li>
-            <li className={`tree-item ${isActive("/room-types/list")}`}>
-              <Link to="/room-types/list" className="nav-link">Room Type List</Link>
-            </li>
-          </ul>
-        </Collapse>
-      </li>
-
-      {/* Rooms Submenu */}
-      <li className="mt-2">
-        <button
-          className="btn w-100 text-start d-flex justify-content-between text-white"
-          onClick={() => toggleSubMenu("rooms")}
-        >
-          <span>Rooms</span>
-          {openSubMenu === "rooms" ? <FaMinus /> : <FaPlus />}
-        </button>
-
-        {/* SUB TREE */}
-       <Collapse in={openSubMenu === "rooms"}>
-  <ul className="list-unstyled ps-4 sub-branch">
-
-            <li className={`tree-item ${isActive("/rooms/add")}`}>
-              <Link to="/rooms/add" className="nav-link">Add Room</Link>
-            </li>
-            <li className={`tree-item ${isActive("/rooms/list")}`}>
-              <Link to="/rooms/list" className="nav-link">Room List</Link>
-            </li>
-          </ul>
-        </Collapse>
-      </li>
-
-    </ul>
-  </Collapse>
-</li>
-
-
-
 
             {/* GUEST MANAGEMENT */}
             <li className="mb-2">
@@ -310,16 +300,20 @@ const toggleSubMenu = (submenu) => {
 
               <Collapse in={openMenu === "guest"}>
                 <ul className="list-unstyled ps-4 tree-branch">
-                  <li className={`tree-item ${isActive("/guests")}`}>
-                    <Link to="/guests" className="nav-link">
-                      Guests
+                  <li className={`tree-item ${isActive("/guest/add")}`}>
+                    <Link to="/guest/add" className="nav-link">
+                      Add Guest
+                    </Link>
+                  </li>
+
+                  <li className={`tree-item ${isActive("/guest/list")}`}>
+                    <Link to="/guest/list" className="nav-link">
+                      List Guest
                     </Link>
                   </li>
                 </ul>
               </Collapse>
             </li>
-
-
 
             {/* BOOKING */}
             <li className="mb-2">
@@ -348,8 +342,6 @@ const toggleSubMenu = (submenu) => {
               </Collapse>
             </li>
 
-
-
             {/* PAYMENTS */}
             <li className="mb-2">
               <button
@@ -377,8 +369,6 @@ const toggleSubMenu = (submenu) => {
               </Collapse>
             </li>
 
-
-
             {/* REPORTS */}
             <li className="mb-2">
               <button
@@ -403,9 +393,6 @@ const toggleSubMenu = (submenu) => {
                 </ul>
               </Collapse>
             </li>
-
-
-
           </ul>
         </div>
       </div>

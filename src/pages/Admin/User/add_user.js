@@ -32,11 +32,7 @@ const AddUser = ({ addUser }) => {
     role: "Admin",
     is_active: true,
   });
-
-  // Close modal safely
-  // const modalElement = document.getElementById("addUserModal");
-  // const modal = window.bootstrap.Modal.getInstance(modalElement);
-  // if (modal) modal.hide();
+ 
 };
 
 

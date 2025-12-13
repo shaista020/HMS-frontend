@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API from "../../../api";
 
 const RoomUpdate = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -22,23 +23,7 @@ const RoomUpdate = () => {
     price: "",
     status: "Available",
   });
-
-  const [token, setToken] = useState(null);
-
-  // Get token
-  useEffect(() => {
-    const storedToken =
-      localStorage.getItem("access_token") ||
-      sessionStorage.getItem("access_token");
-    if (storedToken) {
-      setToken(storedToken);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
-    } else {
-      navigate("/signin");
-    }
-  }, [navigate]);
-
-  // Responsive sidebar
+  
   useEffect(() => {
     const handleResize = () => {
       setSidebarOpen(window.innerWidth > 992);
@@ -48,23 +33,17 @@ const RoomUpdate = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Fetch Room Types
+ 
   useEffect(() => {
-    if (!token) return;
-    axios
-      .get("http://127.0.0.1:8000/hms_admin/room_type/")
-      .then((res) => setRoomTypes(res.data))
-      .catch((err) => console.log(err));
-  }, [token]);
-
-  // Fetch Room Data
+  API.get("hms_admin/room_type/")
+    .then((res) => setRoomTypes(res.data))
+    .catch((err) => console.log(err));
+}, []);
+ 
   useEffect(() => {
-    if (!token || !room_id) return;
+    if (!room_id) return;
     setLoading(true);
-
-    axios
-      .get(`http://127.0.0.1:8000/hms_admin/rooms/${room_id}/`)
+      API.get(`hms_admin/rooms/${room_id}/`)
       .then((res) => {
         const data = res.data;
         setFormData({
@@ -84,12 +63,12 @@ const RoomUpdate = () => {
         console.error("Fetch Error:", err);
         setLoading(false);
       });
-  }, [token, room_id]);
+  }, [room_id]);
  
 useEffect(() => {
   if (formData.room_type) {
-    axios
-      .get(`http://127.0.0.1:8000/hms_admin/room_type/${formData.room_type}/`)
+    
+      API.get(`hms_admin/room_type/${formData.room_type}/`)
       .then((res) => setSelectedRoomInfo(res.data))
       .catch((err) => console.log("Room type fetch error", err));
   }
@@ -103,8 +82,8 @@ useEffect(() => {
 
     if (value) {
       try {
-        const res = await axios.get(
-          `http://127.0.0.1:8000/hms_admin/room_type/${value}/`
+        const res = await API.get(
+          `/hms_admin/room_type/${value}/`
         );
         setSelectedRoomInfo(res.data);   
       } catch (error) {
@@ -126,8 +105,7 @@ useEffect(() => {
 
  const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!token) return toast.warn("You are not authenticated!");
-
+   
   const submitData = new FormData();
   for (let key in formData) {
     if (formData[key] !== null) {
@@ -136,9 +114,8 @@ useEffect(() => {
   }
 
   try {
-    const res = await axios.put(
-      `http://127.0.0.1:8000/hms_admin/rooms/${room_id}/`,
-      submitData,
+    const res = await API.put(
+      `hms_admin/rooms/${room_id}/`, submitData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
 

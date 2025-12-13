@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API from "../../../api";
 
 const AddRooms = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -21,32 +22,7 @@ const AddRooms = () => {
     status: "Available",
   });
 
-  const [token, setToken] = useState(null);
-
-  // Get token
-  useEffect(() => {
-    const storedToken =
-      localStorage.getItem("access_token") ||
-      sessionStorage.getItem("access_token");
-    if (storedToken) {
-      setToken(storedToken);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
-    } else {
-      navigate("/signin");
-    }
-  }, [navigate]);
- useEffect(() => {
-    if (!token) return;
-
-    axios
-      .get("http://127.0.0.1:8000/user/me/")
-      .then((res) => {
-        console.log("User:", res.data);
-      })
-      .catch((err) => {
-        console.log("Axios Error:", err.response?.data || err.message);
-      });
-  }, [token]);
+    
   
   useEffect(() => {
     const handleResize = () => {
@@ -62,15 +38,12 @@ const AddRooms = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Fetch Room Types
+ 
   useEffect(() => {
-    if (!token) return;
-    axios
-      .get("http://127.0.0.1:8000/hms_admin/room_type/")
+    API.get("http://127.0.0.1:8000/hms_admin/room_type/")
       .then((res) => setRoomTypes(res.data))
       .catch((err) => console.log(err));
-  }, [token]);
+  }, []);
 
  const handleChange = async (e) => {
   const { name, value } = e.target;
@@ -80,8 +53,8 @@ const AddRooms = () => {
 
     if (value) {
       try {
-        const res = await axios.get(
-          `http://127.0.0.1:8000/hms_admin/room_type/${value}/`
+        const res = await API.get(
+          `hms_admin/room_type/${value}/`
         );
         setSelectedRoomInfo(res.data);   
       } catch (error) {
@@ -104,10 +77,7 @@ const AddRooms = () => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!token) {
-    toast.warn("You are not authenticated!");
-    return;
-  }
+  
 
   const submitData = new FormData();
   for (let key in formData) {
@@ -115,8 +85,8 @@ const AddRooms = () => {
   }
 
   try {
-    const res = await axios.post(
-      "http://127.0.0.1:8000/hms_admin/rooms/",
+    const res = await API.post(
+      "hms_admin/rooms/",
       submitData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

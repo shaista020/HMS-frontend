@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import API from "../../../api";
+ 
 const AddHotelSetup = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -26,19 +26,7 @@ const AddHotelSetup = () => {
     is_active: true,
   });
 
-  const [token, setToken] = useState(null);
-
-  // Get token from localStorage/sessionStorage
-  useEffect(() => {
-    const storedToken = localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
-    if (storedToken) {
-      setToken(storedToken);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
-      console.log("Logged-in Token:", storedToken);
-    } else {
-      console.log("No token found");
-    }
-  }, []);
+  
  
   useEffect(() => {
     const handleResize = () => {
@@ -56,17 +44,15 @@ const AddHotelSetup = () => {
   }, []);
  
   useEffect(() => {
-    if (!token) return;
-
-    axios
-      .get("http://127.0.0.1:8000/user/me/")
+     
+    API.get("user/me/")
       .then((res) => {
         console.log("User:", res.data);
       })
       .catch((err) => {
         console.log("Axios Error:", err.response?.data || err.message);
       });
-  }, [token]);
+  }, []);
  
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,10 +66,7 @@ const AddHotelSetup = () => {
   // Submit Form
   const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!token) {
-    toast.warn("You are not authenticated!");
-    return;
-  }
+  
 
   const submitData = new FormData();
   for (let key in formData) {
@@ -91,8 +74,8 @@ const AddHotelSetup = () => {
   }
 
   try {
-    const res = await axios.post(
-      "http://127.0.0.1:8000/hms_admin/hotel_setup/",
+    const res = await API.post(
+      "hms_admin/hotel_setup/",
       submitData,
       {
         headers: {

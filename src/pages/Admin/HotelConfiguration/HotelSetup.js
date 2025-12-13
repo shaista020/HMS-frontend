@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../../../api";
 import { useNavigate } from "react-router-dom";
  
 const HotelSetupList = () => {
@@ -10,31 +10,17 @@ const HotelSetupList = () => {
   const [showModal, setShowModal] = useState(false);
 
 
-  const token =
-    localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
- 
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else {
-      navigate("/signin");  
-    }
-  }, [token, navigate]);
- 
+  
   const fetchHotels = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/hms_admin/hotel_setup/");
+      const response = await API.get("hms_admin/hotel_setup/");
       console.log("API response:", response.data);
       setHotels(response.data);
     } catch (err) {
       console.error(err);
       if (err.response?.status === 401) {
-        // // Token invalid or expired
-        // localStorage.removeItem("access_token");
-        // localStorage.removeItem("refresh_token");
-        // sessionStorage.removeItem("access_token");
-        // sessionStorage.removeItem("refresh_token");
-        navigate("/signin"); // redirect to login
+        
+        navigate("/signin");  
       } else {
         setError("Something went wrong while fetching Hotel Setup.");
       }
@@ -44,8 +30,7 @@ const HotelSetupList = () => {
   useEffect(() => {
     fetchHotels();
   }, []);
-
-  // Responsive sidebar
+ 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 

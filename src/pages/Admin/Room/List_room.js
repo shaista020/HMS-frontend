@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
- 
+import API from "../../../api";
+  
 const RoomList = () => {
   const [rooms, setrooms] = useState([]);
   const [error, setError] = useState("");
@@ -9,55 +9,36 @@ const RoomList = () => {
   const [selectedRoom, setselectedRoom] = useState(null);
   const [showModal, setShowModal] = useState(false);
  const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
-
-
-  const token =
-    localStorage.getItem("access_token") || sessionStorage.getItem("access_token");
  
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else {
-      navigate("/signin");  
-    }
-  }, [token, navigate]);
  useEffect(() => {
   if (selectedRoom && selectedRoom.room_type) {
-    axios
-      .get(`http://127.0.0.1:8000/hms_admin/room_type/${selectedRoom.room_type}/`)
+    API.get(`hms_admin/room_type/${selectedRoom.room_type}/`)
       .then((res) => setSelectedRoomInfo(res.data))
       .catch((err) => console.log("Room type fetch error", err));
   }
 }, [selectedRoom]);
-
-  const fetchrooms = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/hms_admin/rooms/");
-      console.log("API response:", response.data);
-      setrooms(response.data);
-    } catch (err) {
-      console.error(err);
-      if (err.response?.status === 401) {
-       
-        navigate("/signin");  
-      } else {
-        setError("Something went wrong while fetching room Setup.");
-      }
+ const fetchrooms = async () => {
+  try {
+    const response = await API.get("hms_admin/rooms/");  
+    console.log("API response:", response.data);
+    setrooms(response.data);
+  } catch (err) {
+    console.error(err);
+    if (err.response?.status === 401) {
+      navigate("/signin");
+    } else {
+      setError("Something went wrong while fetching room Setup.");
     }
-  };
+  }
+};
  useEffect(() => {
-    if (!token) return;
-
-    axios
-      .get("http://127.0.0.1:8000/user/me/")
-      .then((res) => {
-        console.log("User:", res.data);
-      })
-      .catch((err) => {
-        console.log("Axios Error:", err.response?.data || err.message);
-      });
-  }, [token]);
- 
+   
+  API.get("user/me/")
+    .then((res) => console.log("User:", res.data))
+    .catch((err) =>
+      console.log("Axios Error:", err.response?.data || err.message)
+    );
+}, [ ]);
   useEffect(() => {
     fetchrooms();
   }, []);
@@ -227,7 +208,7 @@ const RoomList = () => {
                             <tr>
                               <th>Room Type</th>
                               <td>{selectedRoom.room_type_name}</td>
-                            </tr>
+                            </tr> 
 {selectedRoomInfo && (
   <>
     <tr>

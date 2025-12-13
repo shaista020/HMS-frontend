@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../../../api";
 import AddUser from "./add_user";
 
 const UserList = () => {
@@ -7,8 +7,8 @@ const UserList = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/hms_admin/user/")
+    API
+      .get("hms_admin/user/")
       .then((response) => {
         console.log("API response: " ,response.data)
         setUsers(response.data)
@@ -21,13 +21,13 @@ const UserList = () => {
 const addUser = (userData) => {
   const finalData = {
     ...userData,
-    username: userData.email,   // <-- Required
-    role: userData.role || "Customer", // <-- Required
+    username: userData.email,   
+    role: userData.role || "Customer",  
   };
 
   console.log("Final Data Sent to Backend:", finalData);
 
-  axios
+  API
     .post("http://localhost:8000/hms_admin/user/", finalData)
     .then((res) => {
       if (res.data.status === "success") {

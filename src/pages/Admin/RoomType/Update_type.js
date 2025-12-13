@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../../../api";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,19 +19,7 @@ const UpdateRoomType = () => {
     is_active: true,
   });
 
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    const storedToken =
-      localStorage.getItem("access_token") ||
-      sessionStorage.getItem("access_token");
-    if (storedToken) {
-      setToken(storedToken);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
-    } else {
-      console.log("No token found");
-    }
-  }, []);
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,12 +32,12 @@ const UpdateRoomType = () => {
   }, []);
 
   useEffect(() => {
-    if (!token) return;
+    
     if (!room_type_id) return;
     setLoading(true);
 
-    axios
-      .get(`http://127.0.0.1:8000/hms_admin/room_type/${room_type_id}/`)
+    API
+      .get(`hms_admin/room_type/${room_type_id}/`)
       .then((res) => {
         const data = res.data;
  
@@ -73,7 +61,7 @@ const UpdateRoomType = () => {
         console.error(" GET ERROR:", err);
         setLoading(false);
       });
-  }, [token, room_type_id]);
+  }, [  room_type_id]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -83,7 +71,7 @@ const UpdateRoomType = () => {
       setFormData({ ...formData, logo: file });
 
       if (file) {
-        setLogoPreview(URL.createObjectURL(file)); // Preview set
+        setLogoPreview(URL.createObjectURL(file));  
       }
     }
 
@@ -99,8 +87,7 @@ const UpdateRoomType = () => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!token) return toast.warn("You are not authenticated!");
-
+   
   const submitData = new FormData();
   for (let key in formData) {
     if (formData[key] !== null) submitData.append(key, formData[key]);
@@ -109,8 +96,8 @@ const UpdateRoomType = () => {
   try {
     let res;
     if (room_type_id) {
-      res = await axios.put(
-        `http://127.0.0.1:8000/hms_admin/room_type/${room_type_id}/`, 
+      res = await API.put(
+        `hms_admin/room_type/${room_type_id}/`, 
         submitData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
