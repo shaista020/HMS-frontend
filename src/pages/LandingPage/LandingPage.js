@@ -210,13 +210,9 @@ function LandingPage() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="section-title">Our Hot News</h2>
-<<<<<<< HEAD
-          <Link to="#" className="show-more-link">
-=======
           <a href="/events" className="show-more-link">
->>>>>>> dawood/lending_page/complete
             SHOW MORE <span className="arrow">→</span>
-          </Link>
+          </a>
         </div>
 
         <Row className="align-items-stretch">
