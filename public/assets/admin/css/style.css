@@ -234,3 +234,6 @@
   color: white !important;
   opacity: 1;  
 }
+.Toastify__toast-container {
+  z-index: 2000; /* Modal ke upar show karne ke liye */
+}

@@ -64,7 +64,7 @@ const GuestForm = ({ existingGuests = [] }) => {
   // Guest Type Selection
   // ---------------------------------------------
   // State for search results dropdown
- const handleGuestTypeSelection = (value) => {
+  const handleGuestTypeSelection = (value) => {
     setFormData((prev) => ({
       ...prev,
       guest_type: value,
@@ -98,24 +98,24 @@ const GuestForm = ({ existingGuests = [] }) => {
   // Fetch Returning Guests from API
   // ---------------------------------------------
   const fetchReturningGuest = async (value) => {
-  try {
-    const response = await API.get(`hms_admin/guests/search/?q=${value}`);
-    const guests = response.data; // array of guest objects
+    try {
+      const response = await API.get(`hms_admin/guests/search/?q=${value}`);
+      const guests = response.data; // array of guest objects
 
-    if (guests.length > 0) {
-      setSearchResults(guests);
-      setShowDropdown(true); // show dropdown if results found
-    } else {
+      if (guests.length > 0) {
+        setSearchResults(guests);
+        setShowDropdown(true); // show dropdown if results found
+      } else {
+        setSearchResults([]);
+        setShowDropdown(false);
+        toast.error("No guest found!"); // show toast when no match
+      }
+    } catch (error) {
       setSearchResults([]);
       setShowDropdown(false);
-      toast.error("No guest found!"); // show toast when no match
+      toast.error("Error searching guests!");
     }
-  } catch (error) {
-    setSearchResults([]);
-    setShowDropdown(false);
-    toast.error("Error searching guests!");
-  }
-};
+  };
 
 
   // ---------------------------------------------
@@ -125,22 +125,23 @@ const GuestForm = ({ existingGuests = [] }) => {
     console.log("Selected Guest:", guest);
 
     setFilteredGuest(guest);
-   setFormData((prev) => ({
-  ...prev,
-  full_name: guest.full_name,
-  gender: guest.gender,
-  date_of_birth: guest.date_of_birth,
-  phone_number: guest.phone_number,
-  email: guest.email,
-  address: guest.address,
-  nationality: guest.nationality,
-  document_type: guest.document_type,
-  document_number: guest.document_number,
-  guest_type: "Returning",
-  special_requests: guest.special_requests,
-  remarks: guest.remarks,
-  document_image: guest.document_image || null // use guest image if exists
-}));
+    setFormData((prev) => ({
+      ...prev,
+      full_name: guest.full_name,
+      gender: guest.gender,
+      date_of_birth: guest.date_of_birth,
+      phone_number: guest.phone_number,
+      email: guest.email,
+      address: guest.address,
+      nationality: guest.nationality,
+      document_type: guest.document_type,
+      document_number: guest.document_number,
+      guest_type: "Returning",
+      special_requests: guest.special_requests,
+      remarks: guest.remarks,
+      document_image: null,
+      existing_document_image_url: guest.document_image,  // use guest image if exists
+    }));
 
 
     setReturningSearch(guest.email || guest.phone_number);
@@ -203,67 +204,67 @@ const GuestForm = ({ existingGuests = [] }) => {
   // ---------------------------------------------
   // Submit Form
   // ---------------------------------------------
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
- const submitData = new FormData();
+    const submitData = new FormData();
 
-for (let key in formData) {
-  if (key === "document_image") {
-    if (formData.document_image && typeof formData.document_image !== "string") {
-      // Only append if it's a File object
-      submitData.append(key, formData.document_image);
+    for (let key in formData) {
+      if (key === "document_image") {
+        if (formData.document_image && typeof formData.document_image !== "string") {
+          // Only append if it's a File object
+          submitData.append(key, formData.document_image);
+        }
+      } else {
+        submitData.append(key, formData[key]);
+      }
     }
-  } else {
-    submitData.append(key, formData[key]);
-  }
-}
 
 
-  // 🔹 Log all FormData key-value pairs
-  console.log("Submitting FormData:");
-  for (let pair of submitData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+    // 🔹 Log all FormData key-value pairs
+    console.log("Submitting FormData:");
+    for (let pair of submitData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
 
-  try {
-    await API.post("hms_admin/guest/", submitData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    try {
+      await API.post("hms_admin/guest/", submitData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-    toast.success("Guest added successfully!", {
-      autoClose: 3000,
-      onClose: () => navigate("/guest/list"),
-    });
+      toast.success("Guest added successfully!", {
+        autoClose: 3000,
+        onClose: () => navigate("/guest/list"),
+      });
 
-    // Reset form
-    setFormData({
-      full_name: "",
-      gender: "",
-      date_of_birth: "",
-      phone_number: "",
-      email: "",
-      address: "",
-      nationality: "",
-      document_type: "",
-      document_number: "",
-      document_image: null,
-      guest_type: "New",
-      company_name: "",
-      loyalty_points: "",
-      special_requests: "",
-      status: true,
-      remarks: "",
-    });
+      // Reset form
+      setFormData({
+        full_name: "",
+        gender: "",
+        date_of_birth: "",
+        phone_number: "",
+        email: "",
+        address: "",
+        nationality: "",
+        document_type: "",
+        document_number: "",
+        document_image: null,
+        guest_type: "New",
+        company_name: "",
+        loyalty_points: "",
+        special_requests: "",
+        status: true,
+        remarks: "",
+      });
 
-    setShowCorporateFields(false);
-    setShowVIPFields(false);
-    setReadonlyGuestType(false);
-  } catch (err) {
-    console.error(err);
-    toast.error("Error saving guest data!");
-  }
-};
+      setShowCorporateFields(false);
+      setShowVIPFields(false);
+      setReadonlyGuestType(false);
+    } catch (err) {
+      console.error(err);
+      toast.error("Error saving guest data!");
+    }
+  };
 
 
   return (
@@ -279,42 +280,42 @@ for (let key in formData) {
               encType="multipart/form-data"
             >
               <div className="row g-3">
-              {showReturningSearch && (
-  <div className="col-md-12 position-relative">
-    <label className="form-label fw-bold">
-      Search Returning Guest (Full Name/Phone / Email)
-    </label>
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Enter phone or email"
-      value={returningSearch}
-      onChange={(e) => handleReturningSearch(e.target.value)}
-      onFocus={() => searchResults.length > 0 && setShowDropdown(true)}
-    /> 
+                {showReturningSearch && (
+                  <div className="col-md-12 position-relative">
+                    <label className="form-label fw-bold">
+                      Search Returning Guest (Full Name/Phone / Email)
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter phone or email"
+                      value={returningSearch}
+                      onChange={(e) => handleReturningSearch(e.target.value)}
+                      onFocus={() => searchResults.length > 0 && setShowDropdown(true)}
+                    />
 
-    {/* Dropdown list */}
-    {showDropdown && searchResults.length > 0 && (
-      <ul
-        className="list-group position-absolute w-100"
-        style={{ zIndex: 1000, maxHeight: "200px", overflowY: "auto" }}
-      >
-        {searchResults.map((guest) => (
-          <li
-            key={guest.guest_id} // use guest_id
-            className="list-group-item list-group-item-action"
-            onClick={() => handleGuestSelect(guest)}
-            style={{ cursor: "pointer" }}
-          >
-            {guest.full_name} - {guest.email} - {guest.phone_number}
-          </li>
-        ))}
-      </ul>
-    )}
+                    {/* Dropdown list */}
+                    {showDropdown && searchResults.length > 0 && (
+                      <ul
+                        className="list-group position-absolute w-100"
+                        style={{ zIndex: 1000, maxHeight: "200px", overflowY: "auto" }}
+                      >
+                        {searchResults.map((guest) => (
+                          <li
+                            key={guest.guest_id} // use guest_id
+                            className="list-group-item list-group-item-action"
+                            onClick={() => handleGuestSelect(guest)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {guest.full_name} - {guest.email} - {guest.phone_number}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
-   
-  </div>
-)}
+
+                  </div>
+                )}
 
                 <div className="col-md-6">
                   <label className="form-label fw-bold">Guest Type</label>
@@ -463,19 +464,20 @@ for (let key in formData) {
                     onChange={handleChange}
                   />
 
-                 {formData.document_image && (
-  <div className="mt-2">
-    <img
-      src={
-        typeof formData.document_image === "string"
-          ? `http://127.0.0.1:8000${formData.document_image}` // backend URL
-          : URL.createObjectURL(formData.document_image)      // new file
-      }
-      alt="Document Preview"
-      style={{ maxWidth: "150px", maxHeight: "150px", border: "1px solid #ccc" }}
-    />
-  </div>
-)}
+                  {formData.document_image && (
+                    <div className="mt-2">
+                      <img
+                        src={
+                          typeof formData.document_image === "string"
+                            ? `http://127.0.0.1:8000${formData.document_image}` // backend URL
+                            : URL.createObjectURL(formData.document_image)      // new file
+                        }
+                        alt="Document Preview"
+                        style={{ maxWidth: "150px", maxHeight: "150px", border: "1px solid #ccc" }}
+                      />
+                    </div>
+                  )}
+
 
 
                 </div>
@@ -538,7 +540,7 @@ for (let key in formData) {
               <button
                 type="submit"
                 className="btn mt-3 text-white"
-                style={{ backgroundColor: "#4a5536" }}
+                style={{ backgroundColor: "#4a5546" }}
               >
                 Save Guest
               </button>

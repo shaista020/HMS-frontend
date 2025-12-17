@@ -299,7 +299,7 @@ const AddHotelSetup = () => {
 
               </div>
 
-              <button className="btn mt-3 text-white" style={{ backgroundColor: "#4a5536" }}>
+              <button className="btn mt-3 text-white" style={{ backgroundColor: "#4a5546" }}>
                 Save Hotel Setup
               </button>
             </form>

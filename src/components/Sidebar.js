@@ -29,7 +29,7 @@ const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // RESPONSIVE SIDEBAR
+ 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 992) {
@@ -44,8 +44,7 @@ const Sidebar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // FIX: DO NOT RESET SUBMENU (Was causing Guest auto-close)
+ 
   const toggleMenu = (menu) => {
     setOpenMenu(openMenu === menu ? null : menu);
   };
@@ -70,7 +69,7 @@ const Sidebar = () => {
     ],
 
     guest: ["/guest/list", "/guest/add"],
-    booking: ["/booking"],
+    booking: ["/booking", "/booking/add"],
     payment: ["/payments"],
     report: ["/report"],
   };
@@ -98,6 +97,7 @@ const Sidebar = () => {
       "/guest/list": "guest",
 
       "/booking": "booking",
+      "/booking/add":"booking",
       "/payments": "payment",
       "/report": "report",
     };
@@ -333,16 +333,20 @@ const Sidebar = () => {
 
               <Collapse in={openMenu === "booking"}>
                 <ul className="list-unstyled ps-4 tree-branch">
+                  <li className={`tree-item ${isActive("/booking/add")}`}>
+                    <Link to="/booking/add" className="nav-link">
+                     Add Bookings  
+                    </Link>
+                  </li>
                   <li className={`tree-item ${isActive("/booking")}`}>
                     <Link to="/booking" className="nav-link">
-                      Bookings
+                      Bookings List
                     </Link>
                   </li>
                 </ul>
               </Collapse>
             </li>
-
-            {/* PAYMENTS */}
+ 
             <li className="mb-2">
               <button
                 className={`btn w-100 text-start d-flex justify-content-between text-white ${

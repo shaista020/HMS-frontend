@@ -22,8 +22,8 @@ const AddRooms = () => {
     status: "Available",
   });
 
-    
-  
+
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 992) {
@@ -38,106 +38,106 @@ const AddRooms = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
- 
+
   useEffect(() => {
     API.get("http://127.0.0.1:8000/hms_admin/room_type/")
       .then((res) => setRoomTypes(res.data))
       .catch((err) => console.log(err));
   }, []);
 
- const handleChange = async (e) => {
-  const { name, value } = e.target;
+  const handleChange = async (e) => {
+    const { name, value } = e.target;
 
-  if (name === "room_type") {
-    setFormData({ ...formData, room_type: value });
+    if (name === "room_type") {
+      setFormData({ ...formData, room_type: value });
 
-    if (value) {
-      try {
-        const res = await API.get(
-          `hms_admin/room_type/${value}/`
-        );
-        setSelectedRoomInfo(res.data);   
-      } catch (error) {
-        console.log("Room type detail fetch error", error);
+      if (value) {
+        try {
+          const res = await API.get(
+            `hms_admin/room_type/${value}/`
+          );
+          setSelectedRoomInfo(res.data);
+        } catch (error) {
+          console.log("Room type detail fetch error", error);
+        }
+      } else {
+        setSelectedRoomInfo(null);
       }
-    } else {
-      setSelectedRoomInfo(null);  
+
+      return;
     }
 
-    return;
-  }
-
-  if (name === "image") {
-    setFormData({ ...formData, image: e.target.files[0] });
-  } else {
-    setFormData({ ...formData, [name]: value });
-  }
-};
+    if (name === "image") {
+      setFormData({ ...formData, image: e.target.files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  
+    e.preventDefault();
 
-  const submitData = new FormData();
-  for (let key in formData) {
-    submitData.append(key, formData[key]);
-  }
 
-  try {
-    const res = await API.post(
-      "hms_admin/rooms/",
-      submitData,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-
-    toast.success("Room Added Successfully!", {
-      autoClose: 2000,
-      onClose: () => navigate("/rooms/list"),
-    });
-
-    setFormData({
-      floor_number: "",
-      room_type: "",
-      capacity: "",
-      image: null,
-      price: "",
-      status: "Available",
-    });
-
-  }
-  catch (err) {
-  console.error("Room Save Error:", err);
-
-  if (err.response && err.response.data) {
-    const errors = err.response.data;
-
-    let firstError = null;
-
-    if (typeof errors === "object") {
-      const firstKey = Object.keys(errors)[0];  
-
-      let message = Array.isArray(errors[firstKey])
-        ? errors[firstKey][0]
-        : errors[firstKey];
-
-      firstError = `${firstKey.toUpperCase()}: ${message}`;
-    } else {
-      firstError = errors;
+    const submitData = new FormData();
+    for (let key in formData) {
+      submitData.append(key, formData[key]);
     }
 
-    toast.error(firstError, {
-      position: "top-right",
-      autoClose: 2500,
-    });
+    try {
+      const res = await API.post(
+        "hms_admin/rooms/",
+        submitData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
-  } else {
-    toast.error("Something went wrong!", { autoClose: 2500 });
-  }
-}
+      toast.success("Room Added Successfully!", {
+        autoClose: 2000,
+        onClose: () => navigate("/rooms/list"),
+      });
+
+      setFormData({
+        floor_number: "",
+        room_type: "",
+        capacity: "",
+        image: null,
+        price: "",
+        status: "Available",
+      });
+
+    }
+    catch (err) {
+      console.error("Room Save Error:", err);
+
+      if (err.response && err.response.data) {
+        const errors = err.response.data;
+
+        let firstError = null;
+
+        if (typeof errors === "object") {
+          const firstKey = Object.keys(errors)[0];
+
+          let message = Array.isArray(errors[firstKey])
+            ? errors[firstKey][0]
+            : errors[firstKey];
+
+          firstError = `${firstKey.toUpperCase()}: ${message}`;
+        } else {
+          firstError = errors;
+        }
+
+        toast.error(firstError, {
+          position: "top-right",
+          autoClose: 2500,
+        });
+
+      } else {
+        toast.error("Something went wrong!", { autoClose: 2500 });
+      }
+    }
 
 
-  }; 
+  };
 
 
   return (
@@ -177,37 +177,37 @@ const AddRooms = () => {
                     required
                   >
                     <option value="">Select Room Type</option>
-                   {roomTypes.map((type) => (
-  <option key={type.room_type_id} value={type.room_type_id}>
-    {type.room_type_name}
-  </option>
-))}
+                    {roomTypes.map((type) => (
+                      <option key={type.room_type_id} value={type.room_type_id}>
+                        {type.room_type_name}
+                      </option>
+                    ))}
 
                   </select>
                 </div>
-{selectedRoomInfo && (
-  <>
-    <div className="col-md-6 mt-3">
-      <label className="form-label fw-bold">Base Price</label>
-      <input
-        type="text"
-        className="form-control"
-        value={selectedRoomInfo.base_price}
-        readOnly
-      />
-    </div>
+                {selectedRoomInfo && (
+                  <>
+                    <div className="col-md-6 mt-3">
+                      <label className="form-label fw-bold">Base Price</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={selectedRoomInfo.base_price}
+                        readOnly
+                      />
+                    </div>
 
-    <div className="col-md-6 mt-3">
-      <label className="form-label fw-bold">Amenities</label>
-      <input
-        type="text"
-        className="form-control"
-        value={selectedRoomInfo.amenities}
-        readOnly
-      />
-    </div>
-  </>
-)}
+                    <div className="col-md-6 mt-3">
+                      <label className="form-label fw-bold">Amenities</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={selectedRoomInfo.amenities}
+                        readOnly
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div className="col-md-6">
                   <label className="form-label fw-bold">
@@ -263,7 +263,7 @@ const AddRooms = () => {
               <button
                 type="submit"
                 className="btn mt-3 text-white"
-                style={{ backgroundColor: "#4a5536" }}
+                style={{ backgroundColor: "#4a5546" }}
               >
                 Save Room
               </button>

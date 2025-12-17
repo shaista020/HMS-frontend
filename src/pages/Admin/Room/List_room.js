@@ -1,49 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../../api";
-  
+
 const RoomList = () => {
   const [rooms, setrooms] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [selectedRoom, setselectedRoom] = useState(null);
   const [showModal, setShowModal] = useState(false);
- const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
- 
- useEffect(() => {
-  if (selectedRoom && selectedRoom.room_type) {
-    API.get(`hms_admin/room_type/${selectedRoom.room_type}/`)
-      .then((res) => setSelectedRoomInfo(res.data))
-      .catch((err) => console.log("Room type fetch error", err));
-  }
-}, [selectedRoom]);
- const fetchrooms = async () => {
-  try {
-    const response = await API.get("hms_admin/rooms/");  
-    console.log("API response:", response.data);
-    setrooms(response.data);
-  } catch (err) {
-    console.error(err);
-    if (err.response?.status === 401) {
-      navigate("/signin");
-    } else {
-      setError("Something went wrong while fetching room Setup.");
+  const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
+
+  useEffect(() => {
+    if (selectedRoom && selectedRoom.room_type) {
+      API.get(`hms_admin/room_type/${selectedRoom.room_type}/`)
+        .then((res) => setSelectedRoomInfo(res.data))
+        .catch((err) => console.log("Room type fetch error", err));
     }
-  }
-};
- useEffect(() => {
-   
-  API.get("user/me/")
-    .then((res) => console.log("User:", res.data))
-    .catch((err) =>
-      console.log("Axios Error:", err.response?.data || err.message)
-    );
-}, [ ]);
+  }, [selectedRoom]);
+  const fetchrooms = async () => {
+    try {
+      const response = await API.get("hms_admin/rooms/");
+      console.log("API response:", response.data);
+      setrooms(response.data);
+    } catch (err) {
+      console.error(err);
+      if (err.response?.status === 401) {
+        navigate("/signin");
+      } else {
+        setError("Something went wrong while fetching room Setup.");
+      }
+    }
+  };
+  useEffect(() => {
+
+    API.get("user/me/")
+      .then((res) => console.log("User:", res.data))
+      .catch((err) =>
+        console.log("Axios Error:", err.response?.data || err.message)
+      );
+  }, []);
   useEffect(() => {
     fetchrooms();
   }, []);
 
-  
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -80,7 +80,7 @@ const RoomList = () => {
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}
- 
+
             <div className="table-wrapper">
               <table className="table table-hover table-bordered shadow-sm">
                 <thead style={{ backgroundColor: "#4a5546", color: "white" }}>
@@ -89,10 +89,10 @@ const RoomList = () => {
                     <th>Image</th>
                     <th>Floor Number</th>
                     <th>Room Type</th>
-                    <th>Capacity</th>              
+                    <th>Capacity</th>
                     <th>Price</th>
-                     <th>Allocated By</th>
-                    <th>Status</th>                 
+                    <th>Allocated By</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -114,21 +114,35 @@ const RoomList = () => {
                           )}
                         </td>
                         <td>{room.floor_number}</td>
-                        <td>{room.room_type}</td>
+                        <td>{room.room_type_name}</td>
                         <td>{room.capacity}</td>
                         <td>{room.price}</td>
                         <td>{room.allocated_by}</td>
-                        <td>{room.is_active ? "Active" : "In Active"}</td>
                         <td>
-                          
+                          <span
+                            className={`badge ${room.status === "Available"
+                                ? "bg-success"
+                                : room.status === "Occupied"
+                                  ? "bg-danger"
+                                  : room.status === "Cleaning"
+                                    ? "bg-warning"
+                                    : "bg-secondary"
+                              }`}
+                          >
+                            {room.status}
+                          </span>
+                        </td>
+
+                        <td>
+
                           <button
                             className="btn btn-warning btn-sm me-2"
                             onClick={() => navigate(`/rooms/edit/${room.room_id}`)}
                             title="Edit room"
                           >
-                            <i className="fas fa-edit"></i>  
+                            <i className="fas fa-edit"></i>
                           </button>
- 
+
                           <button
                             className="btn btn-info btn-sm"
                             onClick={() => {
@@ -137,7 +151,7 @@ const RoomList = () => {
                             }}
                             title="View Details"
                           >
-                            <i className="fas fa-eye"></i>  
+                            <i className="fas fa-eye"></i>
                           </button>
                         </td>
 
@@ -162,7 +176,7 @@ const RoomList = () => {
                 >
                   <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content shadow-lg border-0 rounded-3">
- 
+
                       <div
                         className="modal-header d-flex justify-content-between align-items-center"
                         style={{ backgroundColor: "#4a5546", color: "white" }}
@@ -181,7 +195,7 @@ const RoomList = () => {
                             }}
                           />
                         )}
-                        <h4 className="fw-bold m-0 text-center" style={{ flexGrow: 1}}>
+                        <h4 className="fw-bold m-0 text-center" style={{ flexGrow: 1 }}>
                           Room Details — {selectedRoom.room_number}
                         </h4>
 
@@ -208,46 +222,60 @@ const RoomList = () => {
                             <tr>
                               <th>Room Type</th>
                               <td>{selectedRoom.room_type_name}</td>
-                            </tr> 
-{selectedRoomInfo && (
-  <>
-    <tr>
-      <th>Base Price</th>
-      <td>{selectedRoomInfo.base_price}</td>
-    </tr>
+                            </tr>
+                            {selectedRoomInfo && (
+                              <>
+                                <tr>
+                                  <th>Base Price</th>
+                                  <td>{selectedRoomInfo.base_price}</td>
+                                </tr>
 
-    <tr>
-      <th>Amenities</th>
-      <td>{selectedRoomInfo.amenities}</td>
-    </tr>
-  </>
-)}
+                                <tr>
+                                  <th>Amenities</th>
+                                  <td>{selectedRoomInfo.amenities}</td>
+                                </tr>
+                              </>
+                            )}
 
                             <tr>
                               <th>Capacity</th>
                               <td>{selectedRoom.capacity}</td>
                             </tr>
 
-                             
+
 
                             <tr>
                               <th>Price</th>
                               <td>{selectedRoom.price}</td>
                             </tr>
 
-                            
+
 
 
                             <tr>
                               <th>Status</th>
-                              <td>{selectedRoom.is_active ? "Active" : "In Active"}</td>
+                              <td>
+                                <span
+                                  className={`badge ${selectedRoom.status === "Available"
+                                      ? "bg-success"
+                                      : selectedRoom.status === "Occupied"
+                                        ? "bg-danger"
+                                        : selectedRoom.status === "Cleaning"
+                                          ? "bg-warning"
+                                          : "bg-secondary"
+                                    }`}
+                                >
+                                  {selectedRoom.status}
+                                </span>
+                              </td>
+
                             </tr>
 
-                            
 
-                        
 
-                           
+
+
+
                             <tr>
                               <th>Allocated By</th>
                               <td>{selectedRoom.allocated_by}</td>
@@ -262,12 +290,12 @@ const RoomList = () => {
                               <th>Updated By</th>
                               <td>{selectedRoom.updated_by}</td>
                             </tr>
-                            
-                             <tr>
+
+                            <tr>
                               <th>Updated At</th>
                               <td>{selectedRoom.updated_at}</td>
                             </tr>
-                             
+
 
                           </tbody>
                         </table>

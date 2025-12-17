@@ -1,7 +1,24 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import API from "./../api";
 
 const NavBar = () => {
+
+ const handleLogout = () => {
+  API.post("logout/", {}, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+    .then(() => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("refresh_token");
+      window.location.href = "/signin";
+    })
+    .catch(err => console.error("Logout error:", err));
+};
+
+
   return (
     <nav
       className="navbar shadow-sm px-4"
@@ -46,12 +63,59 @@ const NavBar = () => {
               style={{ cursor: "pointer" }}
             />
 
-            <ul className="dropdown-menu dropdown-menu-end mt-2">
-              <li><a className="dropdown-item" href="#">Profile</a></li>
-              <li><a className="dropdown-item" href="#">Settings</a></li>
-              <li><hr className="dropdown-divider" /></li>
-              <li><a className="dropdown-item text-danger" href="#">Logout</a></li>
-            </ul>
+          <ul
+  className="dropdown-menu dropdown-menu-end mt-2 shadow-lg"
+  style={{
+    minWidth: "180px",
+    borderRadius: "12px",
+    padding: "0.5rem 0",
+    backgroundColor: "#ffffff",
+    border: "1px solid #e0e0e0",
+    fontSize: "0.95rem",
+  }}
+>
+  <li>
+    <a
+      className="dropdown-item d-flex align-items-center"
+      href="#"
+      style={{ color: "#4a5546", fontWeight: "500", padding: "10px 16px" }}
+    >
+      Profile
+    </a>
+  </li>
+  <li>
+    <a
+      className="dropdown-item d-flex align-items-center"
+      href="#"
+      style={{ color: "#4a5546", fontWeight: "500", padding: "10px 16px" }}
+    >
+      Settings
+    </a>
+  </li>
+  <li>
+    <hr
+      className="dropdown-divider"
+      style={{ margin: "0.25rem 0", borderColor: "#e0e0e0" }}
+    />
+  </li>
+  <li>
+    <a
+      className="dropdown-item d-flex align-items-center text-danger"
+      onClick={handleLogout}
+      style={{
+        fontWeight: "500",
+        padding: "10px 16px",
+        cursor: "pointer",
+        transition: "background 0.2s",
+      }}
+      onMouseEnter={(e) => (e.target.style.backgroundColor = "#ffe5e5")}
+      onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+    >
+      Logout
+    </a>
+  </li>
+</ul>
+
           </div>
 
         </div>

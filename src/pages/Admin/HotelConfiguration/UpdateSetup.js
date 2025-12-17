@@ -391,7 +391,7 @@ const HotelSetupForm = () => {
   <button
     type="submit"
     className="btn text-white"
-    style={{ backgroundColor: "#4a5536", fontWeight: "bold" }}
+    style={{ backgroundColor: "#4a5546", fontWeight: "bold" }}
   >
      Update 
   </button>
