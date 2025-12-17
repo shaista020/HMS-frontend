@@ -6,6 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import SignUp from './pages/Auth/Signup';
 import LandingPage from './pages/LandingPage/LandingPage';
 import About from './pages/LandingPage/About';
+import Services from './pages/LandingPage/Services';
+import Events from './pages/LandingPage/Events';
+import Contact from './pages/LandingPage/Contact';
 
 import Dashboard from './pages/Admin/admin_dashboard';
 import Book from './pages/Admin/Booking/BookingList';
@@ -32,6 +35,7 @@ import UpdateRoom  from './pages/Admin/Room/Update_room';
 import AddGuest  from './pages/Admin/Guest/Add_guest';
 import ListGuest  from './pages/Admin/Guest/List_guest';
 import UpdateGuest  from './pages/Admin/Guest/Update_guest';
+
 
 import UserDashboard from './pages/Dashboard/user_dashboard';
 import RoomType from './pages/User/RoomType';
@@ -108,7 +112,11 @@ function App() {
 
         {/* Public Landing Page */}
         <Route path="/" element={<LandingPage />} />
-        <Route path='/About' element={<About />} />
+        <Route path='/About' element={< About/>} />
+        <Route path='/Services' element={< Services/>} />
+        <Route path='/Events' element={< Events/>} />
+        <Route path='/Contact' element={< Contact/>} />
+
       </Routes>
     </Router>
   );

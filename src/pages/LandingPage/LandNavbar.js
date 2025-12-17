@@ -49,6 +49,7 @@ const LandNavbar = ({ activeSection }) => {
               </Link>
             </li>
             <li className="nav-item">
+<<<<<<< HEAD
               <Link
                 to="#service"
                 className={`nav-link ${activeSection === "#service" ? "active" : ""}`}
@@ -73,12 +74,38 @@ const LandNavbar = ({ activeSection }) => {
               </Link>
             </li>
             <li className="nav-item">
+=======
+>>>>>>> dawood/lending_page/complete
               <Link
                 to="/About"
                 className={`nav-link ${activeSection === "/About" ? "active" : ""}`}
               >
                 About Us
               </Link>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/Services"
+                className={`nav-link ${activeSection === "/Services" ? "active" : ""}`}
+              >
+                Service
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/Events"
+                className={`nav-link ${activeSection === "/Events" ? "active" : ""}`}
+              >
+                Event
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/Contact"
+                className={`nav-link ${activeSection === "/Contact" ? "active" : ""}`}
+              >
+                Contact
+              </a>
             </li>
           </ul>
 
