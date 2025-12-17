@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./LandingPage.css";
 import Booking from "./Booking";
 import PopularHotelsSection from "./PopularHotelsSection";
+import Footer from "./Footer";
+import Testimonials from "./Testimonials";
 
 // icons
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -208,7 +210,7 @@ function LandingPage() {
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="section-title">Our Hot News</h2>
-          <a href="#" className="show-more-link">
+          <a href="/events" className="show-more-link">
             SHOW MORE <span className="arrow">→</span>
           </a>
         </div>
@@ -273,7 +275,15 @@ function LandingPage() {
           </Col>
         </Row>
       </Container>
+
+
+    <Testimonials/>
+
+    <Footer />
+
     </div>
+
+       
   );
 }
 

@@ -49,36 +49,36 @@ const LandNavbar = ({ activeSection }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="#service"
-                className={`nav-link ${activeSection === "#service" ? "active" : ""}`}
-              >
-                Service
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                href="#event"
-                className={`nav-link ${activeSection === "#event" ? "active" : ""}`}
-              >
-                Event
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                href="#blog"
-                className={`nav-link ${activeSection === "#blog" ? "active" : ""}`}
-              >
-                Blog
-              </a>
-            </li>
-            <li className="nav-item">
               <Link
                 to="/About"
                 className={`nav-link ${activeSection === "/About" ? "active" : ""}`}
               >
                 About Us
               </Link>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/Services"
+                className={`nav-link ${activeSection === "/Services" ? "active" : ""}`}
+              >
+                Service
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/Events"
+                className={`nav-link ${activeSection === "/Events" ? "active" : ""}`}
+              >
+                Event
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/Contact"
+                className={`nav-link ${activeSection === "/Contact" ? "active" : ""}`}
+              >
+                Contact
+              </a>
             </li>
           </ul>
 
