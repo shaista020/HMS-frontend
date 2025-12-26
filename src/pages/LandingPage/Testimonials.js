@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const testimonials = [
   {
@@ -49,20 +50,34 @@ const Testimonials = () => {
   const t = testimonials[index];
 
   return (
-    <section className="py-5" style={{ backgroundColor: "#f8f9fa" }}>
+    <section style={{ backgroundColor: "#f8f8f8", padding: "80px 0" }}>
       <Container>
         <Row className="justify-content-center text-center">
           <Col lg={12} md={10}>
-            {/* Heading */}
-            <h2 className="fw-semibold mb-5">
-              <span className="opacity-25 fs-1">“</span>
-              What Our <br /> Customers Say
-              <span className="opacity-25 fs-1"><i>"</i></span>
-            </h2>
+ 
+            {/* <h2 className="fw-semibold mb-5">
+               <span className="opacity-25 fs-1">“</span> 
+               What Our <br /> Customers Say 
+               <span className="opacity-25 fs-1"><i>"</i></span> </h2> */}
 
-            {/* Flex wrapper for arrows + card */}
+
+            {/* Heading */}
+            <Row className="justify-content-center mb-4 position-relative" style={{ zIndex: 1 }}>
+              <Col md={8}>
+                <h2 style={{ 
+                  fontFamily: "'Crimson Text', serif", 
+                  fontSize: "2.5rem", 
+                  fontWeight: "600",
+                  color: "#1a1a1a" 
+                }}>
+                  What Our <br /> Customer Says
+                </h2>
+              </Col>
+            </Row>
+
+            {/* Flex wrapper for arrows + testimonial */}
             <div className="d-flex align-items-center justify-content-center" style={{ gap: "60px" }}>
-              
+
               {/* Previous Arrow */}
               <Button
                 variant="outline-dark"
@@ -73,16 +88,8 @@ const Testimonials = () => {
                 <i className="bi bi-arrow-left"></i>
               </Button>
 
-              {/* Testimonial Card */}
-              <div
-                className={`p-4 rounded-4 shadow-sm bg-white transition-opacity text-center`}
-                style={{
-                  transition: "opacity 0.3s ease",
-                  minHeight: "180px",
-                  maxWidth: "1000px",
-                  flex: 1
-                }}
-              >
+              {/* Testimonial Content */}
+              <div className="text-center" style={{ maxWidth: "700px", zIndex: 1 }}>
                 <p
                   className={`fs-5 text-muted mb-4 mx-auto ${fade ? "opacity-100" : "opacity-0"}`}
                   style={{ transition: "opacity 0.3s ease", lineHeight: "1.7" }}

@@ -4,7 +4,7 @@ import logo from "../assets/images/GreeenDoors.png"; // adjust the path as neede
 
 const LandNavbar = ({ activeSection }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark custom-navbar px-2">
+    <nav className="navbar navbar-expand-lg navbar-dark custom-navbar px-2" style={{ backgroundColor: "#4a5546" }}>
       <div className="container-fluid d-flex align-items-center">
         {/* Logo */}
         <Link to="/" className="text-decoration-none">
@@ -12,7 +12,7 @@ const LandNavbar = ({ activeSection }) => {
             <div
               className="d-flex align-items-center justify-content-center rounded-circle overflow-hidden"
               style={{ width: "50px", height: "50px" }}
-            >
+            > 
               <img
                 src={logo}
                 alt="Logo"

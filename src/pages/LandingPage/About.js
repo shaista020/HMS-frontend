@@ -1,190 +1,150 @@
 import React from "react";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import LandNavbar from "./LandNavbar";
-import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "./Footer";
 
-const About = () => {
+const teamMembers = [
+  { name: "John Doe", role: "Hotel Manager", image: "/assets/img/boy.png" },
+  { name: "Jane Smith", role: "Head Chef", image: "/assets/img/woman.png" },
+  { name: "Michael Lee", role: "Receptionist", image: "/assets/img/women.png" },
+];
+
+const AboutUs = () => {
   return (
-    <div
-      className="min-vh-100 text-light"
-      style={{ backgroundColor: "#4a5546" }}
-    >
+    <div style={{ backgroundColor: "#fff" }}>
       <LandNavbar />
 
-      <div className="container py-5 mt-4">
-        <h1 className="text-center fw-bold mb-4">About Us – Green Doors</h1>
+      <section style={{ color: "#4A5546", padding: "80px 0" }}>
+        <Container>
+          <Row className="align-items-center">
 
-        <p className="text-center mb-5 fs-5">
-          Welcome to <strong>GreenDoors</strong>, where comfort meets class.
-          Our mission is to provide guests with a seamless, luxurious, and
-          memorable stay, supported by modern technology and exceptional hospitality.
-        </p>
-
-        {/* GRID START */}
-        <div className="row g-4">
-
-          {/* Who We Are */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Who We Are</h3>
-              <p>
-                GreenDoors is a premium hospitality brand designed to redefine
-                the guest experience. We offer elegant rooms, fine dining, and 
-                modern amenities designed for absolute comfort.
+            <Col md={6}>
+              <h1 style={{ fontWeight: "700", fontSize: "3rem" }}>About Our Hotel</h1>
+              <p style={{ fontSize: "1.2rem", margin: "20px 0" }}>
+                Welcome to GreenDoors! Experience premium hospitality with modern amenities, comfort, and unforgettable service designed for every guest.
               </p>
-            </div>
-          </div>
+              <button
+                className="btn"
+                style={{
+                  backgroundColor: "#4A5546",
+                  color: "#fff",
+                  fontWeight: "600",
+                  padding: "10px 25px",
+                  borderRadius: "8px"
+                }}
+                size="lg"
+              >
+                Learn More
+              </button>
+            </Col>
 
-          {/* Mission */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Our Mission</h3>
-              <p>
-                To deliver <strong>comfort, reliability, and excellence</strong>{" "}
-                in every aspect of a guest’s stay, supported by smart hotel
-                management systems and dedicated service.
+            <Col md={6}>
+              <img
+                src="/assets/img/about_bg.avif"
+                alt="GreenDoors Hotel"
+                style={{ width: "100%", borderRadius: "15px", objectFit: "cover" }}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      {/* Mission & Vision */}
+      <section style={{ padding: "80px 0" }}>
+        <Container>
+          <Row className="text-center mb-5">
+            <Col>
+              <h2 style={{ fontWeight: "700", color: "#333" }}>Our Mission & Vision</h2>
+              <p style={{ color: "#555", maxWidth: "700px", margin: "10px auto" }}>
+                We strive to provide exceptional hospitality with comfort, luxury, and memorable experiences.
               </p>
-            </div>
-          </div>
+            </Col>
+          </Row>
+          <Row className="text-center g-4">
+            {/* Mission Card */}
+            <Col md={4}>
+              <Card className="p-4 shadow-sm h-100 mission-card" style={{ borderRadius: "15px", transition: "all 0.3s" }}>
+                <h4 style={{ fontWeight: "600" }}>Our Mission</h4>
+                <p style={{ color: "#555" }}>
+                  Deliver exceptional hospitality through high-quality services, comfortable accommodations, and unforgettable experiences.
+                </p>
+              </Card>
+            </Col>
 
-          {/* Vision */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Our Vision</h3>
-              <ul>
-                <li>Outstanding guest experience</li>
-                <li>Exceptional service quality</li>
-                <li>Clean, modern accommodation</li>
-                <li>Technology-driven operations</li>
-                <li>Safe & peaceful environment</li>
-              </ul>
-            </div>
-          </div>
+            {/* Vision Card */}
+            <Col md={4}>
+              <Card className="p-4 shadow-sm h-100 mission-card" style={{ borderRadius: "15px", transition: "all 0.3s" }}>
+                <h4 style={{ fontWeight: "600" }}>Our Vision</h4>
+                <p style={{ color: "#555" }}>
+                  To be the most preferred hotel recognized for excellence, comfort, and guest satisfaction.
+                </p>
+              </Card>
+            </Col>
 
-          {/* What We Offer */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">What We Offer</h3>
-              <ul>
-                <li>Comfortable & stylish rooms</li>
-                <li>Fast & easy booking</li>
-                <li>24/7 customer support</li>
-                <li>Modern facilities (Wi-Fi, dining, lounges)</li>
-                <li>Clean & hygienic environment</li>
-              </ul>
-            </div>
-          </div>
+            {/* Goals Card */}
+            <Col md={4}>
+              <Card className="p-4 shadow-sm h-100 mission-card" style={{ borderRadius: "15px", transition: "all 0.3s" }}>
+                <h4 style={{ fontWeight: "600" }}>Our Goals</h4>
+                <p style={{ color: "#555" }}>
+                  Ensure seamless booking experiences, maintain eco-friendly operations, and consistently exceed guest expectations at GreenDoors.
+                </p>
+              </Card>
+            </Col>
+          </Row>
 
-          {/* Why Choose Us */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Why Choose Us?</h3>
-              <ul>
-                <li>Professional, friendly staff</li>
-                <li>Advanced hotel management system</li>
-                <li>Quick check-in & check-out</li>
-                <li>Transparent pricing</li>
-                <li>Personalized guest service</li>
-                <li>Peaceful & well-maintained property</li>
-              </ul>
-            </div>
-          </div>
+        </Container>
+      </section>
 
-          {/* Our Commitment */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Our Commitment</h3>
-              <p>
-                At GreenDoors, we don’t just provide a room—we provide 
-                a <strong>premium experience</strong> where every guest feels 
-                valued, respected, and completely at home.
-              </p>
-            </div>
-          </div>
+      {/* Team Section */}
+      <section style={{ backgroundColor: "#f8f9fa", padding: "80px 0" }}>
+        <Container>
+          <h2 className="text-center mb-5" style={{ fontWeight: "700", color: "#333" }}>Meet Our Team</h2>
+          <Row className="g-4 justify-content-center">
+            {teamMembers.map((member, index) => (
+              <Col md={4} key={index}>
+                <Card className="text-center border-0 shadow team-card" style={{ borderRadius: "15px", transition: "all 0.3s" }}>
+                  <Card.Img
+                    variant="top"
+                    src={member.image}
+                    alt={member.name}
+                    style={{
+                      borderRadius: "50%",
+                      width: "150px",
+                      height: "150px",
+                      objectFit: "cover",
+                      margin: "20px auto 10px",
+                      border: "4px solid #4A5E46",
+                      transition: "transform 0.3s",
+                    }}
+                  />
+                  <Card.Body>
+                    <Card.Title style={{ fontWeight: "600", color: "#333" }}>{member.name}</Card.Title>
+                    <Card.Text style={{ color: "#555" }}>{member.role}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
 
-          {/* OUR STORY */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Our Story</h3>
-              <p>
-                GreenDoors began with a vision to create a space where guests 
-                could enjoy comfort without complexity. Today, we are proud to 
-                be a trusted name in hospitality known for reliability and warmth.
-              </p>
-            </div>
-          </div>
+      <Footer />
 
-          {/* OUR VALUES */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Our Values</h3>
-              <ul>
-                <li>Integrity & honesty</li>
-                <li>Respect for every guest</li>
-                <li>Commitment to excellence</li>
-                <li>Innovation & improvement</li>
-                <li>Eco-friendly operations</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* SUSTAINABILITY */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Sustainability Practices</h3>
-              <ul>
-                <li>Energy-efficient lighting</li>
-                <li>Waste management systems</li>
-                <li>Eco-friendly toiletries</li>
-                <li>Water conservation</li>
-                <li>Locally sourced food ingredients</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* TEAM */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Our Team</h3>
-              <p>
-                Our experienced staff—including managers, chefs, 
-                housekeeping, and support teams—work 24/7 to 
-                ensure every guest enjoys a comfortable and smooth stay.
-              </p>
-            </div>
-          </div>
-
-          {/* GUEST TRUST */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Guest Trust & Reviews</h3>
-              <ul>
-                <li>4.8★ rating across major platforms</li>
-                <li>95% guest satisfaction</li>
-                <li>Trusted for trips, vacations & events</li>
-                <li>High repeat-guest ratio</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* TECHNOLOGY */}
-          <div className="col-lg-4 col-md-6">
-            <div className="card bg-light text-dark border-0 shadow-sm rounded-4 p-4 h-100">
-              <h3 className="fw-semibold mb-3">Modern Technology</h3>
-              <ul>
-                <li>Smart digital booking</li>
-                <li>Contactless check-in/out</li>
-                <li>Smart room access</li>
-                <li>Real-time room availability</li>
-                <li>Automated housekeeping alerts</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-        {/* GRID END */}
-      </div>
+      <style>{`
+        .mission-card:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .team-card:hover img {
+          transform: scale(1.1);
+        }
+        .team-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+      `}</style>
     </div>
   );
 };
 
-export default About;
+export default AboutUs;

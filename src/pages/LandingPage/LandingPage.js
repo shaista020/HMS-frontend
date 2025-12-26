@@ -111,7 +111,7 @@ function LandingPage() {
           <p>🌍 Wyndham</p>
           <p>🏰 Shangrila</p>
           <p>🏨 IHG</p>
-        </div>
+        </div> 
       </div>
       {/* Additional content */}
       <PopularHotelsSection />

@@ -59,7 +59,7 @@ const HotelSetupList = () => {
 
               <button
                 className="btn"
-                onClick={() => navigate("/add-setup")}
+                onClick={() => navigate("/hotel-setup/add")}
                 style={{ color: "#4a5546", borderColor: "#4a5546", fontWeight: "bold" }}
               >
                 + Add Setup

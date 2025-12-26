@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import LandNavbar from "./LandNavbar";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Footer from "./Footer";
 const Events = () => {
   // Data with the image added to the last card
   const events = [
@@ -46,17 +46,16 @@ const Events = () => {
       description:
         "A sophisticated evening of fundraising, fine dining, and entertainment in our grand ballroom.",
       // --- IMAGE ADDED HERE ---
-      img: "https://images.unsplash.com/photo-1469371670807-013ccf25f164?auto=format&fit=crop&w=1950&q=80",
+      img: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
     },
   ];
-
-  // Scroll Reveal Effect (Identical logic to Services component)
+ 
   useEffect(() => {
     const cards = document.querySelectorAll(".event-card");
     const onScroll = () => {
       cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
-        // Trigger a bit earlier for smoother experience on longer pages
+        
         if (rect.top < window.innerHeight - 50) {
           card.classList.add("show");
         }
@@ -71,8 +70,8 @@ const Events = () => {
 
   // Custom button colors from the original draft
   const btnStyle = {
-    backgroundColor: "#f1e7d0",
-    color: "#4a5546",
+    backgroundColor: "#4a5546",
+    color: "#fff",
     fontWeight: "600",
     border: "none",
   };
@@ -80,15 +79,15 @@ const Events = () => {
   return (
     <div
       className="min-vh-100 text-light"
-      style={{ backgroundColor: "#4a5546" }}
+       
     >
       <LandNavbar />
 
       <div className="container py-5 mt-4">
         {/* Header Section */}
         <div className="text-center mb-5">
-          <h1 className="fw-bold display-5 mb-3 fade-in">Our Events</h1>
-          <p className="fs-5 text-light opacity-75 fade-in">
+          <h1 className="fw-bold display-5 mb-3 fade-in" style={{ color: "#4a5546" }}>Our Events</h1>
+          <p className="fs-5 text-dark opacity-75 fade-in">
             Hosting unforgettable moments with elegance, comfort, and premium
             hospitality.
           </p>
@@ -109,7 +108,7 @@ const Events = () => {
                     src={event.img}
                     alt={event.title}
                     className="w-100 h-100 object-fit-cover"
-                    // Adding a slight zoom effect on hover just for the image
+                    // Adding a slight zoom effect on hover just for the image 
                     style={{ transition: "transform 0.5s ease" }}
                     onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
                     onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
@@ -142,8 +141,8 @@ const Events = () => {
         <div className="row mt-5 pt-5 justify-content-center">
             <div className="col-lg-8 text-center fade-in">
                  <div className="p-5 rounded-4 shadow-lg" style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}>
-                    <h2 className="fw-bold mb-3">Plan Your Next Event With Us</h2>
-                    <p className="fs-5 mb-4 opacity-75">From weddings to conferences, we bring excellence and elegance to every occasion.</p>
+                    <h2 className="fw-bold mb-3" style={{ color: "#4a5546" }}>Plan Your Next Event With Us</h2>
+                    <p className="fs-5 mb-4 opacity-75 text-dark">From weddings to conferences, we bring excellence and elegance to every occasion.</p>
                     <a href="/contact" className="btn btn-lg px-5" style={btnStyle}>Contact Us</a>
                  </div>
             </div>
@@ -186,6 +185,7 @@ const Events = () => {
              transition: all 0.2s ease;
         }
       `}</style>
+       <Footer />
     </div>
   );
 };
