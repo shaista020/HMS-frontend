@@ -6,42 +6,51 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./Footer";
 const services = [
   {
+    bg: "/assets/img/bed.jpeg",
     icon: <FaConciergeBell size={40} />,
     title: "24/7 Room Service",
     description: "Our concierge is ready to assist with any request.",
     list: ["Tour Bookings", "Restaurant Reservations", "Emergency Assistance", "City Guides"],
   },
   {
+    bg: "/assets/img/chairs.jpeg",
     icon: <FaUtensils size={40} />,
     title: "Fine Dining",
     description: "Savor exquisite dishes prepared by our expert chefs.",
     list: ["Breakfast Buffet", "Lunch Menu", "Dinner Specials", "Private Dining"],
   },
   {
+    bg: "/assets/img/pool.jpeg",
     icon: <FaSwimmer size={40} />,
     title: "Swimming Pool",
     description: "Relax and unwind in our luxurious pool area.",
     list: ["Indoor & Outdoor Pools", "Poolside Bar", "Swimming Lessons", "Family Friendly"],
   },
   {
+    bg: "/assets/img/door.jpeg",
     icon: <FaWifi size={40} />,
-    title: "Free Wi-Fi",
-    description: "Stay connected with high-speed internet in all areas.",
-    list: ["Lobby Wi-Fi", "Rooms Wi-Fi", "Conference Wi-Fi", "Outdoor Wi-Fi Zones"],
+    title: "Free High-Speed Wi-Fi",
+    description: "Stay connected anytime with seamless internet access.",
+    list: ["Lobby Wi-Fi", "In-Room Wi-Fi", "Conference Areas", "Outdoor Zones"],
   },
+ {
+  bg: "/assets/img/yoga.webp",
+  icon: <FaSpa size={40} />,
+  title: "Spa & Wellness",
+  description: "Relax, refresh and rejuvenate your body and mind.",
+  list: ["Massages", "Sauna & Steam", "Beauty Treatments", "Yoga Sessions"],
+}
+,
   {
-    icon: <FaSpa size={40} />,
-    title: "Spa & Wellness",
-    description: "Rejuvenate yourself at our world-class spa.",
-    list: ["Massages", "Sauna & Steam", "Beauty Treatments", "Yoga Classes"],
-  },
-  {
+    bg: "/assets/img/airport.jpeg",
     icon: <FaCar size={40} />,
     title: "Airport Shuttle",
-    description: "Convenient transportation to and from the airport.",
-    list: ["Pick-up & Drop-off", "Private Cars", "Group Transfers", "24/7 Availability"],
+    description: "Comfortable and reliable transportation services.",
+    list: ["Pick-up & Drop-off", "Private Transfers", "Group Transport", "24/7 Service"],
   },
 ];
+
+
 
 const OurServices = () => {
   return (
@@ -64,29 +73,57 @@ const OurServices = () => {
         <Row className="g-4">
           {services.map((service, index) => (
             <Col key={index} md={4}>
-              <Card
-                className="text-center p-4 shadow-sm border-0 h-100 service-card"
-                style={{ transition: "transform 0.3s", cursor: "pointer", backgroundColor: "#e8ebe8ff" }}
-              >
-                <div className="mb-3" style={{ color: "#4a5546" }}>
-                  {service.icon}
-                </div>
-                <Card.Title style={{ fontWeight: "600" }}>{service.title}</Card.Title>
-                <Card.Text className="text-start">
-                  <p>{service.description}</p>
-                  <ul>
-                    {service.list.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
-                </Card.Text>
-              </Card>
+             <Card
+  className="shadow-sm text-center  border-0 h-100 service-card"
+  style={{
+    borderRadius: "16px",
+    overflow: "hidden",
+    cursor: "pointer",
+    backgroundImage: `url(${service.bg})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    background:`linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)) url(${service.bg})`,
+    position: "relative",
+    color: "#fff",  
+    height: "400px",  
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",  
+  }}
+>
+  
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(0,0,0,0.5)",  
+    }}
+  />
+ 
+  <div style={{ position: "relative", padding: "20px" }}>
+    <div className="mb-3" style={{ color: "#fff" }}>
+      {service.icon}
+    </div>
+    <Card.Title style={{ fontWeight: "600" }}>{service.title}</Card.Title>
+    <Card.Text className="text-start">
+      <p>{service.description}</p>
+      <ul>
+        {service.list.map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
+    </Card.Text>
+  </div>
+</Card>
+
             </Col>
           ))}
         </Row>
       </Container>
-
-      {/* Inline CSS for hover effect */}
+ 
       <style>{`
         .service-card:hover {
           transform: translateY(-10px);

@@ -68,10 +68,10 @@ const Footer = () => {
               <ul className="list-unstyled d-flex justify-content-center gap-4 mb-3 mb-md-0">
                 {[
                   { name: "Home", path: "/" },
+                  { name: "About Us", path: "/about" },
                   { name: "Service", path: "/services" },
                   { name: "Event", path: "/events" },
-                  { name: "Blog", path: "/blog" },
-                  { name: "About Us", path: "/about" }
+                  { name: "Contact Us", path: "/contact" }, 
                 ].map((item) => (
                   <li key={item.name}>
                     <Link

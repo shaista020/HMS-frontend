@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import LandNavbar from "./LandNavbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 const Events = () => {
-  // Data with the image added to the last card
+  
   const events = [
     {
       title: "Corporate Conference 2025",
@@ -137,16 +138,64 @@ const Events = () => {
           ))}
         </div>
 
-        {/* CTA Section (Adapted from draft to Bootstrap) */}
-        <div className="row mt-5 pt-5 justify-content-center">
-            <div className="col-lg-8 text-center fade-in">
-                 <div className="p-5 rounded-4 shadow-lg" style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}>
-                    <h2 className="fw-bold mb-3" style={{ color: "#4a5546" }}>Plan Your Next Event With Us</h2>
-                    <p className="fs-5 mb-4 opacity-75 text-dark">From weddings to conferences, we bring excellence and elegance to every occasion.</p>
-                    <a href="/contact" className="btn btn-lg px-5" style={btnStyle}>Contact Us</a>
-                 </div>
-            </div>
-        </div>
+         
+<div
+  className="row mt-5 pt-5 justify-content-center align-items-center"
+  style={{
+  backgroundImage: "url('https://images.pexels.com/photos/373941/pexels-photo-373941.jpeg?auto=compress&cs=tinysrgb&w=1600')",
+backgroundSize: "cover",
+backgroundPosition: "center",
+
+
+    minHeight: "400px",
+    borderRadius: "20px",
+  }}
+>
+  <div className="col-lg-8 text-center">
+    <div
+  className="p-5 rounded-4 shadow-lg"
+  style={{
+    background: "rgba(74, 85, 70, 0.15)",          // brand shade + transparency
+    backdropFilter: "blur(15px)",
+    WebkitBackdropFilter: "blur(15px)",
+    border: "1px solid rgba(74, 85, 70, 0.25)",    // slightly stronger border
+    animation: "fadeInUp 1s ease forwards",
+  }}
+>
+
+      <h2 className="fw-bold mb-3" style={{ color: "#fff", textShadow: "1px 1px 5px rgba(0,0,0,0.5)" }}>
+        Plan Your Next Event With Us
+      </h2>
+      <p className="fs-5 mb-4" style={{ color: "#f0f0f0", opacity: 0.9 }}>
+        From weddings to conferences, we bring excellence and elegance to every occasion.
+      </p>
+      <Link
+        to="/contact"
+        className="btn btn-lg px-5"
+        style={{
+          background: "#4a5546",
+          color: "#fff",
+          fontWeight: "600",
+          borderRadius: "50px",
+          transition: "all 0.3s ease",
+        }}
+        onMouseEnter={e => (e.target.style.transform = "scale(1.05)")}
+        onMouseLeave={e => (e.target.style.transform = "scale(1)")}
+      >
+        Contact Us
+      </Link>
+    </div>
+  </div>
+
+  {/* Optional CSS Animation */}
+  <style>{`
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  `}</style>
+</div>
+
       </div>
 
       {/* CSS Animations (Copied and adapted from Services component) */}

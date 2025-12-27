@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/images/GreeenDoors.png"; // adjust the path as needed
-
+import logo from "../assets/images/GreeenDoors.png";  
 const LandNavbar = ({ activeSection }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark custom-navbar px-2" style={{ backgroundColor: "#4a5546" }}>
@@ -57,28 +56,28 @@ const LandNavbar = ({ activeSection }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="/Services"
+              <Link
+                to="/Services"
                 className={`nav-link ${activeSection === "/Services" ? "active" : ""}`}
               >
                 Service
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="/Events"
+              <Link
+                to="/Events"
                 className={`nav-link ${activeSection === "/Events" ? "active" : ""}`}
               >
                 Event
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a
-                href="/Contact"
+              <Link
+                to="/Contact"
                 className={`nav-link ${activeSection === "/Contact" ? "active" : ""}`}
               >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
 
