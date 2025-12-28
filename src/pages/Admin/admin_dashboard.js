@@ -96,7 +96,7 @@ const AdminDashboard = () => {
         </div>
 
         
-        <button className="btn btn-success mt-3">Add Booking</button>
+        <button className="btn mt-3" style={{ backgroundColor: '#4a5546', color: 'white' }}>Add Booking</button>
       </div>
        </div>
     </div>

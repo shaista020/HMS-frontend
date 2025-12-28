@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/*import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../App.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -161,8 +161,8 @@ const RoomType = () => {
         </button>
       </div>
 
-      {/* ======== TABLE ======== */}
-      <div className="table-card">
+      {/* ======== TABLE ======== }*/
+      /* <div className="table-card">
         <table className="custom-table">
           <thead>
             <tr>
@@ -206,8 +206,8 @@ const RoomType = () => {
         </table>
       </div>
 
-      {/* ======== MODAL FORM ======== */}
-      {showModal && (
+      {/* ======== MODAL FORM ======== */
+      /* {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
@@ -288,4 +288,4 @@ const RoomType = () => {
   );
 };
 
-export default RoomType;
+export default RoomType; */
