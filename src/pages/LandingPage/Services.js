@@ -52,25 +52,23 @@ const services = [
 
 const OurServices = () => {
   const cardRefs = useRef([]);
-
-  // Fade-in effect when scrolling
-  useEffect(() => {
-     const cards = document.querySelectorAll(".service-card");
-     const onScroll = () => {
-       cards.forEach((card) => {
-         const rect = card.getBoundingClientRect();
-         
-         if (rect.top < window.innerHeight - 50) {
-           card.classList.add("show");
-         }
-       });
-     };
  
-     window.addEventListener("scroll", onScroll);
-     // Trigger once on load in case elements are already in view
-     setTimeout(onScroll, 100);
-     return () => window.removeEventListener("scroll", onScroll);
-   }, []);
+  useEffect(() => {
+    const cards = document.querySelectorAll(".service-card");
+    const onScroll = () => {
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+
+        if (rect.top < window.innerHeight - 50) {
+          card.classList.add("show");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", onScroll);
+    setTimeout(onScroll, 100);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="min-vh-100 text-dark bg-light">
@@ -98,16 +96,15 @@ const OurServices = () => {
                     overflow: "hidden",
                     cursor: "pointer",
                     backgroundImage: `url(${service.bg})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    background:`linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)) url(${service.bg})`,
-    position: "relative",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    background: `linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)) url(${service.bg})`,
+                    position: "relative",
                     color: "#fff",
                     height: "400px",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "flex-end",
-                    position: "relative",
                   }}
                 >
                   <div
@@ -123,7 +120,7 @@ const OurServices = () => {
                   <div style={{ position: "relative", padding: "20px" }}>
                     <div className="mb-3">{service.icon}</div>
                     <Card.Title style={{ fontWeight: "600" }}>{service.title}</Card.Title>
-                    
+
                     <Card.Text className="text-start">
                       <p>{service.description}</p>
                       <ul>
@@ -132,7 +129,7 @@ const OurServices = () => {
                         ))}
                       </ul>
                     </Card.Text>
-                    
+
                   </div>
                 </Card>
               </Col>

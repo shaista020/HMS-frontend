@@ -247,7 +247,7 @@ function LandingPage() {
           <Col lg={5}>
             {smallArticles.map((item, index) => (
               <div className="mini-article d-flex mb-4" key={index}>
-                <img src={item.image} className="mini-img me-2" />
+                <img src={item.image} alt="GreenDoors" className="mini-img me-2" />
 
                 <div className="d-flex flex-column flex-grow-1">
                   <h5 className="mini-title">{item.title}</h5>

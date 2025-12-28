@@ -8,8 +8,11 @@ import {
   FaClock,
   FaPaperPlane,
   FaUser,
-  FaMobileAlt,
+  FaPhone,
+  // IoMdCall  ,
 } from "react-icons/fa";
+import { IoMdCall } from "react-icons/io";
+
 import Footer from "./Footer";
 const Contact = () => {
   const navyBlue = "#4a5546";
@@ -33,9 +36,8 @@ const Contact = () => {
     <div className="min-vh-100 bg-light">
       <LandNavbar />
 
-      <div className="container py- mt-4">
-        
-        {/* HEADER SECTION (Fade-in animation) */}
+      <div className="container py-5 mt-4">
+         
         <div className="text-center mb-5">
           <h1 className="fw-bold display-5 mb-3 fade-in">Get in Touch</h1>
           <p className="fs-5 text-dark opacity-75 fade-in mx-auto" style={{ maxWidth: "700px" }}>
@@ -54,9 +56,9 @@ const Contact = () => {
             </div>
 
             <div className="row g-0 text-center">
-              {/* Phone */}
+              
               <div className="col-6 p-4 border-bottom border-end" style={{ minHeight: "220px" }}>
-                <FaPhoneAlt size={34} color={navyBlue} className="mb-3" />
+                <IoMdCall Alt size={34} color={navyBlue} className="mb-3" />
                 <h5 className="fw-bold" style={{ color: navyBlue }}>Phone Number</h5>
                 <p className="text-muted">+91 80004 36640</p>
               </div>
@@ -139,7 +141,7 @@ const Contact = () => {
             <div className="col-12 col-md-6">
               <div className="input-group border-0 shadow-sm rounded-3 overflow-hidden">
                 <span className="input-group-text bg-white border-0 pe-0 ps-3">
-                  <FaMobileAlt size={14} color="#333" />
+                  <IoMdCall  size={18} color="#333" />
                 </span>
                 <input
                   type="text"

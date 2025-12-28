@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/images/GreeenDoors.png";  
+import logo from "../assets/images/GreeenDoors.png";
 
 const LandNavbar = () => {
-  const location = useLocation();  
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState(location.pathname);
 
   useEffect(() => {
@@ -13,13 +13,13 @@ const LandNavbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top px-2" style={{ backgroundColor: "#4a5546" }}>
       <div className="container-fluid d-flex align-items-center">
-        
+
         <Link to="/" className="text-decoration-none">
           <div className="d-flex align-items-center gap-2">
             <div
               className="d-flex align-items-center justify-content-center rounded-circle overflow-hidden"
               style={{ width: "50px", height: "50px" }}
-            > 
+            >
               <img
                 src={logo}
                 alt="Logo"
@@ -88,7 +88,7 @@ const LandNavbar = () => {
               </Link>
             </li>
           </ul>
- 
+
           <div className="d-flex ms-lg-auto mt-3 mt-lg-0 gap-2">
             <Link
               to="/signup"
@@ -105,10 +105,10 @@ const LandNavbar = () => {
           </div>
         </div>
       </div>
- 
+
       <style>{`
         body {
-          padding-top: 70px; 
+          padding-top: 50px; 
         }
       `}</style>
     </nav>
