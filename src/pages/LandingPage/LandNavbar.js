@@ -1,11 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/images/GreeenDoors.png";  
-const LandNavbar = ({ activeSection }) => {
+
+const LandNavbar = () => {
+  const location = useLocation();  
+  const [activeSection, setActiveSection] = useState(location.pathname);
+
+  useEffect(() => {
+    setActiveSection(location.pathname);
+  }, [location.pathname]);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark custom-navbar px-2" style={{ backgroundColor: "#4a5546" }}>
+    <nav className="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top px-2" style={{ backgroundColor: "#4a5546" }}>
       <div className="container-fluid d-flex align-items-center">
-        {/* Logo */}
+        
         <Link to="/" className="text-decoration-none">
           <div className="d-flex align-items-center gap-2">
             <div
@@ -42,7 +50,7 @@ const LandNavbar = ({ activeSection }) => {
             <li className="nav-item">
               <Link
                 to="/"
-                className={`nav-link ${activeSection === "#home" ? "active" : ""}`}
+                className={`nav-link ${activeSection === "/" ? "active" : ""}`}
               >
                 Home
               </Link>
@@ -80,8 +88,7 @@ const LandNavbar = ({ activeSection }) => {
               </Link>
             </li>
           </ul>
-
-          {/* Buttons */}
+ 
           <div className="d-flex ms-lg-auto mt-3 mt-lg-0 gap-2">
             <Link
               to="/signup"
@@ -98,6 +105,12 @@ const LandNavbar = ({ activeSection }) => {
           </div>
         </div>
       </div>
+ 
+      <style>{`
+        body {
+          padding-top: 70px; 
+        }
+      `}</style>
     </nav>
   );
 };

@@ -9,27 +9,17 @@ import Booking from "./Booking";
 import PopularHotelsSection from "./PopularHotelsSection";
 import Footer from "./Footer";
 import Testimonials from "./Testimonials";
-
-// icons
+ 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 //logo
 import logo from "../assets/images/GreeenDoors.png";
-
-// landing navbar
+ 
 import LandNavbar from "./LandNavbar";
 
 function LandingPage() {
-  const [activeSection, setActiveSection] = useState(
-    window.location.hash || "#home"
-  );
-
-  useEffect(() => {
-    const handleHashChange = () => setActiveSection(window.location.hash);
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
+  
   const archImages = [
     "/assets/img/bed1.jpg",
     "/assets/img/bed3.jpg",

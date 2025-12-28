@@ -142,7 +142,7 @@ const Events = () => {
 <div
   className="row mt-5 pt-5 justify-content-center align-items-center"
   style={{
-  backgroundImage: "url('https://images.pexels.com/photos/373941/pexels-photo-373941.jpeg?auto=compress&cs=tinysrgb&w=1600')",
+  backgroundImage: "url('/assets/img/CTA.avif')",
 backgroundSize: "cover",
 backgroundPosition: "center",
 

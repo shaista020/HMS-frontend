@@ -3,33 +3,40 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import LandNavbar from "./LandNavbar";
 import Footer from "./Footer";
 import "./About.css";
-import { Target, Eye, Flag } from 'lucide-react';  
-import { FaBullseye, FaSearch, FaGem } from "react-icons/fa";
+import { Target, Eye, Flag } from 'lucide-react';
+import { FaBullseye, FaLightbulb, FaBalanceScale } from "react-icons/fa";
 const teamMembers = [
   { name: "Ameer Dawood", role: "Hotel Manager", image: "/assets/img/boy.png" },
   { name: "Shaista Tabbasum", role: "Head Chef", image: "/assets/img/woman.png" },
   { name: "Lalain Fatima", role: "Front Desk Manager", image: "/assets/img/women.png" },
 ];
-const missionVisionData = [
+
+
+const data = [
   {
-    title: "Our Mission",
-    text: "Deliver exceptional hospitality through high-quality services, comfortable accommodations, and unforgettable experiences.",
-    bgClass: "bg-mission",
-    icon: <FaBullseye size={24} color="#fff" />,
+    id: "01",
+    title: "MISSION",
+    text: "To provide seamless hotel operations through innovative management tools, enhancing guest experiences and staff efficiency.",
+    color: "#18471fff",
+    icon: <FaBullseye className="react-icon-style" />
   },
   {
-    title: "Our Vision",
-    text: "To be the most preferred hotel recognized for excellence, comfort, and guest satisfaction.",
-    bgClass: "bg-vision",
-    icon: <FaSearch size={24} color="#fff" />,
+    id: "02",
+    title: "VISION",
+    text: "To become the leading hotel management platform, delivering clarity, automation, and excellence to hospitality businesses worldwide.",
+    color: "#18471fff",
+    icon: <FaLightbulb className="react-icon-style" />
   },
   {
-    title: "Our Values",
-    text: "Ensure seamless booking experiences, maintain eco-friendly operations, and consistently exceed guest expectations at GreenDoors.",
-    bgClass: "bg-goals",
-    icon: <FaGem size={24} color="#fff" />,
-  },
+    id: "03",
+    title: "VALUES",
+    text: "Integrity, innovation, and customer focus guide all our solutions, ensuring trust, efficiency, and satisfaction for every hotel we serve.",
+    color: "#18471fff",
+    icon: <FaBalanceScale className="react-icon-style" />
+  }
 ];
+
+
 const getRoleDescription = (role) => {
   switch (role) {
     case "Hotel Manager":
@@ -114,7 +121,7 @@ const AboutUs = () => {
                 Learn More
               </button>
             </Col>
- 
+
             <Col md={6}>
               <img
                 src="/assets/img/about_bg.avif"
@@ -134,41 +141,54 @@ const AboutUs = () => {
           </Row>
         </Container>
       </section>
-
-
-
-      <section style={{ padding: "80px 0", backgroundColor: "#fdfdfd" }}>
+      <section className="infographic-section">
         <Container>
-          <Row className="text-center mb-5">
-            <Col>
-              <h2 style={{ fontWeight: 800, color: "#4A5546" }}>Our Mission & Vision</h2>
-              <p style={{ color: "#777", maxWidth: 650, margin: "10px auto" }}>
-                We strive to provide exceptional hospitality with comfort, luxury, and memorable experiences.
-              </p>
-            </Col>
-          </Row>
+          {/* Section Heading */}
+          <div className="section-header text-center mb-5">
+            <h2 className="text-center  " style={{
+              fontWeight: "700",
+              color: "#4A5546",
+              fontSize: "42px",
+              letterSpacing: "1px"
+            }}>Our Mission, Vision & Values</h2>
+            <p>Guiding principles that shape GreenDoors Hotel Management System, driving excellence in hospitality and operational efficiency.</p>
+          </div>
 
-          <Row className="text-center g-5">
-            {[
-              { title: "Our Mission", icon: <Target size={28} />, text: "Deliver exceptional hospitality through high-quality services, comfortable accommodations, and unforgettable experiences." },
-              { title: "Our Vision", icon: <Eye size={28} />, text: "To be the most preferred hotel recognized for excellence, comfort, and guest satisfaction." },
-              { title: "Our Goals", icon: <Flag size={28} />, text: "Ensure seamless booking experiences, maintain eco-friendly operations, and consistently exceed guest expectations." }
-            ].map((card, index) => (
-              <Col md={4} key={index}>
-                <Card className="mission-card-custom h-100">
-                  <div className="card-header-ribbon">{card.title}</div>
-                  <Card.Body className="d-flex flex-column justify-content-between">
-                    <p>{card.text}</p>
-                    <div className="card-icon-wrapper">
-                      <div className="icon-circle">{card.icon}</div>
+
+          <Row className="justify-content-center py-5">
+            {data.map((item, index) => (
+              <Col lg={4} key={index}>
+                <div className="card-wrapper">
+
+                  {/* Visual Line Elements */}
+                  <div className="design-line" style={{ borderColor: item.color }}>
+                    <div className="line-start" style={{ backgroundColor: item.color }}></div>
+                    <div className="line-end-stub" style={{ backgroundColor: item.color }}></div>
+                  </div>
+
+                  {/* The Floating Number Circle */}
+                  <div className="step-circle" style={{ borderColor: item.color, color: item.color }}>
+                    {item.id}
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="content-area text-center">
+                    <div className="icon-box" style={{ color: item.color }}>
+                      {item.icon}
                     </div>
-                  </Card.Body>
-                </Card>
+                    <h4 className="step-title" style={{ color: item.color }}>{item.title}</h4>
+                    <p className="step-desc">{item.text}</p>
+                  </div>
+
+                </div>
               </Col>
             ))}
           </Row>
         </Container>
       </section>
+
+
+
 
 
       {/* Team Section */}
