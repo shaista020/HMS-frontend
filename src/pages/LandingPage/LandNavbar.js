@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/images/GreeenDoors.png";
-
+import logo from "../assets/images/LOGO.png";
+  
 const LandNavbar = () => {
   const location = useLocation();
   const [activeSection, setActiveSection] = useState(location.pathname);
@@ -18,8 +18,8 @@ const LandNavbar = () => {
           <div className="d-flex align-items-center gap-2">
             <div
               className="d-flex align-items-center justify-content-center rounded-circle overflow-hidden"
-              style={{ width: "50px", height: "50px" }}
-            >
+              style={{ width: "60px", height: "60px" , marginLeft:"20px"}}
+            > 
               <img
                 src={logo}
                 alt="Logo"
