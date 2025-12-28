@@ -37,9 +37,9 @@ import ListGuest  from './pages/Admin/Guest/List_guest';
 import UpdateGuest  from './pages/Admin/Guest/Update_guest';
 
 
-import UserDashboard from './pages/Dashboard/user_dashboard';
-import RoomType from './pages/User/RoomType';
-import Room from './pages/User/Room';
+import UserDashboard from './pages/User/pages/UserDashboard';
+import RoomType from './pages/User/pages/RoomType';
+import Room from './pages/User/pages/Room';
 
 import Sidebar from './components/Sidebar';
 import NavBar from './components/NavBar';  
@@ -104,7 +104,7 @@ function App() {
         <Route path="/user" element={<Layout><UserList /></Layout>} />
 
         {/* User Dashboard */}
-        <Route path="/user_dashboard" element={<Layout><UserDashboard /></Layout>} />
+        <Route path="/UserDashboard" element={<Layout><UserDashboard /></Layout>} />
 
         {/* User Pages */}
         <Route path="/RoomType" element={<Layout><RoomType /></Layout>} />
