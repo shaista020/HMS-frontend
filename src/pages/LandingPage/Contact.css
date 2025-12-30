@@ -1,4 +1,4 @@
-/* Reveal animation */
+ 
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -8,21 +8,18 @@
   opacity: 1;
   transform: translateY(0);
 }
-
-/* Wrapper */
+ 
 .contact-wrapper {
   background: #e7e4e4;
 }
-
-/* Headers */
+ 
 .section-header {
   padding: 16px;
   color: #fff;
   text-align: center;
   letter-spacing: 1px;
 }
-
-/* LEFT FORM */
+ 
 .bg-form {
   background: #e1e1e1;
 }
@@ -37,29 +34,28 @@
   position: relative;
 }
 
-/* Icon */
+
 .input-icon {
   color: #555;
   font-size: 15px;
 }
-
-/* Vertical divider */
+ 
 .input-box::after {
   content: "";
   width: 1px;
   height: 22px;
   background: #ccc;
   position: absolute;
-  left: 44px;          /* icon ke baad */
+  left: 44px;         
 }
 
-/* Input */
+ 
 .input-box input {
   border: none;
   outline: none;
   flex: 1;
   font-size: 14px;
-  padding-left: 12px;  /* divider se gap */
+  padding-left: 12px;   
 }
 
  
@@ -95,7 +91,7 @@
   outline: none;
 }
 
-/* Button */
+ 
 .submit-btn {
   background: #4a5546;
   color: #fff;
@@ -113,7 +109,7 @@
   transform: translateY(-2px);
 }
 
-/* MAP */
+ 
 .bg-map {
   background: #dcdcdc;
 }
@@ -131,7 +127,7 @@
   filter: grayscale(10%) contrast(105%);
 }
 
-/* Map Card */
+ 
 .map-card {
   position: absolute;
   bottom: 20px;
