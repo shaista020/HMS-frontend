@@ -8,7 +8,7 @@ const Footer = () => {
     <footer style={{ backgroundColor: "#2d362a", color: "#fff", fontFamily: 'serif' }}>
 
       <div style={{ backgroundColor: "#272e23ff", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-        <Container className="py-5">
+        <Container className="py-5  ">
           <Row className="align-items-center">
             <Col md={7}>
 
@@ -22,6 +22,7 @@ const Footer = () => {
                 className="d-flex align-items-center bg-white rounded-pill px-2 shadow-sm"
                 style={{ width: "100%", maxWidth: "400px", height: "55px" }}
               >
+
                 <Form.Control
                   type="email"
                   placeholder="youremail@gmail.com"
@@ -52,7 +53,7 @@ const Footer = () => {
           </Row>
         </Container>
       </div>
-
+            
       <div style={{ backgroundColor: "#354033" }}>
         <Container className="py-4">
           <Row className="align-items-center">
@@ -63,7 +64,6 @@ const Footer = () => {
               </div>
               <span className="fw-bold fs-5" style={{ fontFamily: "sans-serif", letterSpacing: "0.5px" }}>GreenDoors</span>
             </Col>
-
             <Col md={6}>
               <ul className="list-unstyled d-flex justify-content-center gap-4 mb-3 mb-md-0">
                 {[
@@ -71,7 +71,7 @@ const Footer = () => {
                   { name: "About Us", path: "/about" },
                   { name: "Service", path: "/services" },
                   { name: "Event", path: "/events" },
-                  { name: "Contact", path: "/contact" }, 
+                  { name: "Contact Us", path: "/contact" },
                 ].map((item) => (
                   <li key={item.name}>
                     <Link

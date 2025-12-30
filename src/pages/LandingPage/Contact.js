@@ -1,24 +1,21 @@
 import React, { useEffect } from "react";
 import LandNavbar from "./LandNavbar";
+import Footer from "./Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Contact.css";
+
 import {
-  FaPhoneAlt,
   FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
   FaPaperPlane,
   FaUser,
-  FaPhone,
-  // IoMdCall  ,
 } from "react-icons/fa";
 import { IoMdCall } from "react-icons/io";
 
-import Footer from "./Footer";
 const Contact = () => {
-  const navyBlue = "#4a5546";
+  const themeColor = "#4a5546";
 
   useEffect(() => {
-    const cards = document.querySelectorAll(".contact-card-reveal");
+    const cards = document.querySelectorAll(".reveal");
     const onScroll = () => {
       cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
@@ -28,180 +25,170 @@ const Contact = () => {
       });
     };
     window.addEventListener("scroll", onScroll);
-    setTimeout(onScroll, 100);
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <div className="min-vh-100 bg-light">
+    <div className="bg-light min-vh-100">
       <LandNavbar />
 
       <div className="container py-5 mt-4">
-         
-        <div className="text-center mb-5">
-          <h1 className="fw-bold display-5 mb-3 fade-in">Get in Touch</h1>
-          <p className="fs-5 text-dark opacity-75 fade-in mx-auto" style={{ maxWidth: "700px" }}>
-            We’d love to hear from you. Whether you have a question about events,
-            services, or availability, our team is ready to help.
-</p>
-        <div className="row g-0 shadow-lg rounded overflow-hidden">
-          
-          {/* ================= LEFT SECTION ================= */}
-          <div className="col-md-6 bg-white border-end">
+        {/* Heading */}
+        <div className="text-center mb-5 reveal">
+          <h1 className="fw-bold display-5">Get in Touch</h1>
+          <p className="text-muted fs-5 mx-auto" style={{ maxWidth: "720px" }}>
+            We’d love to hear from you. Whether you have a question or need
+            support, our team is always ready to help.
+          </p>
+        </div>
+
+        {/* Main Card */}
+        <div className="row g-0 shadow-lg rounded-1 overflow-hidden reveal contact-wrapper">
+          {/* LEFT FORM */}
+          <div className="col-md-6   border-end">
             <div
               className="text-center py-4 text-white"
-              style={{ backgroundColor: navyBlue }}
+              style={{ backgroundColor: themeColor }}
             >
-              <h4 className="fw-bold mb-0">Get In Touch With Us Now!</h4>
+              <h5 className="fw-bold mb-0">Contact Us</h5>
             </div>
 
-            <div className="row g-0 text-center">
-              
-              <div className="col-6 p-4 border-bottom border-end" style={{ minHeight: "220px" }}>
-                <IoMdCall Alt size={34} color={navyBlue} className="mb-3" />
-                <h5 className="fw-bold" style={{ color: navyBlue }}>Phone Number</h5>
-                <p className="text-muted">+91 80004 36640</p>
-              </div>
+            <div className="p-4">
+              <form className="container-fluid">
+                <div className="row g-3">
+                  <div className="col-md-6">
+                    <div className="input-box">
+                      <FaUser className="input-icon" />
+                      <input type="text" placeholder="First Name *" required />
+                    </div>
+                  </div>
 
-              {/* Email */}
-              <div className="col-6 p-4 border-bottom" style={{ minHeight: "220px" }}>
-                <FaEnvelope size={34} color={navyBlue} className="mb-3" />
-                <h5 className="fw-bold" style={{ color: navyBlue }}>Email</h5>
-                <p className="text-muted mb-1">info@expertwebdesigning.com</p>
-                <p className="text-muted">sales@expertwebdesigning.com</p>
-              </div>
 
-              {/* Location */}
-              <div className="col-6 p-4 border-end" style={{ minHeight: "220px" }}>
-                <FaMapMarkerAlt size={34} color={navyBlue} className="mb-3" />
-                <h5 className="fw-bold" style={{ color: navyBlue }}>Location</h5>
-                <p className="text-muted">
-                  518, Rhythm Plaza, Amar Javan Circle,
-                  <br />Nikol, Ahmedabad – 382350
-                </p>
-              </div>
+                  <div className="col-md-6">
+                    <div className="input-box">
+                      <FaUser />
+                      <input type="text" placeholder="Last Name" />
+                    </div>
+                  </div>
 
-              {/* Hours */}
-              <div className="col-6 p-4" style={{ minHeight: "220px" }}>
-                <FaClock size={34} color={navyBlue} className="mb-3" />
-                <h5 className="fw-bold" style={{ color: navyBlue }}>Working Hours</h5>
-                <p className="text-muted mb-1">Monday – Saturday</p>
-                <p className="text-muted">09:00 AM – 06:00 PM</p>
-              </div>
+                  <div className="col-md-6">
+                    <div className="input-box">
+                      <IoMdCall />
+                      <input type="text" placeholder="Mobile No *" required />
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="input-box">
+                      <FaEnvelope />
+                      <input type="email" placeholder="Email ID *" required />
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <textarea
+                      rows="5"
+                      placeholder="Your Message"
+                      className="message-box"
+                    ></textarea>
+                  </div>
+
+                  <div className="col-12 text-center">
+                    <button className="submit-btn" type="submit">
+                      Send Message <FaPaperPlane />
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
 
-          {/* ================= RIGHT SECTION ================= */}
-        <div className="col-md-6 shadow-sm" style={{ backgroundColor: "#dcdcdc", borderRadius: "8px", overflow: "hidden" }}>
-      {/* Header */}
-      <div
-        className="text-center py-4 text-white"
-        style={{ backgroundColor: navyBlue }}
-      >
-        <h4 className="fw-bold mb-0" style={{ letterSpacing: "1px" }}>Contact Us</h4>
-      </div>
+          {/* RIGHT MAP */}
+          {/* ================= RIGHT SECTION (STYLISH MAP) ================= */}
+          <div className="col-md-6 shadow-sm" style={{ backgroundColor: "#dcdcdc", overflow: "hidden" }}>
+            {/* Header */}
+            <div
+              className="text-center py-4 text-white"
+              style={{ backgroundColor: themeColor }}
+            >
+              <h4 className="fw-bold mb-0" style={{ letterSpacing: "1px", height: "25px" }}>Our Location</h4>
 
-      {/* Form */}
-      <div className="p-4">
-        <form className="container py-2">
-          <div className="row g-4">
-            
-            {/* First Name */}
-            <div className="col-12 col-md-6">
-              <div className="input-group border-0   rounded-3 overflow-hidden">
-                <span className="input-group-text bg-white border-0 pe-0 ps-3">
-                  <FaUser size={14} color="#333" />
-                </span>
-                <input
-                  type="text"
-                  className="form-control border-0 py-2 ps-2 fw-semibold"
-                  placeholder="First Name *"
-                  required
-                  style={{ fontSize: "14px" }}
-                />
-              </div>
             </div>
 
-            {/* Last Name */}
-            <div className="col-12 col-md-6">
-              <div className="input-group border-0 shadow-sm rounded-3 overflow-hidden">
-                <span className="input-group-text bg-white border-0 pe-0 ps-3">
-                  <FaUser size={14} color="#333" />
-                </span>
-                <input
-                  type="text"
-                  className="form-control border-0 py-2 ps-2 fw-semibold"
-                  placeholder="Last Name"
-                  style={{ fontSize: "14px" }}
-                />
-              </div>
-            </div>
+            {/* Map Wrapper */}
+            <div
+              className="flex-grow-1 position-relative"
+              style={{
+                borderRadius: "0 0 12px 0",
+                overflow: "hidden",
+              }}
+            >
+              <iframe
+                title="Google Map"
+                src="https://www.google.com/maps?q=Gulberg+III,+Lahore,+Punjab,+Pakistan&z=17&output=embed"
+                width="100%"
+                height="100%"
+                style={{
+                  border: 0,
+                  minHeight: "450px",
+                  filter: "grayscale(10%) contrast(105%)",
+                }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
 
-            {/* Mobile */}
-            <div className="col-12 col-md-6">
-              <div className="input-group border-0 shadow-sm rounded-3 overflow-hidden">
-                <span className="input-group-text bg-white border-0 pe-0 ps-3">
-                  <IoMdCall  size={18} color="#333" />
-                </span>
-                <input
-                  type="text"
-                  className="form-control border-0 py-2 ps-2 fw-semibold"
-                  placeholder="Mobile No *"
-                  required
-                  style={{ fontSize: "14px" }}
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="col-12 col-md-6">
-              <div className="input-group border-0 shadow-sm rounded-3 overflow-hidden">
-                <span className="input-group-text bg-white border-0 pe-0 ps-3">
-                  <FaEnvelope size={14} color="#333" />
-                </span>
-                <input
-                  type="email"
-                  className="form-control border-0 py-2 ps-2 fw-semibold"
-                  placeholder="Email ID *"
-                  required
-                  style={{ fontSize: "14px" }}
-                />
-              </div>
-            </div>
-
-            {/* Message */}
-            <div className="col-12">
-              <textarea
-                className="form-control border-0 shadow-sm rounded-3 py-3 fw-semibold"
-                rows="4"
-                placeholder="Message"
-                style={{ fontSize: "14px", resize: "none" }}
-              ></textarea>
-            </div>
-
-            {/* Submit Button */}
-            <div className="col-12 text-center pt-2">
-              <button
-                type="submit"
-                className="btn px-5 py-2 text-white fw-bold rounded-pill shadow-sm"
-                style={{ backgroundColor: navyBlue, transition: "0.3s" }}
+              {/* Overlay Card */}
+              <div
+                className="position-absolute bottom-0 start-0 m-3 p-3 bg-white shadow rounded-3"
+                style={{ maxWidth: "260px" }}
               >
-                Submit <FaPaperPlane className="ms-2" size={14} />
-              </button>
+                <h6 className="fw-bold mb-1">
+                  📍 Head Office
+                </h6>
+
+                <p className="mb-1 small text-muted">
+                  Gulberg III, Lahore
+                </p>
+
+                <p className="mb-2 small fw-semibold">
+                  Mon – Sat : 9:00 AM – 6:00 PM
+                </p>
+
+
+                {/* <p className="mb-1 small d-flex align-items-center gap-2 fw-semibold">
+    <IoMdCall size={16} style={{ color: "#4a5546" }} />
+    <a
+      href="tel:+923001234567"
+      className="text-decoration-none"
+      style={{ color: "#4a5546" }}
+    >
+      +92 300 1234567
+    </a>
+  </p>
+ 
+  <p className="mb-0 small d-flex align-items-center gap-2 fw-semibold">
+    <FaEnvelope size={14} style={{ color: "#4a5546" }} />
+    <a
+      href="mailto:info@yourcompany.com"
+      className="text-decoration-none"
+      style={{ color: "#4a5546" }}
+    >
+      info@yourcompany.com
+    </a>
+  </p> */}
+              </div>
+
+
             </div>
-
           </div>
-        </form>
-      </div>
-    </div>
-
-</div>
 
         </div>
       </div>
-       <Footer />
+
+      <Footer />
     </div>
-    
   );
 };
 

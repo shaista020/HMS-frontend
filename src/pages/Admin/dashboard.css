@@ -1,0 +1,124 @@
+.kpi-container-unique {
+  padding: 10px 0;
+}
+
+.kpi-card-unique {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 190px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: pointer;
+}
+ 
+.kpi-card-unique::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--accent-color-soft) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+ 
+.kpi-card-unique:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.kpi-card-unique:hover::before {
+  opacity: 0.08;
+}
+
+.kpi-card-unique:hover::after {
+  transform: scaleX(1);
+}
+ 
+.kpi-icon-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--accent-color-soft);
+  color: var(--accent-color);
+  font-size: 22px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.kpi-card-unique:hover .kpi-icon-wrapper {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+ 
+.kpi-info-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.kpi-title-new {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5546; 
+  margin-bottom: 5px;
+  letter-spacing: 0.3px;
+}
+
+.kpi-value-new {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.kpi-trend-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  color: #4a5546;
+  font-weight: 600;
+}
+ 
+.kpi-trend {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+ 
+.kpi-card-unique .btn-view {
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: 2px solid var(--accent-color);  
+  color: var(--accent-color);  
+  background-color: transparent;  
+  transition: all 0.3s ease;
+}
+ 
+.kpi-card-unique:hover .btn-view {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
