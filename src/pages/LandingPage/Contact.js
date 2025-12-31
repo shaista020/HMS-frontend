@@ -15,12 +15,12 @@ const Contact = () => {
   const themeColor = "#4a5546";
 
   useEffect(() => {
-    const cards = document.querySelectorAll(".reveal");
+    const cards = document.querySelectorAll(".fade-up");
     const onScroll = () => {
       cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
         if (rect.top < window.innerHeight - 80) {
-          card.classList.add("show");
+          card.classList.add("fade-visible");
         }
       });
     };
@@ -35,7 +35,7 @@ const Contact = () => {
 
       <div className="container py-5 mt-4">
         {/* Heading */}
-        <div className="text-center mb-5 reveal">
+        <div className="text-center mb-5 fade-up">
           <h1 className="fw-bold display-5">Get in Touch</h1>
           <p className="text-muted fs-5 mx-auto" style={{ maxWidth: "720px" }}>
             We’d love to hear from you. Whether you have a question or need
@@ -44,7 +44,8 @@ const Contact = () => {
         </div>
 
         {/* Main Card */}
-        <div className="row g-0 shadow-lg rounded-1 overflow-hidden reveal contact-wrapper">
+        <div className="row g-0 shadow-lg rounded-1 overflow-hidden fade-up contact-container">
+
           {/* LEFT FORM */}
           <div className="col-md-6   border-end">
             <div
@@ -58,44 +59,44 @@ const Contact = () => {
               <form className="container-fluid">
                 <div className="row g-3">
                   <div className="col-md-6">
-                    <div className="input-box">
-                      <FaUser className="input-icon" />
+                    <div className="form-input-box">
+                      <FaUser className="form-input-icon" />
                       <input type="text" placeholder="First Name *" required />
                     </div>
                   </div>
 
 
                   <div className="col-md-6">
-                    <div className="input-box">
+                    <div className="form-input-box">
                       <FaUser />
                       <input type="text" placeholder="Last Name" />
                     </div>
                   </div>
 
                   <div className="col-md-6">
-                    <div className="input-box">
+                    <div className="form-input-box">
                       <IoMdCall />
                       <input type="text" placeholder="Mobile No *" required />
                     </div>
                   </div>
 
                   <div className="col-md-6">
-                    <div className="input-box">
+                    <div className="form-input-box">
                       <FaEnvelope />
                       <input type="email" placeholder="Email ID *" required />
                     </div>
                   </div>
 
                   <div className="col-12">
-                    <textarea
+                    <textarea 
                       rows="5"
                       placeholder="Your Message"
-                      className="message-box"
+                      className="form-message-box"
                     ></textarea>
                   </div>
 
                   <div className="col-12 text-center">
-                    <button className="submit-btn" type="submit">
+                    <button className="form-submit-btn" type="submit">
                       Send Message <FaPaperPlane />
                     </button>
                   </div>

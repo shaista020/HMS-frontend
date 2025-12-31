@@ -1,78 +1,54 @@
- 
-.reveal {
+.fade-up {
   opacity: 0;
   transform: translateY(40px);
   transition: 0.8s ease;
 }
-.reveal.show {
+
+.fade-up.fade-visible {
   opacity: 1;
   transform: translateY(0);
 }
- 
-.contact-wrapper {
+
+.contact-container {
   background: #e7e4e4;
 }
- 
-.section-header {
+
+.contact-header {
   padding: 16px;
   color: #fff;
   text-align: center;
   letter-spacing: 1px;
 }
- 
-.bg-form {
+
+.form-bg {
   background: #e1e1e1;
 }
- .input-box {
+
+.form-input-box {
   display: flex;
   align-items: center;
   background: #fff;
-  /* border: 1.5px solid #444; */
   padding: 12px 14px;
   border-radius: 12px;
   gap: 12px;
   position: relative;
 }
 
-
-.input-icon {
+.form-input-icon {
   color: #555;
   font-size: 15px;
 }
- 
-.input-box::after {
+
+.form-input-box::after {
   content: "";
   width: 1px;
   height: 22px;
   background: #ccc;
   position: absolute;
-  left: 44px;         
+  left: 44px;
 }
 
- 
-.input-box input {
-  border: none;
-  outline: none;
-  flex: 1;
-  font-size: 14px;
-  padding-left: 12px;   
-}
-
- 
-
-.input-box:hover,
-.input-box:focus-within {
-  border-color: #2a3327;
-  box-shadow: 0 0 0 3px rgba(16, 26, 13, 0.15);
-  transition: all 0.3s ease;
-}
-
-.input-box svg {
-  color: #444;
-  font-size: 14px;
-}
-
-.input-box input {
+.form-input-box input {
   border: none;
   outline: none;
   flex: 1;
@@ -81,7 +57,13 @@
   font-weight: 500;
 }
 
-.message-box {
+.form-input-box:hover,
+.form-input-box:focus-within {
+  box-shadow: 0 0 0 3px rgba(16, 26, 13, 0.15);
+  transition: all 0.3s ease;
+}
+
+.form-message-box {
   width: 100%;
   border: none;
   padding: 14px;
@@ -91,8 +73,7 @@
   outline: none;
 }
 
- 
-.submit-btn {
+.form-submit-btn {
   background: #4a5546;
   color: #fff;
   padding: 10px 34px;
@@ -104,31 +85,22 @@
   gap: 8px;
   transition: 0.3s;
 }
-.submit-btn:hover {
+
+.form-submit-btn:hover {
   background: #3e473a;
   transform: translateY(-2px);
 }
 
- 
-.bg-map {
+.map-bg {
   background: #dcdcdc;
 }
 
-.map-area {
+.map-wrapper {
   position: relative;
   height: 100%;
 }
 
-.map-area iframe {
-  width: 100%;
-  height: 100%;
-  min-height: 460px;
-  border: 0;
-  filter: grayscale(10%) contrast(105%);
-}
-
- 
-.map-card {
+.map-info-card {
   position: absolute;
   bottom: 20px;
   left: 20px;
@@ -137,21 +109,4 @@
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   max-width: 260px;
-}
-
-.map-card h6 {
-  margin-bottom: 4px;
-  color: #4a5546;
-  font-weight: 700;
-}
-
-.map-card p {
-  font-size: 13px;
-  margin-bottom: 4px;
-  color: #666;
-}
-
-.map-card span {
-  font-size: 12px;
-  font-weight: 600;
 }
