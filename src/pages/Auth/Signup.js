@@ -366,17 +366,19 @@ export default function SignUp({ mode }) {
 
 
                 {/* Date of Birth */}
-                <div className="input-box">
-                  <input
-                    type="date"
-                    name="dob"
-                    value={signUpData.dob}
-                    onChange={(e) => handleInputChange(e, 'signup')}
-                    required
-                  />
-                  <label>Date of Birth</label>
-                  <i className="fas fa-calendar"></i>
-                </div>
+                <div className="input-box date-input">
+  <input
+    type="date"
+    name="dob"
+    value={signUpData.dob}
+    onChange={(e) => handleInputChange(e, "signup")}
+    required
+  />
+   <label>Date of Birth</label>
+  <i className="fas fa-calendar-alt"></i>
+</div>
+
+                  
 
                 {/* Address */}
                 <div className="input-box">
