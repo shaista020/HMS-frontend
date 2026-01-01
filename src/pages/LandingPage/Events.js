@@ -144,11 +144,9 @@ const Events = () => {
 <div
   className="row mt-5 pt-5 justify-content-center align-items-center"
   style={{
-  backgroundImage: CTA,
-backgroundSize: "cover",
-backgroundPosition: "center",
-
-
+    backgroundImage: `url(${CTA})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     minHeight: "400px",
     borderRadius: "20px",
   }}
