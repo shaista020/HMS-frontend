@@ -42,8 +42,8 @@ import ListPayment from './pages/Admin/Payment/list_payment';
 import UpdatePayment from './pages/Admin/Payment/update_payment';
 import UserDashboard from "./pages/User/UserDashboard";
 
-import RoomType from './pages/User/pages/RoomType';
-import Room from './pages/User/pages/Room';
+import RoomType from './pages/User/pages/room/RoomType';
+import Room from './pages/User/pages/room/Room';
 
 import Sidebar from './components/Sidebar';
 import NavBar from './components/NavBar';
