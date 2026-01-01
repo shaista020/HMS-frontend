@@ -40,7 +40,7 @@ import UpdateGuest from './pages/Admin/Guest/Update_guest';
 import AddPayment from './pages/Admin/Payment/add_payment';
 import ListPayment from './pages/Admin/Payment/list_payment';
 import UpdatePayment from './pages/Admin/Payment/update_payment';
-import UserDashboard from "./pages/User/pages/UserDashboard";
+import UserDashboard from "./pages/User/UserDashboard";
 
 import RoomType from './pages/User/pages/RoomType';
 import Room from './pages/User/pages/Room';
