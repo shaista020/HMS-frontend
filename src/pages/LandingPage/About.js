@@ -5,10 +5,15 @@ import Footer from "./Footer";
 import "./About.css";
 import { Target, Eye, Flag } from 'lucide-react';
 import { FaBullseye, FaLightbulb, FaBalanceScale } from "react-icons/fa";
+import boy from "../../assets/images/img/boy.png";
+import woman from "../../assets/images/img/woman.png";
+import women from "../../assets/images/img/women.png";
+import about_bg from "../../assets/images/img/about_bg.avif";
+ 
 const teamMembers = [
-  { name: "Ameer Dawood", role: "Hotel Manager", image: "/assets/img/boy.png" },
-  { name: "Shaista Tabbasum", role: "Head Chef", image: "/assets/img/woman.png" },
-  { name: "Lalain Fatima", role: "Front Desk Manager", image: "/assets/img/women.png" },
+  { name: "Ameer Dawood", role: "Hotel Manager", image: boy },
+  { name: "Shaista Tabbasum", role: "Head Chef", image: woman },
+  { name: "Lalain Fatima", role: "Front Desk Manager", image: women },
 ];
 
 
@@ -63,14 +68,15 @@ const AboutUs = () => {
 
       <LandNavbar />
       <section
-        style={{
-          color: "#4A5546",
-          padding: "80px 0",
-          background: "linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('/assets/img/about_bg.avif')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          position: "relative",
-        }}
+       style={{
+  color: "#4A5546",
+  padding: "80px 0",
+  background: `linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url(${about_bg})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  position: "relative",
+}}
+
       >
         <Container>
           <Row className="align-items-center">
@@ -124,7 +130,7 @@ const AboutUs = () => {
 
             <Col md={6}>
               <img
-                src="/assets/img/about_bg.avif"
+                 src={about_bg}
                 alt="GreenDoors Hotel"
                 style={{
                   width: "100%",

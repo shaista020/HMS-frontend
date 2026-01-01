@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/images/LOGO.png";
+import logo from "../../assets/images/LOGO.png";
   
 const LandNavbar = () => {
   const location = useLocation();
