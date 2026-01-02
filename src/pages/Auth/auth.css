@@ -179,7 +179,10 @@ form.sign-in-form { z-index: 2; }
   transform: translate(100%, -50%);
   right: 52%;
 }
-
+.left-panel .content { 
+    
+  margin-right: 22px;
+ }
 .container_main.sign-up-mode .left-panel { pointer-events: none; }
 .container_main.sign-up-mode .left-panel .content { transform: translateX(-800px); }
 .container_main.sign-up-mode .right-panel { pointer-events: all; }
@@ -216,10 +219,13 @@ form.sign-in-form { z-index: 2; }
   .container_main:before { bottom: 72%; left: 50%; }
   .container_main.sign-up-mode:before { bottom: 28%; left: 50%; }
   .scroll-form-fields { 
-    max-height: 550px; 
-    overflow-y: auto; 
+    max-height: 350px; 
+    overflow-y: auto  ; 
     width: 130%; 
     padding: 0 10px;
+  } 
+  .right-panel .content{
+    margin-bottom: -13px;
   }
 }
  .scroll-form-fields { 
