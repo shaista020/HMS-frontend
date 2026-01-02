@@ -78,74 +78,77 @@ const AboutUs = () => {
 }}
 
       >
-        <Container>
-          <Row className="align-items-center">
+       <Container>
+  <Row className="align-items-center">
+    {/* Text Column */}
+    <Col
+      md={6}
+      className="text-center text-md-start mb-4 mb-md-0"
+      style={{ paddingRight: "15px" }}
+    >
+      <h1
+        style={{
+          fontWeight: 700,
+          fontSize: "3rem",
+          marginBottom: "20px",
+          lineHeight: "1.2",
+          transition: "all 0.4s ease",
+        }}
+      >
+        About Our Hotel
+      </h1>
+      <p
+        style={{
+          fontSize: "1.2rem",
+          margin: "20px 0",
+          lineHeight: "1.8",
+          color: "#555",
+        }}
+      >
+        Welcome to <strong>GreenDoors</strong>, where timeless elegance meets modern comfort.
+        Nestled in a serene environment, GreenDoors is designed to offer a refined hospitality
+        experience that blends luxury, warmth, and personalized service. From beautifully
+        crafted interiors to thoughtfully curated amenities, every detail is created to make
+        your stay relaxing and memorable.
+      </p>
 
-            {/* Text Column */}
-            <Col md={6}>
-              <h1
-                style={{
-                  fontWeight: 700,
-                  fontSize: "3rem",
-                  marginBottom: "20px",
-                  lineHeight: "1.2",
-                  transition: "all 0.4s ease",
-                }}
-              >
-                About Our Hotel
-              </h1>
-              <p
-                style={{
-                  fontSize: "1.2rem",
-                  margin: "20px 0",
-                  lineHeight: "1.8",
-                  color: "#555",
-                }}
-              >
-                Welcome to <strong>GreenDoors</strong>, where timeless elegance meets modern comfort.
-                Nestled in a serene environment, GreenDoors is designed to offer a refined hospitality
-                experience that blends luxury, warmth, and personalized service. From beautifully
-                crafted interiors to thoughtfully curated amenities, every detail is created to make
-                your stay relaxing and memorable.
+      <button
+        className="btn"
+        style={{
+          backgroundColor: "#4A5546",
+          color: "#fff",
+          fontWeight: 600,
+          padding: "12px 30px",
+          borderRadius: "8px",
+          transition: "all 0.3s ease",
+          boxShadow: "0 6px 15px rgba(74,85,70,0.3)",
+          marginBottom: "20px", // <--- add spacing below button
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#507550")}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#4A5546")}
+      >
+        Learn More
+      </button>
+    </Col>
 
-              </p>
+    <Col md={6} className="text-center">
+      <img
+        src={about_bg}
+        alt="GreenDoors Hotel"
+        style={{
+          width: "100%",
+          borderRadius: "15px",
+          objectFit: "cover",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+          transition: "all 0.4s ease",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+      />
+    </Col>
+  </Row>
+</Container>
 
-              <button
-                className="btn"
-                style={{
-                  backgroundColor: "#4A5546",
-                  color: "#fff",
-                  fontWeight: 600,
-                  padding: "12px 30px",
-                  borderRadius: "8px",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 6px 15px rgba(74,85,70,0.3)",
-                }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = "#507550"}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = "#4A5546"}
-              >
-                Learn More
-              </button>
-            </Col>
-
-            <Col md={6}>
-              <img
-                 src={about_bg}
-                alt="GreenDoors Hotel"
-                style={{
-                  width: "100%",
-                  borderRadius: "15px",
-                  objectFit: "cover",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-                  transition: "all 0.4s ease",
-                }}
-                onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-                onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-              />
-            </Col>
-
-          </Row>
-        </Container>
       </section>
       <section className="infographic-section">
         <Container>
