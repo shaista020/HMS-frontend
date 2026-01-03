@@ -32,7 +32,7 @@ Frontend of a full-stack Hotel Management System built with **React.js**.
 ## ⚙️ Installation
 
 ```bash
-git clone <frontend-repo-url>
+git clone https://github.com/shaista020/HMS-frontend.git
 cd HMS-frontend
 npm install
 npm start
