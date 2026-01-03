@@ -1,6 +1,7 @@
 # HMS Frontend (Hotel Management System)
 
-Frontend of a full-stack Hotel Management System built with **React.js**.
+Frontend of a full-stack Hotel Management System built with **React.js**.  
+The backend APIs are developed using **Python Django REST Framework** by Shaista Tabbasum.
 
 ---
 
@@ -17,6 +18,7 @@ Frontend of a full-stack Hotel Management System built with **React.js**.
 - Dashboard analytics & tables  
 - Reusable components and forms  
 - Mobile-friendly layouts  
+- Integrated with backend APIs for CRUD operations
 
 ---
 
@@ -25,15 +27,31 @@ Frontend of a full-stack Hotel Management System built with **React.js**.
 | Layer    | Technologies / Tools |
 |----------|-------------------|
 | Frontend | React.js, JavaScript, HTML, CSS, Bootstrap |
+| Backend  | Python, Django, Django REST Framework |
 | Tools    | Git, VS Code, Postman, Browser Dev Tools |
 
 ---
-<img width="1353" height="638" alt="image" src="https://github.com/user-attachments/assets/f95774b1-4b8e-4931-8b90-142c90b8bd67" />
+
+## 📸 Screenshots
+
+![Landing page](<img width="1353" height="638" alt="image" src="https://github.com/user-attachments/assets/b6544fe4-899f-4ac7-831d-8ed230ae3232" />)
+![Login](<img width="1348" height="644" alt="image" src="https://github.com/user-attachments/assets/527bf215-f28b-422f-aa15-589c5f9ff670" />)
+![Our Team](<img width="1353" height="644" alt="image" src="https://github.com/user-attachments/assets/e8391f89-c703-4a21-a158-b833e1ec1574" />)
+ 
+
+---
 
 ## ⚙️ Installation
 
 ```bash
+# Clone the repository
 git clone https://github.com/shaista020/HMS-frontend.git
+
+# Go to project directory
 cd HMS-frontend
+
+# Install dependencies
 npm install
+
+# Start the app
 npm start
