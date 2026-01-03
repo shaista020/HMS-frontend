@@ -34,9 +34,9 @@ The backend APIs are developed using **Python Django REST Framework** by Shaista
 
 ## 📸 Screenshots
 
-<img width="1353" height="638" alt="image" src="https://github.com/user-attachments/assets/b6544fe4-899f-4ac7-831d-8ed230ae3232" />
-<img width="1348" height="644" alt="image" src="https://github.com/user-attachments/assets/527bf215-f28b-422f-aa15-589c5f9ff670" />
-<img width="1353" height="644" alt="image" src="https://github.com/user-attachments/assets/e8391f89-c703-4a21-a158-b833e1ec1574" />
+<img width="1200" height="400" alt="image" src="https://github.com/user-attachments/assets/b6544fe4-899f-4ac7-831d-8ed230ae3232" />
+<img width="1200" height="400" alt="image" src="https://github.com/user-attachments/assets/527bf215-f28b-422f-aa15-589c5f9ff670" />
+<img width="1200" height="400" alt="image" src="https://github.com/user-attachments/assets/e8391f89-c703-4a21-a158-b833e1ec1574" />
  
 
 ---
