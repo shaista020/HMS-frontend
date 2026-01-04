@@ -48,7 +48,7 @@ import Room from './pages/User/pages/room/Room';
 import Sidebar from './components/Sidebar';
 import NavBar from './components/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import ScrollToTop from "./components/ScrollToTop";
 function Layout({ children }) {
   const location = useLocation();
   const adminPaths = ['/admin_dashboard', '/booking', '/user', '/hotel-setup', '/room-types', '/rooms', '/guest','/payment'];
@@ -70,6 +70,7 @@ function Layout({ children }) {
 function App() {
   return (
     <Router>
+       <ScrollToTop /> 
       {/* ✅ Top-level ToastContainer */}
       <ToastContainer position="top-right" autoClose={3000} />
 
