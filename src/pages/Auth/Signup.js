@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../../api';
 import LandNavbar from "../LandingPage/LandNavbar";
 import { Modal } from 'bootstrap'; 
+const today = new Date().toISOString().split("T")[0];
 
 const InputField = ({ label, icon, type, name, value, onChange, toggleShow, showIcon }) => (
   <div className="input-box">
@@ -112,11 +113,11 @@ export default function SignUp({ mode }) {
                       label="Confirm Password" type={showPass.confirm ? 'text' : 'password'} name="confirm_password" value={signUpData.confirm_password} 
                       onChange={(e) => handleInputChange(e, 'signup')} toggleShow={() => setShowPass(p => ({...p, confirm: !p.confirm}))} showIcon={showPass.confirm} 
                     />
-                   <div className="input-box">
+                  <div className="input-box">
   <input 
     type="date" 
     name="dob" 
-    value={signUpData.dob} 
+    value={signUpData.dob || today}  // agar user ne date select na ki ho to today show hoga
     onChange={(e) => handleInputChange(e, 'signup')} 
     required 
     id="dobInput"

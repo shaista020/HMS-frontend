@@ -183,6 +183,30 @@ form.sign-in-form { z-index: 2; }
     
   margin-right: 22px;
  }
+ /* Default state */
+.left-panel .content {
+  transform: translateX(0);
+  opacity: 1; /* visible by default */
+  transition: all 0.7s ease-in-out;
+}
+
+.right-panel .content {
+  transform: translateX(800px); /* move out initially */
+  opacity: 0; /* hide initially */
+  transition: all 0.7s ease-in-out;
+}
+
+/* Sign-up mode (switch panels) */
+.container_main.sign-up-mode .left-panel .content {
+  transform: translateX(-800px); /* move out */
+  opacity: 0; /* hide */
+}
+
+.container_main.sign-up-mode .right-panel .content {
+  transform: translateX(0); /* move in */
+  opacity: 1; /* show */
+}
+
 .container_main.sign-up-mode .left-panel { pointer-events: none; }
 .container_main.sign-up-mode .left-panel .content { transform: translateX(-800px); }
 .container_main.sign-up-mode .right-panel { pointer-events: all; }
