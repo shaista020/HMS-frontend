@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# HMS Frontend (Hotel Management System) 🏨
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend of a full-stack Hotel Management System built with **React.js**.  
+The backend APIs are developed using **Python Django REST Framework** by **Shaista Tabbasum**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌐 Live Demo
 
-### `npm start`
+- Frontend: [HMS Frontend](https://hmsfrontend-cyan.vercel.app)  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🏆 Badges
 
-### `npm test`
+![GitHub top language](https://img.shields.io/github/languages/top/shaista020/HMS-frontend?color=4A5E46)
+![GitHub repo size](https://img.shields.io/github/repo-size/shaista020/HMS-frontend?color=4A5E46)
+![GitHub last commit](https://img.shields.io/github/last-commit/shaista020/HMS-frontend?color=4A5E46)
+![Vercel](https://img.shields.io/badge/deployed-Vercel-brightgreen)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend (React.js)
+- Responsive UI: Login, Signup, Dashboard  
+- Role-based access (Admin, Staff, Manager)  
+- Dashboard analytics & tables  
+- Reusable components and forms  
+- Mobile-friendly layouts  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend Integration (Python Django REST Framework)
+- Connected to backend APIs for CRUD operations  
+- JWT authentication & secure endpoints  
+- Role-based permissions  
+- Audit logs & activity tracking  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🛠 Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Layer        | Technologies / Tools |
+|--------------|-------------------|
+| Frontend     | ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white) React.js, JavaScript, HTML, CSS, Bootstrap |
+| Backend      | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white) Python, Django, Django REST Framework |
+| Database     | MySQL / SQLite |
+| Deployment   | Vercel (Frontend), Heroku / Local Server (Backend) |
+| Tools        | Git, VS Code, Postman, Browser Dev Tools |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 📸 Screenshots
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<img src="https://github.com/user-attachments/assets/b6544fe4-899f-4ac7-831d-8ed230ae3232" alt="Login Page" style="max-width:100%; height:auto; border-radius: 10px; margin-bottom: 10px;" />
+<img src="https://github.com/user-attachments/assets/527bf215-f28b-422f-aa15-589c5f9ff670" alt="Dashboard" style="max-width:100%; height:auto; border-radius: 10px; margin-bottom: 10px;" />
+<img src="https://github.com/user-attachments/assets/e8391f89-c703-4a21-a158-b833e1ec1574" alt="Tables" style="max-width:100%; height:auto; border-radius: 10px; margin-bottom: 10px;" />
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ⚙️ Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Clone the repository
+git clone https://github.com/shaista020/HMS-frontend.git
 
-### Code Splitting
+# Go to project directory
+cd HMS-frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Install dependencies
+npm install
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Start the app
+npm start
