@@ -14,16 +14,20 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 //logo
-import logo from "../assets/images/GreeenDoors.png";
- 
+// import logo from "../../assets/images/img/GreeenDoors.png";
+import lendingImg from "../../assets/images/img/lending_img.jpg";
+import bed3 from "../../assets/images/img/bed3.jpg";
+import bed2 from "../../assets/images/img/bed2.jpg";
+import bed1 from "../../assets/images/img/bed1.jpg";
+
 import LandNavbar from "./LandNavbar";
 
 function LandingPage() {
   
   const archImages = [
-    "/assets/img/bed1.jpg",
-    "/assets/img/bed3.jpg",
-    "/assets/img/bed2.jpg",
+    bed1,
+   bed3,
+    bed2,
   ];
 
   // Statistics updated to match the image content
@@ -32,10 +36,10 @@ function LandingPage() {
     { value: "35,000+", label: "Exclusive Hotels" },
     { value: "1.5M+", label: "Exclusive Rooms" },
   ];
-  const mainImage = "/assets/img/bed1.jpg";
-  const img1 = "/assets/img/bed3.jpg";
-  const img2 = "/assets/img/bed2.jpg";
-  const img3 = "/assets/img/bed1.jpg";
+  const mainImage = bed1;
+  const img1 = bed3;
+  const img2 = bed2;
+  const img3 = bed1;
 
   const smallArticles = [
     {
@@ -79,10 +83,11 @@ function LandingPage() {
             <div className="hero-image col-12 col-lg-5 position-relative text-center">
               <div className="image-frame">
                 <img
-                  src="/assets/img/lending_img.jpg"
-                  alt="Hero"
-                  className="img-fluid rounded"
-                />
+  src={lendingImg}
+  alt="Hero"
+  className="img-fluid rounded"
+/>
+
                 <div className="circle-outline"></div>
                 <div className="sparkle"></div>
               </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Card } from 'react-bootstrap';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import "./HighlightSection.css";
+import bed3 from "../../assets/images/img/bed3.jpg";
 
 function PopularHotelsSection() {
   const hotels = [
@@ -9,19 +10,19 @@ function PopularHotelsSection() {
       name: "Capital Business Hotel",
       location: "Bali, Indonesia",
       price: 1200,
-      img: "/assets/img/bed3.jpg"
+       img: bed3
     },
     {
       name: "Hotel Super Winer 96",
       location: "Bali, Indonesia", 
       price: 1199,
-      img: "/assets/img/bed3.jpg"
+       img: bed3 
     },
     {
       name: "Super Gotel Collection",
       location: "Tulungagung, Indonesia",
       price: 1099,
-      img: "/assets/img/bed3.jpg"
+       img: bed3
     },
   ];
 

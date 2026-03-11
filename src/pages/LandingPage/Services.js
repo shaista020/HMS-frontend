@@ -11,6 +11,8 @@ import {
 import LandNavbar from "./LandNavbar";
 import Footer from "./Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
+import yoga from "../../assets/images/img/yoga.webp";
+import pool from "../../assets/images/img/pool.jpeg";
 
 const services = [
   {
@@ -28,8 +30,8 @@ const services = [
     list: ["Breakfast Buffet", "Lunch Menu", "Dinner Specials", "Private Dining"],
   },
   {
-    // ✅ POOL – ONLINE HTTPS IMAGE
-   bg: "/assets/img/pool.jpeg",
+    
+   bg:pool,
     icon: <FaSwimmer size={40} />,
     title: "Swimming Pool",
     description: "Relax and unwind in our luxurious pool area.",
@@ -42,8 +44,8 @@ const services = [
     description: "Stay connected anytime with seamless internet access.",
     list: ["Lobby Wi-Fi", "In-Room Wi-Fi", "Conference Areas", "Outdoor Zones"],
   },
-  {
-    bg: "/assets/img/yoga.webp",
+  { 
+    bg: yoga,
     icon: <FaSpa size={40} />,
     title: "Spa & Wellness",
     description: "Relax, refresh and rejuvenate your body and mind.",

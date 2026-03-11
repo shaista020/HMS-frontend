@@ -1,47 +1,84 @@
+/* =====================
+   BASE
+===================== */
 .booking-bar {
-  background: #ffffff;
-  border-radius: 50px;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.08);
+  background: #ffffff !important;
+  border-radius: 30px;
+ 
 }
 
-.booking-item {
-  flex: 1;
-  min-width: 200px;
-  margin: 8px 12px;
-}
+/* =====================
+   INPUTS
+===================== */
 
-.custom-select,
-.custom-date {
-  border: none !important;
+.form-select,
+.react-datepicker-wrapper input {
   background-color: transparent !important;
   font-weight: 600;
-  font-size: 15px;
-  outline: none !important;
-  box-shadow: none !important;
+  font-size: 0.9rem;
   cursor: pointer;
+  border-radius: 8px;
+  
 }
 
-.custom-select:focus,
-.custom-date:focus {
+.form-select:focus,
+.react-datepicker-wrapper input:focus {
   border-bottom: 2px solid #3a4d39 !important;
+  box-shadow: none !important;
 }
 
+.input-group-text {
+  border-radius: 8px 0 0 8px;
+  color: #4a5546;
+}
+
+/* =====================
+   DATE PICKER FIX
+===================== */
 .react-datepicker-wrapper {
   width: 100%;
+  
 }
 
-.react-datepicker__input-container input {
+.react-datepicker__input-container {
   width: 100%;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: #f9f9f9;
-  border: none;
-  font-weight: 600;
 }
 
-.react-datepicker__input-container input:focus {
-  outline: none;
+.react-datepicker-wrapper input {
+  padding: 4px 3px  ;
+  border: none;
+  background: #f9f9f9;
+}
+
+.react-datepicker-wrapper input:focus {
   background-color: #eef1ee;
+}
+
+.date-input {
+  padding-left: 6px;
+  background: transparent;
+}
+
+/* Icon size */
+.input-group-text svg {
+  font-size: 20px;
+  color: #4a5546;
+}
+
+/* =====================
+   DESKTOP ONLY (≥992px)
+===================== */
+@media (min-width: 992px) {
+  .booking-bar {
+    border-radius: 150px !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+     margin-top: -90px;
+  margin-bottom: 30px;
+  }
+  .form{
+  margin-left: 40px;
+  
+}
 }
 
 .btn-dark {
@@ -53,34 +90,4 @@
 .btn-dark:hover {
   background-color: #2e3d2c;
   transform: translateY(-2px);
-}
-.booking-bar {
-  background: white;
-  color: black;
-  margin-top: -2rem;
-  margin-bottom: 4rem;
-  /* width: 80%; */
-}
-
-.booking-item {
-  display: flex;
-  flex-direction: column;
-  margin: 10px 15px;
-}
-
-.booking-item label {
-  font-size: 0.8rem;
-  color: gray;
-  font-weight: 600;
-}
-
-.booking-item div {
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.booking-bar button {
-  background-color: #2f3b2f;
-  color: white;
-  border: none;
 }

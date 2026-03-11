@@ -3,6 +3,8 @@ import LandNavbar from "./LandNavbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
+import CTA from "../../assets/images/img/CTA.avif";
+
 const Events = () => {
   
   const events = [
@@ -142,11 +144,9 @@ const Events = () => {
 <div
   className="row mt-5 pt-5 justify-content-center align-items-center"
   style={{
-  backgroundImage: "url('/assets/img/CTA.avif')",
-backgroundSize: "cover",
-backgroundPosition: "center",
-
-
+    backgroundImage: `url(${CTA})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     minHeight: "400px",
     borderRadius: "20px",
   }}
