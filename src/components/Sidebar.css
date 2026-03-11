@@ -1,10 +1,10 @@
-/* Sidebar
+/* Sidebar */
 .sidebar {
   background-color: #4a5546;
   color: white !important;
   height: 100vh; 
-  width: 260px;  
-  position: absolute;
+  width: 274px;  
+  position: fixed;
   left: 0;
   top: 0;
   transition: transform 0.3s ease-in-out;
@@ -20,7 +20,7 @@
   padding-top: 20px;  
 }
 
- 
+/* Scrollbar */
 .sidebar-scroll {
   scrollbar-width: thin;
   scrollbar-color: #cdd3cd #4a5546;
@@ -53,7 +53,7 @@
 }
  
 .hamburger-btn {
-  position: fixed;
+  position: absolute;
   top: 15px;
   left: 15px;
   z-index: 1000;
@@ -65,7 +65,8 @@
   display: none;
   cursor: pointer;
 }
- 
+
+/* Close button inside sidebar */
 .close-btn {
   position: absolute;
   top: 10px;
@@ -88,20 +89,34 @@
   }
 }
  
+
 .main-content {
-  margin-left: 140px;
+  margin-left: 260px;
   transition: margin-left 0.3s ease-in-out;
+  overflow-y: auto;
 }
 
 .main-content.expanded {
   margin-left: 0px;
 }
+
+.main-content-config {
+  margin-left: 210px;
+  transition: margin-left 0.3s ease-in-out;
+  overflow-y: auto;
+  margin-right: 10px
+}
+
+.main-content-config.expanded {
+  margin-left: 0px;
+}
+
   
 .tree-branch {
   margin-left: 22px;
   padding-left: 8px;
   border-left: 2px solid #fff;
-  
+  /* border-bottom: 2px solid #fff; */
   margin-right: 10px;
 }
  
@@ -111,7 +126,8 @@
   transition: all 0.2s ease;
   color: #fff !important;
 }
- 
+
+/* Hover dot */
 .tree-item::before {
   content: "";
   position: absolute;
@@ -130,7 +146,7 @@
 }
  
 .tree-item:hover {
-  background-color: #7e837d;
+  background-color: rgba(255,255,255,0.15);
   border-radius: 6px;
 }
  
@@ -143,10 +159,82 @@
 .tree-item .nav-link:hover {
   color: #e3e8e3 !important;
 }
- 
+ /* NESTED SUBTREE branch (2nd level) */
+.tree-branch .sub-branch {
+  margin-left: 20px;
+  padding-left: 15px;
+  border-left: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+/* NESTED submenu item */
+.sub-branch .tree-item {
+  padding: 8px 0 8px 10px;
+  position: relative;
+}
+
+/* Dot for nested items */
+.sub-branch .tree-item::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+
+/* Hover effect same as main */
+.sub-branch .tree-item:hover {
+  background-color: rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+.sub-branch .tree-item:hover::before {
+  background-color: #fff;
+}
+
+/* Active link same style */
+.sub-branch .active-link {
+  background-color: rgba(255,255,255,0.25) !important;
+  border-radius: 6px;
+}
+.sub-branch .active-link::before {
+  background-color: #fff !important;
+}
+
 .sub-btn {
   color: white !important;
   background: none !important;
   padding-left: 0px;
   font-size: 0.9rem;
-} */
+}
+ 
+.active-link {
+  background-color: #7e837d !important;   
+  border-radius: 6px;                       
+  color: #fff !important;
+  position: relative;
+}
+ 
+.active-link::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: #ffffff;               
+  border-radius: 50%;
+}
+ 
+.search-box::placeholder {
+  color: white !important;
+  opacity: 1;  
+}
+.Toastify__toast-container {
+  z-index: 2000; /* Modal ke upar show karne ke liye */
+}
+ 

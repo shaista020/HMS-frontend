@@ -14,7 +14,7 @@ import Dashboard from './pages/Admin/admin_dashboard';
 import Book from './pages/Admin/Booking/BookingList';
 import AddBooking from "./pages/Admin/Booking/AddBooking";
 import BookingUpdate from "./pages/Admin/Booking/UpdateBooking";
-import UserList from './pages/Admin/User/ListIUser';
+import UserList from './pages/Admin/User/ListUser';
 
 // Hotel Config
 import AddSetup from './pages/Admin/HotelConfiguration/AddSetup';
@@ -40,92 +40,64 @@ import UpdateGuest from './pages/Admin/Guest/Update_guest';
 import AddPayment from './pages/Admin/Payment/add_payment';
 import ListPayment from './pages/Admin/Payment/list_payment';
 import UpdatePayment from './pages/Admin/Payment/update_payment';
-import UserDashboard from "./pages/User/UserDashboard";
 
+import UserDashboard from "./pages/User/UserDashboard";
 import RoomType from './pages/User/pages/room/RoomType';
 import Room from './pages/User/pages/room/Room';
-
-import Sidebar from './components/Sidebar';
-import NavBar from './components/NavBar';
+ 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ScrollToTop from "./components/ScrollToTop";
-function Layout({ children }) {
-  const location = useLocation();
-  const adminPaths = ['/admin_dashboard', '/booking', '/user', '/hotel-setup', '/room-types', '/rooms', '/guest','/payment'];
-  const isAdminRoute = adminPaths.some(path => location.pathname.startsWith(path));
+import AdminLayout from './Layouts/AdminLayout';
 
-  return (
-    <div>
-      {isAdminRoute && <NavBar />}
-      <div className="d-flex">
-        {isAdminRoute && <Sidebar />}
-        <div className="flex-grow-1 p-4">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
+// -------------------- App --------------------
 function App() {
   return (
     <Router>
-       <ScrollToTop /> 
-      {/* ✅ Top-level ToastContainer */}
-      <ToastContainer position="top-right" autoClose={3000} />
-
+       
       <Routes>
         {/* Auth */}
         <Route path="/signup" element={<SignUp mode="signup" />} />
         <Route path="/signin" element={<SignUp mode="signin" />} />
 
-        {/* Admin Dashboard */}
-        <Route path="/admin_dashboard" element={<Layout><Dashboard /></Layout>} />
-        <Route path="/booking" element={<Layout><Book /></Layout>} />
-        <Route path="/booking/add" element={<Layout><AddBooking /></Layout>} />
-        <Route path="/booking/edit/:booking_id" element={<Layout><BookingUpdate /></Layout>} />
+        {/* -------------------- Admin Routes -------------------- */}
+        <Route path="/admin_dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+        <Route path="/booking" element={<AdminLayout><Book /></AdminLayout>} />
+        <Route path="/booking/add" element={<AdminLayout><AddBooking /></AdminLayout>} />
+        <Route path="/booking/edit/:booking_id" element={<AdminLayout><BookingUpdate /></AdminLayout>} />
 
-        {/* Hotel Setup */}
-        <Route path="/hotel-setup/add" element={<Layout><AddSetup /></Layout>} />
-        <Route path="/hotel-setup/list" element={<Layout><HotelSetup /></Layout>} />
-        <Route path="/hotel-setup/edit/:hotel_id" element={<Layout><UpdateSetup /></Layout>} />
+        <Route path="/hotel-setup/add" element={<AdminLayout><AddSetup /></AdminLayout>} />
+        <Route path="/hotel-setup/list" element={<AdminLayout><HotelSetup /></AdminLayout>} />
+        <Route path="/hotel-setup/edit/:hotel_id" element={<AdminLayout><UpdateSetup /></AdminLayout>} />
 
-        {/* Room Type */}
-        <Route path="/room-types/add" element={<Layout><AddRoomType /></Layout>} />
-        <Route path="/room-types/list" element={<Layout><ListRoomType /></Layout>} />
-        <Route path="/room-types/edit/:room_type_id" element={<Layout><UpdateRoomType /></Layout>} />
+        <Route path="/room-types/add" element={<AdminLayout><AddRoomType /></AdminLayout>} />
+        <Route path="/room-types/list" element={<AdminLayout><ListRoomType /></AdminLayout>} />
+        <Route path="/room-types/edit/:room_type_id" element={<AdminLayout><UpdateRoomType /></AdminLayout>} />
 
-        {/* Room */}
-        <Route path="/rooms/add" element={<Layout><AddRoom /></Layout>} />
-        <Route path="/rooms/list" element={<Layout><ListRoom /></Layout>} />
-        <Route path="/rooms/edit/:room_id" element={<Layout><UpdateRoom /></Layout>} />
+        <Route path="/rooms/add" element={<AdminLayout><AddRoom /></AdminLayout>} />
+        <Route path="/rooms/list" element={<AdminLayout><ListRoom /></AdminLayout>} />
+        <Route path="/rooms/edit/:room_id" element={<AdminLayout><UpdateRoom /></AdminLayout>} />
 
-        {/* Guest */}
-        <Route path="/guest/add" element={<Layout><AddGuest /></Layout>} />
-        <Route path="/guest/list" element={<Layout><ListGuest /></Layout>} />
-        <Route path="/guest/edit/:guest_id" element={<Layout><UpdateGuest /></Layout>} />
-        {/* Payment */}
-        <Route path="/payment/add" element={<Layout><AddPayment /></Layout>} />
-        <Route path="/payment/list" element={<Layout><ListPayment /></Layout>} />
-        <Route path="/payment/edit/:guest_id" element={<Layout><UpdatePayment /></Layout>} />
+        <Route path="/guest/add" element={<AdminLayout><AddGuest /></AdminLayout>} />
+        <Route path="/guest/list" element={<AdminLayout><ListGuest /></AdminLayout>} />
+        <Route path="/guest/edit/:guest_id" element={<AdminLayout><UpdateGuest /></AdminLayout>} />
 
-        {/* Users */}
-        <Route path="/user" element={<Layout><UserList /></Layout>} />
+        <Route path="/payment/add" element={<AdminLayout><AddPayment /></AdminLayout>} />
+        <Route path="/payment/list" element={<AdminLayout><ListPayment /></AdminLayout>} />
+        <Route path="/payment/edit/:guest_id" element={<AdminLayout><UpdatePayment /></AdminLayout>} />
 
-        {/* User Dashboard */}
-        <Route path="/UserDashboard" element={<Layout><UserDashboard /></Layout>} />
+        <Route path="/user" element={<AdminLayout><UserList /></AdminLayout>} />
 
-        {/* User Pages */}
-        <Route path="/RoomType" element={<Layout><RoomType /></Layout>} />
-        <Route path="/Room" element={<Layout><Room /></Layout>} />
+        {/* -------------------- User Dashboard / Pages -------------------- */}
+        <Route path="/UserDashboard" element={<UserDashboard />} />
+        <Route path="/RoomType" element={<RoomType />} />
+        <Route path="/Room" element={<Room />} />
 
-        {/* Public Landing Page */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path='/About' element={< About />} />
-        <Route path='/Services' element={< Services />} />
-        <Route path='/Events' element={< Events />} />
-        <Route path='/Contact' element={< Contact />} />
-
+        {/* -------------------- Public Pages -------------------- */}
+        <Route path="/" element={<LandingPage />} /> 
+        <Route path="/About" element={<About />} />
+        <Route path="/Services" element={<Services />} />
+        <Route path="/Events" element={<Events />} />
+        <Route path="/Contact" element={<Contact />} />
       </Routes>
     </Router>
   );
