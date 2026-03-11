@@ -23,26 +23,12 @@ import {
 } from "recharts";
 
 const AdminDashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+   
   const [filter, setFilter] = useState("7days");  
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [filteredLogs, setFilteredLogs] = useState([]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 992) {
-        setSidebarOpen(false);
-        setIsMobile(true);
-      } else {
-        setSidebarOpen(true);
-        setIsMobile(false);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  
 
   
   const kpis = [
@@ -142,7 +128,7 @@ const AdminDashboard = () => {
   }, [filter]);
 
   return (
-    <div className={`main-content ${sidebarOpen ? "" : "expanded"}`}>
+    <div > 
       <div className="p-4">
         {/* ===== HEADER WITH FILTER DROPDOWN ===== */}
       <div className="d-flex justify-content-between align-items-center mb-4">

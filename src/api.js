@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Create Axios instance
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/", // Django backend base URL
+  baseURL: "http://127.0.0.1:8000/api/", // Django backend base URL
 });
 
 // Add a request interceptor to attach token dynamically

@@ -12,7 +12,7 @@ const UserList = () => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
    
   useEffect(() => {
     const handleResize = () => {
@@ -114,7 +114,7 @@ const [showUpdateModal, setShowUpdateModal] = useState(false);
     <div className="d-flex">
       <div className="flex-grow-1">
         <div className="container my-4">
-          <div className={`main-content-config ${sidebarOpen ? "" : "expanded"}`}>
+          <div className={`main-cocntent-config ${sidebarOpen ? "" : "expanded"}`}>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h3 className="fw-bold">Users List</h3>
 

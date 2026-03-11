@@ -14,8 +14,8 @@ const InputField = ({ label, icon, type, name, value, onChange, toggleShow, show
       <span className="password-toggle" onClick={toggleShow}>
         <i className={showIcon ? 'fa fa-eye' : 'fas fa-lock'} />
       </span>
-    ) : (
-      <i className={icon}></i>
+    ) : ( 
+      <i className={icon}></i> 
     )}
   </div>
 );
@@ -52,7 +52,7 @@ export default function SignUp({ mode }) {
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/signin/", signInData);
+      const res = await API.post("user/signin/", signInData);
       const { user, tokens } = res.data;
       localStorage.setItem("access_token", tokens.access);
       localStorage.setItem("user", JSON.stringify(user));
@@ -66,7 +66,7 @@ export default function SignUp({ mode }) {
     e.preventDefault();
     if (signUpData.password !== signUpData.confirm_password) return showMessage("Passwords don't match!");
     try {
-      await API.post("/signup/", signUpData);
+      await API.post("user/signup/", signUpData);
       showMessage("Signup successful! Please login.", "success");
       navigate("/signin");
     } catch (error) {

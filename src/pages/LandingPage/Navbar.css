@@ -3,9 +3,9 @@
 /* =====================
  
 /* =====================
-   SIDEBAR
+   home_sidebar
 ===================== */
-.sidebar {
+.home_sidebar {
   position: fixed;
   top: 0;
   left: -260px;
@@ -17,9 +17,9 @@
   background: #4a5546;
 }
 
-.sidebar.open { left: 0; }
+.home_sidebar.open { left: 0; }
 
-.sidebar-header {
+.home_sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,19 +33,19 @@
   cursor: pointer;
 }
 
-.sidebar .nav-link {
+.home_sidebar .nav-link {
   color: var(--muted);
   margin: 0.5rem 0;
   font-weight: 500;
 }
 
-.sidebar .nav-link.active,
-.sidebar .nav-link:hover { color: var(--accent); }
+.home_sidebar .nav-link.active,
+.home_sidebar .nav-link:hover { color: var(--accent); }
 
 /* =====================
    OVERLAY
 ===================== */
-.sidebar-overlay {
+.home_sidebar-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.4);
@@ -55,10 +55,8 @@
   z-index: 1050;
 }
 
-.sidebar-overlay.open {
+.home_sidebar-overlay.open {
   opacity: 1;
   pointer-events: all;
 }
- body {
-  padding-top: 80px;
-}
+ 
